@@ -2,7 +2,6 @@
   import { onMount } from 'svelte';
 
   type Platform = 'macos' | 'windows' | 'linux';
-  type Phase = 'idle' | 'glitching' | 'shutdown' | 'dead';
 
   const lines = [
     { prompt: '~/projects', cmd: 'ori-term --version', delay: 0 },
@@ -16,7 +15,12 @@
   let cursorLine = $state<number>(0);
   let platform = $state<Platform>('linux');
 
-  let phase = $state<Phase>('idle');
+  // Visual state
+  let dead = $state(false);
+  let disrupted = $state(false);
+  let animating = $state(false);
+  let windowClass = $state('');
+
   let glitchLines = $state<string[]>([]);
   let tearBars = $state<{ id: number; y: number; h: number; color: string; opacity: number }[]>([]);
   let sparks = $state<{ id: number; x: number; y: number; dx: number; dy: number; size: number; color: string }[]>([]);
@@ -42,16 +46,20 @@
     return Array.from({ length: 15 + Math.floor(Math.random() * 50) }, rc).join('');
   }
 
-  function triggerDestroy() {
-    if (phase !== 'idle') return;
-    phase = 'glitching';
+  // ── Disruption engine ──
 
-    const contentInterval = setInterval(() => {
+  let disruptCleanup: (() => void) | null = null;
+
+  function startDisruption() {
+    disrupted = true;
+    let sparkId = 0;
+
+    const ci = setInterval(() => {
       glitchLines = Array.from({ length: 3 + Math.floor(Math.random() * 12) }, rline);
       tabLabel = Array.from({ length: 3 }, rc).join('');
     }, 40);
 
-    const tearInterval = setInterval(() => {
+    const ti = setInterval(() => {
       tearBars = Array.from({ length: 2 + Math.floor(Math.random() * 6) }, (_, i) => ({
         id: Date.now() + i,
         y: Math.random() * 100,
@@ -61,8 +69,7 @@
       }));
     }, 60);
 
-    let sparkId = 0;
-    const sparkInterval = setInterval(() => {
+    const si = setInterval(() => {
       const batch = Array.from({ length: 3 + Math.floor(Math.random() * 5) }, () => {
         const angle = Math.random() * Math.PI * 2;
         const dist = 80 + Math.random() * 250;
@@ -79,21 +86,111 @@
       sparks = [...sparks.slice(-40), ...batch];
     }, 70);
 
-    setTimeout(() => {
-      clearInterval(contentInterval);
-      clearInterval(tearInterval);
-      clearInterval(sparkInterval);
+    disruptCleanup = () => {
+      clearInterval(ci);
+      clearInterval(ti);
+      clearInterval(si);
+      disrupted = false;
       tearBars = [];
       sparks = [];
-      phase = 'shutdown';
-      setTimeout(() => { phase = 'dead'; }, 800);
+      tabLabel = 'zsh';
+      disruptCleanup = null;
+    };
+  }
+
+  function stopDisruption() {
+    disruptCleanup?.();
+  }
+
+  // ── CLOSE — destroy ──
+
+  function triggerDestroy() {
+    if (animating) return;
+    animating = true;
+    startDisruption();
+    windowClass = 'shaking';
+
+    setTimeout(() => {
+      stopDisruption();
+      windowClass = 'shutdown';
+      setTimeout(() => { dead = true; animating = false; windowClass = ''; }, 800);
     }, 2000);
   }
 
+  // ── MINIMIZE — crush ──
+
+  function triggerMinimize() {
+    if (animating) return;
+    animating = true;
+    startDisruption();
+    windowClass = 'shaking';
+
+    // Phase 1: disruption + shake (600ms)
+    setTimeout(() => {
+      stopDisruption();
+      // Phase 2: crush down (400ms)
+      windowClass = 'crushing';
+      setTimeout(() => {
+        // Phase 3: hold as line (400ms)
+        windowClass = 'crushed';
+        setTimeout(() => {
+          // Phase 4: explode back (500ms)
+          startDisruption();
+          windowClass = 'uncrushing shaking';
+          setTimeout(() => {
+            stopDisruption();
+            windowClass = '';
+            animating = false;
+          }, 500);
+        }, 400);
+      }, 400);
+    }, 600);
+  }
+
+  // ── MAXIMIZE — breach ──
+
+  function triggerMaximize() {
+    if (animating) return;
+    animating = true;
+    startDisruption();
+    windowClass = 'shaking';
+
+    // Phase 1: disruption + shake (500ms)
+    setTimeout(() => {
+      stopDisruption();
+      // Phase 2: breach flash + go fullscreen (300ms)
+      windowClass = 'breaching';
+      setTimeout(() => {
+        windowClass = 'breached';
+        // Phase 3: hold fullscreen (1200ms)
+        setTimeout(() => {
+          // Phase 4: disruption + snap back
+          startDisruption();
+          windowClass = 'breached shaking';
+          setTimeout(() => {
+            stopDisruption();
+            windowClass = 'unbreaching';
+            setTimeout(() => {
+              windowClass = '';
+              animating = false;
+            }, 300);
+          }, 500);
+        }, 1200);
+      }, 300);
+    }, 500);
+  }
+
+  // ── Reboot ──
+
   function reboot() {
-    phase = 'idle';
+    dead = false;
+    disrupted = false;
+    animating = false;
+    windowClass = '';
     tabLabel = 'zsh';
     glitchLines = [];
+    tearBars = [];
+    sparks = [];
     visibleLines = 0;
     typedChars = 0;
     currentlyTyping = false;
@@ -102,6 +199,7 @@
   }
 
   function detectPlatform(): Platform {
+    return 'linux'; // DEBUG: forced linux
     const ua = navigator.userAgent.toLowerCase();
     if (ua.includes('mac')) return 'macos';
     if (ua.includes('win')) return 'windows';
@@ -171,18 +269,20 @@
 </script>
 
 <section class="hero" aria-label="Terminal hero">
-  {#if phase !== 'dead'}
-    <div
-      class="terminal-window"
-      class:glitching={phase === 'glitching'}
-      class:shutdown={phase === 'shutdown'}
-    >
+  {#if !dead}
+    <div class="terminal-window {windowClass}">
       <div class="title-bar">
         {#if platform === 'macos'}
           <div class="traffic-lights">
-            <button class="tl close" aria-label="Close" onclick={triggerDestroy}></button>
-            <span class="tl minimize"></span>
-            <span class="tl maximize"></span>
+            <button class="tl close" aria-label="Close" onclick={triggerDestroy}>
+              <svg viewBox="0 0 8 8"><path d="M1.2 6.8L6.8 1.2" stroke="#460804" stroke-width="1.2" stroke-linecap="round"/><path d="M1.2 1.2L6.8 6.8" stroke="#460804" stroke-width="1.2" stroke-linecap="round"/></svg>
+            </button>
+            <button class="tl minimize" aria-label="Minimize" onclick={triggerMinimize}>
+              <svg viewBox="0 0 8 2"><rect x="0" y="0.25" width="8" height="1.5" rx="0.75" fill="#90591d"/></svg>
+            </button>
+            <button class="tl maximize" aria-label="Maximize" onclick={triggerMaximize}>
+              <svg viewBox="0 0 8 8"><path d="M3.5 1H7v3.5zM4.5 7H1V3.5z" fill="#2a6218"/></svg>
+            </button>
           </div>
         {/if}
 
@@ -194,23 +294,41 @@
           <button class="tab-new" aria-label="New tab">+</button>
         </div>
 
-        {#if platform !== 'macos'}
-          <div class="window-controls" class:gtk={platform === 'linux'}>
-            <button class="wc" aria-label="Minimize">
+        {#if platform === 'windows'}
+          <div class="window-controls windows">
+            <button class="wc" aria-label="Minimize" onclick={triggerMinimize}>
               <svg viewBox="0 0 12 12" fill="none"><path d="M1 6h10" stroke="currentColor" stroke-width="1"/></svg>
             </button>
-            <button class="wc" aria-label="Maximize">
+            <button class="wc" aria-label="Maximize" onclick={triggerMaximize}>
               <svg viewBox="0 0 12 12" fill="none"><rect x="1.5" y="1.5" width="9" height="9" stroke="currentColor" stroke-width="1"/></svg>
             </button>
             <button class="wc close" aria-label="Close" onclick={triggerDestroy}>
               <svg viewBox="0 0 12 12" fill="none"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1"/></svg>
             </button>
           </div>
+        {:else if platform === 'linux'}
+          <div class="window-controls kde">
+            <button class="wc kde-btn" aria-label="Minimize" onclick={triggerMinimize}>
+              <svg viewBox="0 0 18 18" fill="none"><path d="M4 13h10" stroke="currentColor" stroke-width="1.2"/></svg>
+            </button>
+            <button class="wc kde-btn" aria-label="Maximize" onclick={triggerMaximize}>
+              <svg viewBox="0 0 18 18" fill="none"><rect x="4" y="4" width="10" height="10" stroke="currentColor" stroke-width="1.2"/></svg>
+            </button>
+            <button class="wc kde-btn close" aria-label="Close" onclick={triggerDestroy}>
+              <svg viewBox="0 0 18 18" fill="none"><path d="M5 5l8 8M13 5l-8 8" stroke="currentColor" stroke-width="1.2"/></svg>
+            </button>
+          </div>
         {/if}
       </div>
 
       <div class="terminal-body">
-        {#if phase === 'idle'}
+        {#if disrupted}
+          {#each glitchLines as gline, i}
+            <div class="glitch-line" class:error={gline === gline.toUpperCase() && gline.length < 40} style="--gi: {i}">
+              {gline}
+            </div>
+          {/each}
+        {:else}
           {#each lines as line, i}
             {#if i <= visibleLines}
               <div class="line" class:output={line.isOutput}>
@@ -230,12 +348,6 @@
                 {/if}
               </div>
             {/if}
-          {/each}
-        {:else}
-          {#each glitchLines as gline, i}
-            <div class="glitch-line" class:error={gline === gline.toUpperCase() && gline.length < 40} style="--gi: {i}">
-              {gline}
-            </div>
           {/each}
         {/if}
       </div>
@@ -285,30 +397,24 @@
     background: var(--bg);
     position: relative;
     overflow: visible;
+    transform-origin: center bottom;
   }
 
-  /* ── Glitching state ── */
+  /* ── Shared: shaking class ── */
 
-  .terminal-window.glitching {
+  .terminal-window.shaking {
     animation:
       terminalShake 0.08s steps(1) infinite,
       borderGlitch 0.12s steps(1) infinite;
   }
 
-  .terminal-window.glitching .terminal-body {
+  .terminal-window.shaking .terminal-body {
     animation: rgbSplit 0.1s steps(1) infinite;
     overflow: hidden;
   }
 
-  .terminal-window.glitching .title-bar {
+  .terminal-window.shaking .title-bar {
     animation: barFlicker 0.15s steps(1) infinite;
-  }
-
-  /* ── Shutdown state ── */
-
-  .terminal-window.shutdown {
-    animation: crtShutdown 0.8s ease-in forwards;
-    pointer-events: none;
   }
 
   @keyframes terminalShake {
@@ -354,6 +460,13 @@
     100% { opacity: 1; background: var(--bg-raised); }
   }
 
+  /* ── CLOSE — shutdown ── */
+
+  .terminal-window.shutdown {
+    animation: crtShutdown 0.8s ease-in forwards;
+    pointer-events: none;
+  }
+
   @keyframes crtShutdown {
     0%   { transform: scale(1, 1); filter: brightness(1); opacity: 1; }
     10%  { filter: brightness(3); }
@@ -361,6 +474,79 @@
     70%  { transform: scale(0.15, 0.005); filter: brightness(4); opacity: 0.9; }
     90%  { transform: scale(0.02, 0.005); filter: brightness(6); opacity: 0.6; }
     100% { transform: scale(0, 0); filter: brightness(0); opacity: 0; }
+  }
+
+  /* ── MINIMIZE — crush / uncrush ── */
+
+  .terminal-window.crushing {
+    animation: crush 0.4s steps(6) forwards;
+    pointer-events: none;
+  }
+
+  .terminal-window.crushed {
+    transform: scaleY(0.005);
+    filter: brightness(2.5);
+    pointer-events: none;
+  }
+
+  .terminal-window.uncrushing {
+    animation: uncrush 0.5s steps(8) forwards;
+    pointer-events: none;
+  }
+
+  @keyframes crush {
+    0%   { transform: scaleY(1) translateX(0); filter: brightness(1); }
+    15%  { transform: scaleY(0.7) translateX(6px); filter: brightness(1.3); }
+    30%  { transform: scaleY(0.4) translateX(-10px); filter: brightness(1.8); }
+    50%  { transform: scaleY(0.15) translateX(4px); filter: brightness(2.2); }
+    70%  { transform: scaleY(0.04) translateX(-3px); filter: brightness(2.8); }
+    100% { transform: scaleY(0.005) translateX(0); filter: brightness(2.5); }
+  }
+
+  @keyframes uncrush {
+    0%   { transform: scaleY(0.005); filter: brightness(3); }
+    10%  { transform: scaleY(0.02); filter: brightness(4); }
+    30%  { transform: scaleY(0.4) translateX(-6px); filter: brightness(2); }
+    50%  { transform: scaleY(0.8) translateX(8px); filter: brightness(1.5); }
+    70%  { transform: scaleY(1.08) translateX(-3px); filter: brightness(1.2); }
+    85%  { transform: scaleY(0.96) translateX(1px); filter: brightness(1); }
+    100% { transform: scaleY(1) translateX(0); filter: brightness(1); }
+  }
+
+  /* ── MAXIMIZE — breach ── */
+
+  .terminal-window.breaching {
+    animation: breach 0.3s steps(4) forwards;
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  .terminal-window.breached {
+    position: fixed;
+    inset: 16px;
+    max-width: none;
+    z-index: 100;
+    border-color: var(--accent);
+    box-shadow: 0 0 40px rgba(0, 255, 65, 0.15), inset 0 0 40px rgba(0, 255, 65, 0.05);
+  }
+
+  .terminal-window.unbreaching {
+    animation: unbreach 0.3s steps(4) forwards;
+    z-index: 100;
+  }
+
+  @keyframes breach {
+    0%   { filter: brightness(1); }
+    25%  { filter: brightness(4); border-color: #fff; }
+    50%  { filter: brightness(2); position: fixed; inset: 16px; max-width: none; z-index: 100; }
+    100% { filter: brightness(1); position: fixed; inset: 16px; max-width: none; z-index: 100; border-color: var(--accent); }
+  }
+
+  @keyframes unbreach {
+    0%   { position: fixed; inset: 16px; max-width: none; filter: brightness(1); border-color: var(--accent); }
+    25%  { filter: brightness(4); border-color: #fff; }
+    50%  { filter: brightness(2); }
+    100% { position: relative; inset: auto; max-width: 720px; filter: brightness(1); border-color: var(--border-strong); }
   }
 
   /* ── Glitch content lines ── */
@@ -481,13 +667,27 @@
   .tl {
     width: 12px;
     height: 12px;
-    border: var(--border-weight) solid var(--border-strong);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   button.tl {
     cursor: pointer;
     padding: 0;
     font: inherit;
+    border: none;
+  }
+
+  .tl svg {
+    width: 7px;
+    height: 7px;
+    opacity: 0;
+  }
+
+  .traffic-lights:hover .tl svg {
+    opacity: 1;
   }
 
   .tl.close { background: #ff5f57; }
@@ -552,7 +752,7 @@
     align-self: flex-end;
   }
 
-  /* ── Window controls (Windows / Linux) ── */
+  /* ── Window controls (shared) ── */
 
   .window-controls {
     display: flex;
@@ -566,30 +766,57 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 46px;
     background: none;
     border: none;
     color: var(--text-muted);
-    cursor: default;
+    cursor: pointer;
     padding: 0;
+    font-family: inherit;
   }
 
-  .wc svg {
+  /* ── Windows style ── */
+
+  .window-controls.windows .wc {
+    width: 46px;
+  }
+
+  .window-controls.windows .wc svg {
     width: 10px;
     height: 10px;
   }
 
-  .wc.close {
-    cursor: pointer;
-  }
-
-  .wc.close:hover {
+  .window-controls.windows .wc.close:hover {
     background: #c42b1c;
     color: #fff;
   }
 
-  .window-controls.gtk .wc {
-    width: 36px;
+  /* ── KDE Breeze style ── */
+
+  .window-controls.kde {
+    gap: 2px;
+    padding: 0 8px;
+    align-items: center;
+    align-self: center;
+  }
+
+  .wc.kde-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+  }
+
+  .wc.kde-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .wc.kde-btn:hover {
+    background: var(--border);
+  }
+
+  .wc.kde-btn.close:hover {
+    background: #c42b1c;
+    color: #fff;
   }
 
   /* ── Terminal body ── */
