@@ -1,0 +1,74 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.svelte';
+import TerminalHero from '../components/TerminalHero.svelte';
+import GlitchText from '../components/GlitchText.svelte';
+import FeatureGrid from '../components/FeatureGrid.svelte';
+import InstallBlock from '../components/InstallBlock.svelte';
+import Footer from '../components/Footer.svelte';
+---
+
+<Base title="ori-term — GPU-Accelerated Terminal Emulator">
+  <Nav client:load />
+
+  <main>
+    <TerminalHero client:load />
+
+    <section class="tagline">
+      <div class="container">
+        <GlitchText
+          client:visible
+          text="A TERMINAL THAT DOESN'T WASTE YOUR TIME."
+          tag="h2"
+          glitchOnHover={true}
+        />
+        <p class="tagline-sub">
+          GPU-rendered. Rust-powered. No electron. No compromise.
+        </p>
+      </div>
+    </section>
+
+    <section id="features" class="features-section">
+      <div class="container">
+        <h2 class="section-label">// SPECS</h2>
+      </div>
+      <FeatureGrid client:visible />
+    </section>
+
+    <InstallBlock client:visible />
+  </main>
+
+  <Footer client:load />
+</Base>
+
+<style>
+  main {
+    padding-top: 56px;
+  }
+
+  .tagline {
+    padding: 80px var(--gutter) 120px;
+    border-bottom: var(--border-weight) solid var(--border);
+  }
+
+  .tagline-sub {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-top: 16px;
+    letter-spacing: 0.05em;
+  }
+
+  .features-section {
+    padding-top: 80px;
+    padding-bottom: 80px;
+    border-bottom: var(--border-weight) solid var(--border);
+  }
+
+  .section-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 0.2em;
+    margin-bottom: 32px;
+    font-weight: 400;
+  }
+</style>
