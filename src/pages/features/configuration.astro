@@ -1,0 +1,35 @@
+---
+import Feature from '../../layouts/Feature.astro';
+---
+
+<Feature
+  title="CONFIGURATION"
+  subtitle="TOML config with hot-reload, sensible defaults, per-platform paths."
+>
+  <h2>Config Format</h2>
+  <p>ori-term uses a single TOML configuration file. Every setting has a sensible default -- you can run ori-term with no config file at all. When you do create one, only the settings you want to change need to be specified.</p>
+
+  <h2>Config Location</h2>
+  <ul>
+    <li><strong>Windows</strong> -- <code>%APPDATA%\ori-term\config.toml</code></li>
+    <li><strong>Linux</strong> -- <code>~/.config/ori-term/config.toml</code></li>
+    <li><strong>macOS</strong> -- <code>~/Library/Application Support/ori-term/config.toml</code></li>
+  </ul>
+
+  <h2>Hot Reload</h2>
+  <p>A file watcher monitors your config. Save the file and changes apply immediately -- no restart needed. You can also trigger a reload manually with <kbd>Ctrl+Shift+R</kbd>.</p>
+
+  <h2>What You Can Configure</h2>
+  <ul>
+    <li><strong>Font</strong> -- Family, size, fallback chains, OpenType features</li>
+    <li><strong>Theme</strong> -- Built-in name or path to custom TOML theme</li>
+    <li><strong>Keybindings</strong> -- Override or add any key-to-action binding</li>
+    <li><strong>Window</strong> -- Initial size, padding, transparency, fullscreen</li>
+    <li><strong>Cursor</strong> -- Shape (block/bar/underline), blink rate</li>
+    <li><strong>Bell</strong> -- Visual (tab pulse) or audio</li>
+    <li><strong>Scrollback</strong> -- History limit, disk overflow settings</li>
+    <li><strong>Shell</strong> -- Default shell, working directory, environment variables</li>
+    <li><strong>Mouse</strong> -- Copy-on-select, word delimiters, drag threshold</li>
+    <li><strong>URL patterns</strong> -- Custom patterns with actions and URL templates</li>
+  </ul>
+</Feature>

@@ -1,0 +1,37 @@
+---
+import Feature from '../../layouts/Feature.astro';
+---
+
+<Feature
+  title="PLATFORM SUPPORT"
+  subtitle="Windows, Linux, macOS -- first-class on all three. Not a port. Native on each."
+>
+  <h2>Windows</h2>
+  <ul>
+    <li><strong>Modern terminal backend</strong> -- Full support for Windows 10+ terminal features</li>
+    <li><strong>Native font rendering</strong> -- Platform-native text rendering and font discovery</li>
+    <li><strong>GPU-accelerated</strong> -- Vulkan and DX12 rendering</li>
+    <li><strong>Frameless with window snapping</strong> -- Custom chrome with full snap-left, snap-right, maximize</li>
+    <li><strong>Mica / Acrylic transparency</strong> -- Native transparency effects</li>
+    <li><strong>WSL integration</strong> -- Auto-detect WSL distributions and work with them seamlessly</li>
+  </ul>
+
+  <h2>Linux</h2>
+  <ul>
+    <li><strong>X11 + Wayland</strong> -- Works on both display protocols</li>
+    <li><strong>Native font rendering</strong> -- Platform-native font matching, discovery, and fallback</li>
+    <li><strong>GPU-accelerated</strong> -- Vulkan rendering</li>
+    <li><strong>System theme detection</strong> -- Auto light/dark switching based on your desktop setting</li>
+  </ul>
+
+  <h2>macOS</h2>
+  <ul>
+    <li><strong>Native font rendering</strong> -- Apple's native text rendering and font discovery</li>
+    <li><strong>GPU-accelerated</strong> -- Metal rendering</li>
+    <li><strong>Native vibrancy</strong> -- Transparency effects that match the rest of macOS</li>
+    <li><strong>Cmd keybindings</strong> -- Platform-appropriate defaults (Cmd instead of Ctrl)</li>
+  </ul>
+
+  <h2>Same Codebase, Native Feel</h2>
+  <p>ori-term is built from a single codebase that compiles natively on all three platforms. Platform-specific behavior -- font rendering, window management, transparency -- uses each platform's native capabilities, so ori-term feels at home on every OS.</p>
+</Feature>

@@ -1,0 +1,27 @@
+---
+import Feature from '../../layouts/Feature.astro';
+---
+
+<Feature
+  title="KEYBOARD"
+  subtitle="Modern keyboard support, IME input, dead keys, fully configurable keybindings."
+>
+  <h2>Works with Modern Apps</h2>
+  <p>ori-term supports enhanced keyboard reporting for applications that use it. This means:</p>
+  <ul>
+    <li>Modifier keys (Shift, Alt, Ctrl, Super) are reported accurately to applications</li>
+    <li>Key press, repeat, and release events are distinguished when apps request it</li>
+    <li>Applications that rely on advanced key handling (like Neovim, Kitty-aware tools, and modern TUIs) work correctly</li>
+  </ul>
+  <p>Applications that use standard keyboard input work perfectly too -- cursor keys, function keys, and special keys all behave as expected.</p>
+
+  <h2>Input Method Editor</h2>
+  <p>Full IME support for CJK and other complex input methods. Preedit text appears inline at the cursor position. The cursor auto-hides during composition and reappears on mouse movement.</p>
+
+  <h2>Dead Keys</h2>
+  <p>Combining character composition via dead keys works correctly. Type accent combinations naturally -- the key sequence produces the expected composed character.</p>
+
+  <h2>Configurable Keybindings</h2>
+  <p>All keybindings are defined in TOML and fully customizable. Over 50 built-in bindings cover splits, tabs, panes, search, font size, clipboard, and more. Override any binding or add new ones in your config file.</p>
+  <p>Modifier combinations (Ctrl, Shift, Alt, Super) are supported with proper precedence. On macOS, Cmd is used in place of Ctrl by default.</p>
+</Feature>

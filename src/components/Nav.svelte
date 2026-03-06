@@ -1,7 +1,8 @@
 <script lang="ts">
   const links = [
-    { href: '#features', label: 'FEATURES' },
-    { href: '#install', label: 'INSTALL' },
+    { href: '/features', label: 'FEATURES' },
+    { href: '/docs', label: 'DOCS' },
+    { href: '/install', label: 'INSTALL' },
     { href: 'https://github.com/user/ori-term', label: 'SOURCE', external: true },
   ];
 </script>
@@ -84,10 +85,9 @@
     font-size: 0.7rem;
     letter-spacing: 0.15em;
     color: var(--text-muted);
-    border-bottom: none;
     padding: 4px 0;
     border-bottom: var(--border-weight) solid transparent;
-    transition: all 0.1s steps(1);
+    
   }
 
   .nav-link:hover {
@@ -102,6 +102,7 @@
 
     .nav-link {
       font-size: 0.65rem;
+      letter-spacing: 0.1em;
     }
   }
 </style>

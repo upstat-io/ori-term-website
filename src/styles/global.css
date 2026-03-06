@@ -42,7 +42,7 @@
   --bg-raised: #111111;
   --bg-surface: #1a1a1a;
   --text: #d4d4d4;
-  --text-muted: #666666;
+  --text-muted: #888888;
   --text-bright: #ffffff;
   --accent: #00ff41;
   --accent-dim: #00cc33;
@@ -60,6 +60,11 @@ html {
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+[id] {
+  scroll-margin-top: 80px;
 }
 
 body {
@@ -91,7 +96,7 @@ a {
   color: var(--accent);
   text-decoration: none;
   border-bottom: var(--border-weight) solid transparent;
-  transition: border-color 0.1s steps(1);
+  
 }
 
 a:hover {

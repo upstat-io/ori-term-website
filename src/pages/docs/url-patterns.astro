@@ -1,0 +1,68 @@
+---
+import Docs from '../../layouts/Docs.astro';
+
+const toc = [
+  { id: 'implicit', text: 'Implicit Detection', level: 2 },
+  { id: 'osc8', text: 'OSC 8 Hyperlinks', level: 2 },
+  { id: 'custom', text: 'Custom Patterns', level: 2 },
+  { id: 'actions', text: 'Actions', level: 2 },
+  { id: 'examples', text: 'Examples', level: 2 },
+];
+---
+
+<Docs title="URL Patterns" toc={toc}>
+  <h2 id="implicit">Implicit Detection</h2>
+  <p>ori-term automatically detects common URL-like patterns in terminal output:</p>
+  <ul>
+    <li>HTTP/HTTPS URLs</li>
+    <li>File paths</li>
+    <li>Git commit hashes</li>
+    <li>IP addresses</li>
+    <li>Email addresses</li>
+  </ul>
+  <p>Hover over a detected URL with <kbd>Ctrl</kbd> held to see it underlined. <kbd>Ctrl+Click</kbd> to open it in your default browser.</p>
+
+  <h2 id="osc8">OSC 8 Hyperlinks</h2>
+  <p>Applications can emit explicit hyperlinks using the OSC 8 escape sequence. These render as clickable links without regex detection. Many modern CLI tools support this:</p>
+  <ul>
+    <li><code>ls --hyperlink</code> — File links</li>
+    <li><code>gcc</code> / <code>clang</code> — Error location links</li>
+    <li><code>ripgrep</code> — Match location links</li>
+  </ul>
+
+  <h2 id="custom">Custom Patterns</h2>
+  <p>Define regex patterns in your <code>config.toml</code> to match project-specific identifiers:</p>
+  <pre><code>[[url_patterns]]
+regex = "PROJ-\\d+"
+url = "https://jira.example.com/browse/$0"
+action = "open"</code></pre>
+  <p>The <code>regex</code> field defines what to match. The <code>url</code> field defines the URL template with capture group substitution (<code>$0</code> for full match, <code>$1</code>, <code>$2</code>... for groups).</p>
+
+  <h2 id="actions">Actions</h2>
+  <p>Each pattern specifies what happens on <kbd>Ctrl+Click</kbd>:</p>
+  <table>
+    <thead><tr><th>Action</th><th>Behavior</th></tr></thead>
+    <tbody>
+      <tr><td><code>open</code></td><td>Open the URL in default browser</td></tr>
+      <tr><td><code>copy</code></td><td>Copy the matched text to clipboard</td></tr>
+      <tr><td><code>select</code></td><td>Select the matched text</td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="examples">Examples</h2>
+  <pre><code># GitHub issue references
+[[url_patterns]]
+regex = "(\\w+)/(\\w+)#(\\d+)"
+url = "https://github.com/$1/$2/issues/$3"
+action = "open"
+
+# Stack trace file paths
+[[url_patterns]]
+regex = "(/[\\w/.-]+):(\\d+)"
+action = "open"
+
+# SHA commit hashes
+[[url_patterns]]
+regex = "\\b[0-9a-f]{7,40}\\b"
+action = "copy"</code></pre>
+</Docs>

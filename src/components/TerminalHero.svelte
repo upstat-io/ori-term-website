@@ -110,11 +110,10 @@
 
 <style>
   .hero {
-    min-height: 80vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: var(--gutter);
+    padding: 48px var(--gutter) 64px;
   }
 
   .terminal-window {

@@ -1,0 +1,33 @@
+---
+import Feature from '../../layouts/Feature.astro';
+---
+
+<Feature
+  title="WINDOW CHROME"
+  subtitle="Frameless window, custom controls, window snapping, transparency, HiDPI support."
+>
+  <h2>Frameless Window</h2>
+  <p>ori-term draws its own window chrome -- no native title bar. The tab bar is integrated directly into the title bar area with custom minimize, maximize, and close buttons styled per platform (rectangular on Windows, circular on macOS).</p>
+
+  <h2>Window Management</h2>
+  <ul>
+    <li><strong>Drag to move</strong> -- Drag the title bar area to reposition the window. Double-click to maximize.</li>
+    <li><strong>Window snapping</strong> -- Snap to left, right, or maximize by dragging to screen edges (Windows and Linux)</li>
+    <li><strong>Configurable size</strong> -- Set initial window dimensions and fullscreen state in your config</li>
+    <li><strong>Padding</strong> -- Configurable padding around terminal content</li>
+  </ul>
+
+  <h2>Transparency</h2>
+  <p>ori-term supports native window transparency effects on every platform:</p>
+  <ul>
+    <li><strong>Windows</strong> -- Mica and Acrylic transparency</li>
+    <li><strong>macOS</strong> -- Native vibrancy effects</li>
+    <li><strong>Linux</strong> -- Compositor transparency (Wayland and X11)</li>
+  </ul>
+
+  <h2>HiDPI</h2>
+  <p>Proper per-monitor DPI awareness. Fonts, UI elements, and all chrome scale correctly for your display. Moving a window between monitors with different DPIs triggers a seamless rescale -- everything stays sharp.</p>
+
+  <h2>Consistent Look</h2>
+  <p>All window chrome -- the tab bar, buttons, focus borders, and animations -- is rendered through the same GPU pipeline as the terminal itself. This gives ori-term a consistent, polished look on every platform.</p>
+</Feature>

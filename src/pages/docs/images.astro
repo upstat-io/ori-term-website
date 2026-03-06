@@ -1,0 +1,41 @@
+---
+import Docs from '../../layouts/Docs.astro';
+
+const toc = [
+  { id: 'supported-formats', text: 'Supported Formats', level: 2 },
+  { id: 'kitty', text: 'Kitty Graphics', level: 3 },
+  { id: 'sixel', text: 'Sixel', level: 3 },
+  { id: 'iterm2', text: 'iTerm2 Inline', level: 3 },
+  { id: 'displaying', text: 'Displaying Images', level: 2 },
+  { id: 'memory', text: 'Memory Limits', level: 2 },
+];
+---
+
+<Docs title="Images" toc={toc}>
+  <h2 id="supported-formats">Supported Formats</h2>
+  <p>ori-term supports three ways for applications to display images inline. All images are GPU-accelerated and display smoothly alongside your terminal text.</p>
+
+  <h3 id="kitty">Kitty Graphics</h3>
+  <p>The most capable format. Supports image placement, layering, and deletion. Use tools like <code>kitten icat</code> or any Kitty graphics-compatible application.</p>
+
+  <h3 id="sixel">Sixel</h3>
+  <p>A widely supported image format used by many terminal tools. Use <code>img2sixel</code> or any Sixel-compatible tool to display images.</p>
+
+  <h3 id="iterm2">iTerm2 Inline</h3>
+  <p>Compatible with <code>imgcat</code> and tools that target iTerm2 for inline image display.</p>
+
+  <h2 id="displaying">Displaying Images</h2>
+  <p>The quickest way to display an image:</p>
+  <pre><code># With Kitty graphics (recommended)
+kitten icat image.png
+
+# With Sixel
+img2sixel image.png
+
+# With iTerm2 protocol
+imgcat image.png</code></pre>
+  <p>Animated GIFs are supported -- frames display at their intended timing.</p>
+
+  <h2 id="memory">Memory Limits</h2>
+  <p>ori-term automatically manages image memory. The default limit is 256 MB. When the limit is reached, the least-recently-viewed images are removed to make room for new ones. This prevents long-running sessions with many images from consuming unbounded memory.</p>
+</Docs>

@@ -12,19 +12,46 @@ import Footer from '../components/Footer.svelte';
   <Nav client:load />
 
   <main>
-    <TerminalHero client:load />
-
-    <section class="tagline">
+    <section class="hero-header">
       <div class="container">
         <GlitchText
-          client:visible
-          text="A TERMINAL THAT DOESN'T WASTE YOUR TIME."
-          tag="h2"
-          glitchOnHover={true}
+          client:load
+          text="ORI-TERM"
+          tag="h1"
+          speed={30}
         />
-        <p class="tagline-sub">
-          GPU-rendered. Rust-powered. No electron. No compromise.
+        <GlitchText
+          client:load
+          text="GPU-ACCELERATED TERMINAL EMULATOR"
+          tag="h2"
+          delay={400}
+          speed={25}
+        />
+        <p class="hero-desc">
+          A terminal emulator built from scratch in Rust. GPU-rendered with wgpu.
+          Native multiplexing. Persistent sessions. Cross-platform.
         </p>
+      </div>
+    </section>
+
+    <TerminalHero client:load />
+
+    <section class="pitch" aria-label="Value proposition">
+      <div class="container">
+        <div class="pitch-grid">
+          <div class="pitch-item">
+            <span class="pitch-number">01</span>
+            <p>Built in Rust. Rendered with wgpu. No Electron. No compromise. Every frame is GPU-composed with damage tracking — only changed cells hit the pipeline.</p>
+          </div>
+          <div class="pitch-item">
+            <span class="pitch-number">02</span>
+            <p>Multiplexing is native, not bolted on. Splits, tabs, floating panes, and persistent sessions are first-class primitives. Drop tmux.</p>
+          </div>
+          <div class="pitch-item">
+            <span class="pitch-number">03</span>
+            <p>A daemon keeps your sessions alive. GUI crashes, network drops — reconnect and pick up where you left off. Multiple clients, one process tree.</p>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -33,6 +60,38 @@ import Footer from '../components/Footer.svelte';
         <h2 class="section-label">// SPECS</h2>
       </div>
       <FeatureGrid client:visible />
+      <div class="container features-cta">
+        <a href="/features" class="cta-link">
+          ALL FEATURES
+          <svg class="cta-arrow" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
+          </svg>
+        </a>
+      </div>
+    </section>
+
+    <section class="highlights" aria-label="Highlights">
+      <div class="container">
+        <h2 class="section-label">// HIGHLIGHTS</h2>
+        <div class="highlight-grid">
+          <div class="highlight-block">
+            <h3>CUSTOM THEMES</h3>
+            <p>Define your color scheme in TOML. Changes apply instantly via hot-reload. Configure separate light and dark themes — ori-term switches automatically with your system.</p>
+          </div>
+          <div class="highlight-block">
+            <h3>FULL IMAGE SUPPORT</h3>
+            <p>Kitty graphics protocol, Sixel, and iTerm2 inline images. GPU-composited alongside the terminal grid. Animated GIF support. LRU eviction keeps memory in check.</p>
+          </div>
+          <div class="highlight-block">
+            <h3>MARK MODE</h3>
+            <p>Vi-style keyboard navigation. Word motions, line motions, inline search, bracket matching, visual selection modes. Navigate your terminal like you navigate your editor.</p>
+          </div>
+          <div class="highlight-block">
+            <h3>SMART FONTS</h3>
+            <p>HarfBuzz shaping for ligatures and complex scripts. Multi-face fallback chains. Color emoji. Subpixel rendering. Built-in box drawing and Powerline glyphs.</p>
+          </div>
+        </div>
+      </div>
     </section>
 
     <InstallBlock client:visible />
@@ -46,16 +105,69 @@ import Footer from '../components/Footer.svelte';
     padding-top: 56px;
   }
 
-  .tagline {
-    padding: 80px var(--gutter) 120px;
-    border-bottom: var(--border-weight) solid var(--border);
+  .hero-header {
+    padding: 64px 0 0;
+    text-align: center;
   }
 
-  .tagline-sub {
+  .hero-header :global(h1) {
+    font-size: clamp(3rem, 10vw, 7rem);
+    letter-spacing: 0.1em;
+    line-height: 1;
+    color: var(--text-bright);
+  }
+
+  .hero-desc {
     color: var(--text-muted);
     font-size: 0.85rem;
     margin-top: 16px;
-    letter-spacing: 0.05em;
+    max-width: 50ch;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.7;
+  }
+
+  .hero-header :global(h2) {
+    font-size: clamp(0.7rem, 2vw, 1rem);
+    color: var(--text-muted);
+    letter-spacing: 0.3em;
+    margin-top: 16px;
+    font-weight: 400;
+  }
+
+  .pitch {
+    padding: 80px 0;
+    border-top: var(--border-weight) solid var(--border);
+    border-bottom: var(--border-weight) solid var(--border);
+  }
+
+  .pitch-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+  }
+
+  .pitch-item {
+    padding: 32px 24px;
+    border-right: var(--border-weight) solid var(--border);
+  }
+
+  .pitch-item:last-child {
+    border-right: none;
+  }
+
+  .pitch-number {
+    display: block;
+    font-size: 0.65rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    margin-bottom: 16px;
+  }
+
+  .pitch-item p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.7;
   }
 
   .features-section {
@@ -70,5 +182,80 @@ import Footer from '../components/Footer.svelte';
     letter-spacing: 0.2em;
     margin-bottom: 32px;
     font-weight: 400;
+    text-transform: uppercase;
+  }
+
+  .features-cta {
+    margin-top: 32px;
+    text-align: right;
+  }
+
+  .cta-link {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    border-bottom: var(--border-weight) solid transparent;
+    padding-bottom: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .cta-arrow {
+    width: 14px;
+    height: 14px;
+  }
+
+  .cta-link:hover {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  .highlights {
+    padding: 80px 0 120px;
+    border-bottom: var(--border-weight) solid var(--border);
+  }
+
+  .highlight-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+  }
+
+  .highlight-block {
+    border: var(--border-weight) solid var(--border);
+    padding: 40px 32px;
+  }
+
+  .highlight-block h3 {
+    color: var(--text-bright);
+    font-size: 1rem;
+    margin-bottom: 16px;
+    letter-spacing: 0.1em;
+  }
+
+  .highlight-block p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 768px) {
+    .pitch-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .pitch-item {
+      border-right: none;
+      border-bottom: var(--border-weight) solid var(--border);
+    }
+
+    .pitch-item:last-child {
+      border-bottom: none;
+    }
+
+    .highlight-grid {
+      grid-template-columns: 1fr;
+    }
   }
 </style>

@@ -3,20 +3,22 @@
 
   interface Props {
     text: string;
-    tag?: 'h1' | 'h2' | 'h3' | 'span';
-    glitchOnHover?: boolean;
+    tag?: 'h1' | 'h2' | 'h3' | 'span' | 'p';
+    delay?: number;
+    speed?: number;
   }
 
-  let { text, tag = 'h1', glitchOnHover = false }: Props = $props();
+  let {
+    text,
+    tag = 'h1',
+    delay = 0,
+    speed = 40,
+  }: Props = $props();
 
-  const glitchChars = '!@#$%^&*()_+-=[]{}|;:,.<>?/~`░▒▓█▄▀■□▪▫';
-  let displayText = $state(text);
-  let isGlitching = $state(false);
+  const glitchChars = '!@#$%^&*_+-=[]{}|;:<>?/~░▒▓█▄▀■□▪▫';
+  let displayText = $state('');
 
   function glitch() {
-    if (isGlitching) return;
-    isGlitching = true;
-
     const original = text;
     let iterations = 0;
     const maxIterations = original.length;
@@ -36,31 +38,25 @@
       if (iterations > maxIterations) {
         clearInterval(interval);
         displayText = original;
-        isGlitching = false;
       }
-    }, 40);
+    }, speed);
   }
 
   onMount(() => {
-    if (!glitchOnHover) {
-      glitch();
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      displayText = text;
+      return;
     }
-  });
 
-  function handleMouseEnter() {
-    if (glitchOnHover) {
-      glitch();
+    if (delay > 0) {
+      const t = setTimeout(glitch, delay);
+      return () => clearTimeout(t);
     }
-  }
+    glitch();
+  });
 </script>
 
-<!-- svelte-ignore a11y_no_static_element_interactions -->
-<svelte:element
-  this={tag}
-  class="glitch-text"
-  onmouseenter={handleMouseEnter}
-  aria-label={text}
->
+<svelte:element this={tag} class="glitch-text" aria-label={text}>
   {displayText}
 </svelte:element>
 

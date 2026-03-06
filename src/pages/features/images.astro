@@ -1,0 +1,26 @@
+---
+import Feature from '../../layouts/Feature.astro';
+---
+
+<Feature
+  title="IMAGES"
+  subtitle="Display images directly in your terminal. Photos, diagrams, emoji, even animated GIFs."
+>
+  <h2>Display Images Inline</h2>
+  <p>ori-term can display images directly alongside your text. View photos, charts, diagrams, and screenshots without leaving the terminal. Images are GPU-accelerated, so they display smoothly without slowing down text rendering.</p>
+
+  <h2>How to Display Images</h2>
+  <p>Use any of these tools to display images in ori-term:</p>
+  <ul>
+    <li><code>kitten icat image.png</code> -- Recommended, most capable</li>
+    <li><code>img2sixel image.png</code> -- Widely supported format</li>
+    <li><code>imgcat image.png</code> -- iTerm2-compatible</li>
+  </ul>
+  <p>ori-term supports the three major terminal image formats, so most image-display tools work out of the box.</p>
+
+  <h2>Animated GIFs</h2>
+  <p>Animated GIFs play frame-by-frame at their intended timing. Watch animations right in your terminal.</p>
+
+  <h2>Memory Limits</h2>
+  <p>ori-term automatically manages image memory. A configurable limit (256 MB by default) ensures that long-running sessions with many images do not consume unbounded memory. Older images are evicted as needed to make room for new ones.</p>
+</Feature>

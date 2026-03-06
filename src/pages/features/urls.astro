@@ -1,0 +1,23 @@
+---
+import Feature from '../../layouts/Feature.astro';
+---
+
+<Feature
+  title="URLS & HYPERLINKS"
+  subtitle="Clickable URLs, app-generated links, and configurable custom patterns."
+>
+  <h2>Clickable URLs</h2>
+  <p>ori-term automatically detects URLs, file paths, git hashes, IP addresses, and email addresses in terminal output. Hold <kbd>Ctrl</kbd> and hover to see detected links underlined. <kbd>Ctrl+Click</kbd> to open them in your default browser.</p>
+
+  <h2>App-Generated Hyperlinks</h2>
+  <p>Many modern CLI tools emit explicit hyperlinks that ori-term renders as clickable links with hover underline. Tools like <code>ls --hyperlink</code>, <code>gcc</code>, and <code>ripgrep</code> use this to link directly to files and locations.</p>
+
+  <h2>Custom Patterns</h2>
+  <p>Define your own patterns in your config for project-specific links:</p>
+  <ul>
+    <li>JIRA ticket IDs -- link to your issue tracker</li>
+    <li>GitHub issue references -- open on github.com</li>
+    <li>Custom identifiers -- any URL template</li>
+  </ul>
+  <p>Each pattern supports configurable actions: copy, open, or select.</p>
+</Feature>

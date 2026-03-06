@@ -1,0 +1,46 @@
+---
+import Feature from '../../layouts/Feature.astro';
+---
+
+<Feature
+  title="TERMINAL EMULATION"
+  subtitle="Full compatibility with your tools. Everything just works."
+>
+  <h2>App Compatibility</h2>
+  <p>ori-term works with the tools you already use. Neovim, htop, tmux, midnight commander, lazygit, btop, ranger -- if it runs in a terminal, it runs correctly in ori-term.</p>
+
+  <h2>Text Styling</h2>
+  <p>Full support for modern text styling:</p>
+  <ul>
+    <li>Bold, italic, dim, inverse, hidden, blink, strikethrough, overline</li>
+    <li>Underline styles: single, double, dotted, dashed, curly</li>
+    <li>Colored underlines and overlines</li>
+  </ul>
+
+  <h2>Cursor</h2>
+  <ul>
+    <li>Cursor shapes: block, bar, underline</li>
+    <li>Configurable blink rate</li>
+    <li>Proper save/restore across alternate screen applications</li>
+  </ul>
+
+  <h2>Color</h2>
+  <ul>
+    <li><strong>Truecolor</strong> -- Full 24-bit RGB (16.7 million colors)</li>
+    <li><strong>256-color</strong> -- Extended ANSI palette</li>
+    <li><strong>16-color ANSI</strong> -- Standard colors with bright variants</li>
+  </ul>
+  <p>Colors degrade gracefully based on what applications request. The standard NO_COLOR, CLICOLOR, CLICOLOR_FORCE, and COLORTERM environment variables are all respected.</p>
+
+  <h2>Modern Features</h2>
+  <p>ori-term supports modern terminal features that newer applications take advantage of:</p>
+  <ul>
+    <li><strong>Bracketed paste</strong> -- Paste-aware applications can distinguish typed text from pasted text</li>
+    <li><strong>Focus reporting</strong> -- Applications know when the terminal gains or loses focus</li>
+    <li><strong>Synchronized rendering</strong> -- Applications can batch screen updates for flicker-free drawing</li>
+    <li><strong>Full mouse support</strong> -- Click, drag, scroll, and hover events forwarded to applications</li>
+  </ul>
+
+  <h2>Scrollback</h2>
+  <p>Configurable scrollback history with proper text reflow on resize. Wide characters, wrapped lines, and combining marks all reflow correctly. For long-running sessions, scrollback can overflow to disk so you never lose output.</p>
+</Feature>

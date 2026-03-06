@@ -1,0 +1,23 @@
+---
+import Feature from '../../layouts/Feature.astro';
+---
+
+<Feature
+  title="GPU RENDERING"
+  subtitle="Buttery smooth, high frame rate, low CPU usage. Every pixel is GPU-accelerated."
+>
+  <h2>Fast and Smooth</h2>
+  <p>ori-term renders entirely on the GPU. Text, images, UI elements, and decorations are all drawn in a single GPU-accelerated pass. The result: smooth scrolling, zero flicker, and minimal CPU usage even with heavy terminal output.</p>
+
+  <h2>Smart Redrawing</h2>
+  <p>ori-term only redraws what has changed. When your terminal is sitting at a prompt, almost no work is done. When output is streaming, only the new lines are updated. This keeps power consumption low and your laptop fans quiet.</p>
+
+  <h2>High Frame Rate</h2>
+  <p>The renderer targets up to 120 FPS with intelligent frame batching. Multiple updates within the same frame are combined into a single redraw. When the terminal is idle, no frames are rendered at all -- the GPU rests completely.</p>
+
+  <h2>Crisp Text</h2>
+  <p>Glyphs are rasterized once and cached for instant reuse. Common ASCII characters are pre-loaded at startup so the very first frame displays instantly. The result is sharp, consistent text at any font size.</p>
+
+  <h2>Live Tab Previews</h2>
+  <p>When you hover over a tab, you see a live, scaled-down preview of that tab's content. This is a real-time render, not a screenshot -- it updates as the content changes.</p>
+</Feature>

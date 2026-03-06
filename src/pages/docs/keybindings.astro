@@ -1,0 +1,115 @@
+---
+import Docs from '../../layouts/Docs.astro';
+
+const toc = [
+  { id: 'general', text: 'General', level: 2 },
+  { id: 'panes', text: 'Panes', level: 2 },
+  { id: 'tabs', text: 'Tabs', level: 2 },
+  { id: 'clipboard', text: 'Clipboard', level: 2 },
+  { id: 'search', text: 'Search', level: 2 },
+  { id: 'mark-mode', text: 'Mark Mode', level: 2 },
+  { id: 'customizing', text: 'Customizing', level: 2 },
+];
+---
+
+<Docs title="Keybindings" toc={toc}>
+  <h2 id="general">General</h2>
+  <table>
+    <thead><tr><th>Action</th><th>Shortcut</th></tr></thead>
+    <tbody>
+      <tr><td>Reload config</td><td><kbd>Ctrl+Shift+R</kbd></td></tr>
+      <tr><td>Font larger</td><td><kbd>Ctrl+=</kbd></td></tr>
+      <tr><td>Font smaller</td><td><kbd>Ctrl+-</kbd></td></tr>
+      <tr><td>Font reset</td><td><kbd>Ctrl+0</kbd></td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="panes">Panes</h2>
+  <table>
+    <thead><tr><th>Action</th><th>Shortcut</th></tr></thead>
+    <tbody>
+      <tr><td>Split right</td><td><kbd>Ctrl+Shift+D</kbd></td></tr>
+      <tr><td>Split down</td><td><kbd>Ctrl+Shift+E</kbd></td></tr>
+      <tr><td>Close pane</td><td><kbd>Ctrl+W</kbd></td></tr>
+      <tr><td>Focus left</td><td><kbd>Alt+Left</kbd></td></tr>
+      <tr><td>Focus right</td><td><kbd>Alt+Right</kbd></td></tr>
+      <tr><td>Focus up</td><td><kbd>Alt+Up</kbd></td></tr>
+      <tr><td>Focus down</td><td><kbd>Alt+Down</kbd></td></tr>
+      <tr><td>Cycle panes</td><td><kbd>Alt+]</kbd> / <kbd>Alt+[</kbd></td></tr>
+      <tr><td>Resize pane</td><td><kbd>Alt+Shift+Arrow</kbd></td></tr>
+      <tr><td>Equalize panes</td><td><kbd>Ctrl+Shift+=</kbd></td></tr>
+      <tr><td>Zoom pane</td><td><kbd>Ctrl+Shift+Z</kbd></td></tr>
+      <tr><td>Toggle floating</td><td><kbd>Ctrl+Shift+F</kbd></td></tr>
+      <tr><td>Float ↔ tile</td><td><kbd>Ctrl+Shift+G</kbd></td></tr>
+      <tr><td>Undo split</td><td><kbd>Ctrl+Shift+U</kbd></td></tr>
+      <tr><td>Redo split</td><td><kbd>Ctrl+Shift+Y</kbd></td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="tabs">Tabs</h2>
+  <table>
+    <thead><tr><th>Action</th><th>Shortcut</th></tr></thead>
+    <tbody>
+      <tr><td>New tab</td><td><kbd>Ctrl+T</kbd></td></tr>
+      <tr><td>Close tab</td><td><kbd>Ctrl+W</kbd></td></tr>
+      <tr><td>Next tab</td><td><kbd>Ctrl+Tab</kbd></td></tr>
+      <tr><td>Previous tab</td><td><kbd>Ctrl+Shift+Tab</kbd></td></tr>
+      <tr><td>Undo close tab</td><td><kbd>Ctrl+Shift+T</kbd></td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="clipboard">Clipboard</h2>
+  <table>
+    <thead><tr><th>Action</th><th>Shortcut</th></tr></thead>
+    <tbody>
+      <tr><td>Copy</td><td><kbd>Ctrl+Shift+C</kbd></td></tr>
+      <tr><td>Paste</td><td><kbd>Ctrl+Shift+V</kbd></td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="search">Search</h2>
+  <table>
+    <thead><tr><th>Action</th><th>Shortcut</th></tr></thead>
+    <tbody>
+      <tr><td>Open search</td><td><kbd>Ctrl+F</kbd></td></tr>
+      <tr><td>Next match</td><td><kbd>Enter</kbd></td></tr>
+      <tr><td>Previous match</td><td><kbd>Shift+Enter</kbd></td></tr>
+      <tr><td>Close search</td><td><kbd>Esc</kbd></td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="mark-mode">Mark Mode</h2>
+  <table>
+    <thead><tr><th>Action</th><th>Key</th></tr></thead>
+    <tbody>
+      <tr><td>Enter mark mode</td><td><kbd>Ctrl+Shift+M</kbd></td></tr>
+      <tr><td>Word forward</td><td><kbd>w</kbd></td></tr>
+      <tr><td>Word back</td><td><kbd>b</kbd></td></tr>
+      <tr><td>Word end</td><td><kbd>e</kbd></td></tr>
+      <tr><td>Line start</td><td><kbd>0</kbd></td></tr>
+      <tr><td>First non-blank</td><td><kbd>^</kbd></td></tr>
+      <tr><td>Line end</td><td><kbd>$</kbd></td></tr>
+      <tr><td>Top of scrollback</td><td><kbd>gg</kbd></td></tr>
+      <tr><td>Bottom</td><td><kbd>G</kbd></td></tr>
+      <tr><td>Half-page up</td><td><kbd>Ctrl+U</kbd></td></tr>
+      <tr><td>Half-page down</td><td><kbd>Ctrl+D</kbd></td></tr>
+      <tr><td>Find char</td><td><kbd>f</kbd> / <kbd>F</kbd></td></tr>
+      <tr><td>Find before char</td><td><kbd>t</kbd> / <kbd>T</kbd></td></tr>
+      <tr><td>Bracket match</td><td><kbd>%</kbd></td></tr>
+      <tr><td>Char selection</td><td><kbd>v</kbd></td></tr>
+      <tr><td>Line selection</td><td><kbd>V</kbd></td></tr>
+      <tr><td>Block selection</td><td><kbd>Ctrl+V</kbd></td></tr>
+      <tr><td>Yank</td><td><kbd>y</kbd></td></tr>
+      <tr><td>Search forward</td><td><kbd>/</kbd></td></tr>
+      <tr><td>Search backward</td><td><kbd>?</kbd></td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="customizing">Customizing</h2>
+  <p>All keybindings can be overridden in your <code>config.toml</code>. Define bindings in the <code>[keybindings]</code> section:</p>
+  <pre><code>[keybindings]
+"ctrl+shift+n" = "NewWindow"
+"ctrl+shift+d" = "SplitRight"
+"ctrl+shift+e" = "SplitDown"</code></pre>
+  <p>See <a href="/docs/configuration">Configuration</a> for the full config format. On macOS, <kbd>Cmd</kbd> is used in place of <kbd>Ctrl</kbd> by default.</p>
+</Docs>

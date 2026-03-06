@@ -1,0 +1,122 @@
+---
+import Docs from '../../layouts/Docs.astro';
+
+const toc = [
+  { id: 'location', text: 'Config Location', level: 2 },
+  { id: 'format', text: 'Format', level: 2 },
+  { id: 'hot-reload', text: 'Hot Reload', level: 2 },
+  { id: 'font', text: 'Font', level: 2 },
+  { id: 'theme', text: 'Theme', level: 2 },
+  { id: 'window', text: 'Window', level: 2 },
+  { id: 'cursor', text: 'Cursor', level: 2 },
+  { id: 'scrollback', text: 'Scrollback', level: 2 },
+  { id: 'shell', text: 'Shell', level: 2 },
+  { id: 'mouse', text: 'Mouse', level: 2 },
+  { id: 'keybindings', text: 'Keybindings', level: 2 },
+  { id: 'url-patterns', text: 'URL Patterns', level: 2 },
+];
+---
+
+<Docs title="Configuration" toc={toc}>
+  <h2 id="location">Config Location</h2>
+  <p>ori-term looks for <code>config.toml</code> in the platform-standard config directory:</p>
+  <table>
+    <thead><tr><th>Platform</th><th>Path</th></tr></thead>
+    <tbody>
+      <tr><td>Windows</td><td><code>%APPDATA%\ori-term\config.toml</code></td></tr>
+      <tr><td>Linux</td><td><code>~/.config/ori-term/config.toml</code></td></tr>
+      <tr><td>macOS</td><td><code>~/Library/Application Support/ori-term/config.toml</code></td></tr>
+    </tbody>
+  </table>
+  <p>If the file doesn't exist, ori-term uses built-in defaults. You only need to specify settings you want to change.</p>
+
+  <h2 id="format">Format</h2>
+  <p>Configuration uses TOML. A minimal config might look like:</p>
+  <pre><code>[font]
+family = "JetBrains Mono"
+size = 14
+
+[theme]
+name = "catppuccin-mocha"
+
+[window]
+opacity = 0.95</code></pre>
+
+  <h2 id="hot-reload">Hot Reload</h2>
+  <p>ori-term watches your config file for changes. Save the file and settings apply immediately — no restart needed. You can also trigger a manual reload with <kbd>Ctrl+Shift+R</kbd>.</p>
+  <p>Hot reload applies to: theme, font size, keybindings, cursor style, window opacity, and most visual settings. Some settings (like shell or scrollback limits) only apply to new panes.</p>
+
+  <h2 id="font">Font</h2>
+  <pre><code>[font]
+family = "JetBrains Mono"
+size = 14
+fallback = ["Noto Sans Mono", "Noto Color Emoji"]
+
+[font.features]
+liga = true
+calt = true</code></pre>
+  <p>The <code>family</code> field sets the primary font. <code>fallback</code> defines additional fonts for missing glyphs. OpenType features can be enabled or disabled individually.</p>
+
+  <h2 id="theme">Theme</h2>
+  <pre><code>[theme]
+name = "catppuccin-mocha"
+
+# Or use separate light and dark themes:
+[theme]
+light = "catppuccin-latte"
+dark = "catppuccin-mocha"</code></pre>
+  <p>When <code>light</code> and <code>dark</code> are set, ori-term follows your system appearance. See <a href="/docs/theming">Theming</a> for custom theme creation.</p>
+
+  <h2 id="window">Window</h2>
+  <pre><code>[window]
+width = 120
+height = 40
+opacity = 1.0
+padding = 8
+fullscreen = false</code></pre>
+
+  <h2 id="cursor">Cursor</h2>
+  <pre><code>[cursor]
+shape = "block"      # block, bar, underline
+blink = true
+blink_rate = 500     # milliseconds</code></pre>
+
+  <h2 id="scrollback">Scrollback</h2>
+  <pre><code>[scrollback]
+limit = 10000        # lines, 0 for unlimited
+archive = true       # overflow to disk
+archive_max = "1GB"
+archive_retention = "7d"</code></pre>
+
+  <h2 id="shell">Shell</h2>
+  <pre><code>[shell]
+program = "/bin/zsh"
+args = ["-l"]
+working_directory = "~"</code></pre>
+  <p>If not specified, ori-term detects your default shell automatically.</p>
+
+  <h2 id="mouse">Mouse</h2>
+  <pre><code>[mouse]
+copy_on_select = false
+word_delimiters = " \t{}()[]\"'`,;:@"</code></pre>
+
+  <h2 id="keybindings">Keybindings</h2>
+  <pre><code>[keybindings]
+"ctrl+shift+d" = "SplitRight"
+"ctrl+shift+e" = "SplitDown"
+"ctrl+shift+f" = "ToggleFloat"
+"ctrl+shift+z" = "ZoomPane"</code></pre>
+  <p>See <a href="/docs/keybindings">Keybindings</a> for all available actions and the full default binding list.</p>
+
+  <h2 id="url-patterns">URL Patterns</h2>
+  <pre><code>[[url_patterns]]
+regex = "PROJ-\\d+"
+url = "https://jira.example.com/browse/$0"
+action = "open"
+
+[[url_patterns]]
+regex = "#(\\d+)"
+url = "https://github.com/user/repo/issues/$1"
+action = "open"</code></pre>
+  <p>Each pattern defines a regex, an optional URL template with capture group substitution, and an action (<code>open</code>, <code>copy</code>, <code>select</code>). See <a href="/docs/url-patterns">URL Patterns</a> for details.</p>
+</Docs>

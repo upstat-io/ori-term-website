@@ -1,0 +1,70 @@
+---
+import Docs from '../../layouts/Docs.astro';
+
+const toc = [
+  { id: 'search-bar', text: 'Search Bar', level: 2 },
+  { id: 'modes', text: 'Search Modes', level: 2 },
+  { id: 'navigation', text: 'Navigation', level: 2 },
+  { id: 'mark-mode', text: 'Mark Mode', level: 2 },
+  { id: 'motions', text: 'Motions', level: 3 },
+  { id: 'selection', text: 'Selection', level: 3 },
+  { id: 'inline-search', text: 'Inline Search', level: 3 },
+];
+---
+
+<Docs title="Search & Mark Mode" toc={toc}>
+  <h2 id="search-bar">Search Bar</h2>
+  <p>Press <kbd>Ctrl+F</kbd> to open the search overlay. Type your query and matches are highlighted across the viewport and scrollback in real time. The bar shows "N of M" indicating the current match position and total count.</p>
+
+  <h2 id="modes">Search Modes</h2>
+  <ul>
+    <li><strong>Plain text</strong> — Literal substring matching. Case sensitivity is toggleable.</li>
+    <li><strong>Regex</strong> — Full regular expression support with multiline matching.</li>
+  </ul>
+
+  <h2 id="navigation">Navigation</h2>
+  <ul>
+    <li><kbd>Enter</kbd> — Jump to next match</li>
+    <li><kbd>Shift+Enter</kbd> — Jump to previous match</li>
+    <li><kbd>Esc</kbd> — Close search bar</li>
+  </ul>
+  <p>The viewport scrolls to center the current match.</p>
+
+  <h2 id="mark-mode">Mark Mode</h2>
+  <p>Mark mode gives you vi-style keyboard navigation and selection. Enter with <kbd>Ctrl+Shift+M</kbd>. The cursor becomes independently movable — navigate scrollback, select text, and yank without leaving the keyboard.</p>
+
+  <h3 id="motions">Motions</h3>
+  <table>
+    <thead><tr><th>Key</th><th>Motion</th></tr></thead>
+    <tbody>
+      <tr><td><kbd>h</kbd> <kbd>j</kbd> <kbd>k</kbd> <kbd>l</kbd></td><td>Left, down, up, right</td></tr>
+      <tr><td><kbd>w</kbd> <kbd>b</kbd> <kbd>e</kbd></td><td>Word forward, back, end</td></tr>
+      <tr><td><kbd>W</kbd> <kbd>B</kbd> <kbd>E</kbd></td><td>WORD forward, back, end</td></tr>
+      <tr><td><kbd>0</kbd> <kbd>^</kbd> <kbd>$</kbd></td><td>Line start, first non-blank, end</td></tr>
+      <tr><td><kbd>gg</kbd> / <kbd>G</kbd></td><td>Top / bottom of scrollback</td></tr>
+      <tr><td><kbd>H</kbd> <kbd>M</kbd> <kbd>L</kbd></td><td>Viewport top, middle, bottom</td></tr>
+      <tr><td><kbd>Ctrl+U</kbd> / <kbd>Ctrl+D</kbd></td><td>Half-page up / down</td></tr>
+      <tr><td><kbd>Ctrl+B</kbd> / <kbd>Ctrl+F</kbd></td><td>Full-page up / down</td></tr>
+      <tr><td><kbd>zz</kbd></td><td>Center view on cursor</td></tr>
+    </tbody>
+  </table>
+
+  <h3 id="selection">Selection</h3>
+  <ul>
+    <li><kbd>v</kbd> — Character-wise selection</li>
+    <li><kbd>V</kbd> — Line-wise selection</li>
+    <li><kbd>Ctrl+V</kbd> — Block (rectangular) selection</li>
+    <li><kbd>y</kbd> — Yank (copy) selected text to clipboard</li>
+  </ul>
+
+  <h3 id="inline-search">Inline Search</h3>
+  <ul>
+    <li><kbd>f</kbd>{'{char}'} — Jump to next occurrence of char</li>
+    <li><kbd>F</kbd>{'{char}'} — Jump to previous occurrence</li>
+    <li><kbd>t</kbd>{'{char}'} — Jump to just before next occurrence</li>
+    <li><kbd>T</kbd>{'{char}'} — Jump to just after previous occurrence</li>
+    <li><kbd>;</kbd> / <kbd>,</kbd> — Repeat / reverse last f/F/t/T</li>
+    <li><kbd>%</kbd> — Jump to matching bracket</li>
+    <li><kbd>/</kbd> / <kbd>?</kbd> — Full search forward / backward</li>
+  </ul>
+</Docs>

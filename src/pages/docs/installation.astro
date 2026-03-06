@@ -1,0 +1,41 @@
+---
+import Docs from '../../layouts/Docs.astro';
+
+const toc = [
+  { id: 'download', text: 'Download', level: 2 },
+  { id: 'windows', text: 'Windows', level: 3 },
+  { id: 'linux', text: 'Linux', level: 3 },
+  { id: 'macos', text: 'macOS', level: 3 },
+  { id: 'from-source', text: 'Build from Source', level: 2 },
+  { id: 'verify', text: 'Verify Installation', level: 2 },
+];
+---
+
+<Docs title="Installation" toc={toc}>
+  <h2 id="download">Download</h2>
+  <p>ori-term ships as a single native binary. No runtime dependencies required -- just download and run.</p>
+
+  <h3 id="windows">Windows</h3>
+  <p>Download the latest <code>.exe</code> from the <a href="https://github.com/user/ori-term/releases">releases page</a> and place it in your PATH. Requires Windows 10 or later with a GPU that supports Vulkan or DX12.</p>
+
+  <h3 id="linux">Linux</h3>
+  <p>Download the latest binary from the <a href="https://github.com/user/ori-term/releases">releases page</a>:</p>
+  <pre><code>curl -LO https://github.com/user/ori-term/releases/latest/download/ori-term-linux-x86_64
+chmod +x ori-term-linux-x86_64
+sudo mv ori-term-linux-x86_64 /usr/local/bin/ori-term</code></pre>
+  <p>Requires a GPU with Vulkan support. Works on most modern Linux distributions out of the box.</p>
+
+  <h3 id="macos">macOS</h3>
+  <p>Download the latest <code>.dmg</code> from the <a href="https://github.com/user/ori-term/releases">releases page</a>. Drag ori-term to your Applications folder. Works on any Mac from 2012 or later.</p>
+
+  <h2 id="from-source">Build from Source</h2>
+  <p>If you prefer to build from source, you need Rust 1.80+:</p>
+  <pre><code>git clone https://github.com/user/ori-term.git
+cd ori-term
+cargo build --release</code></pre>
+  <p>The binary will be at <code>target/release/ori-term</code>.</p>
+
+  <h2 id="verify">Verify Installation</h2>
+  <pre><code>ori-term --version</code></pre>
+  <p>You should see the version number and build information. Launch with <code>ori-term</code> or see the <a href="/docs/quick-start">Quick Start</a> guide.</p>
+</Docs>

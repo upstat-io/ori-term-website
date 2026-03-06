@@ -1,0 +1,197 @@
+---
+import Base from '../../layouts/Base.astro';
+import Nav from '../../components/Nav.svelte';
+import Footer from '../../components/Footer.svelte';
+
+const categories = [
+  {
+    label: 'CORE',
+    features: [
+      { title: 'GPU Rendering', href: '/features/gpu-rendering', desc: 'wgpu pipeline with damage tracking, frame pacing, and offscreen targets' },
+      { title: 'Terminal Emulation', href: '/features/terminal-emulation', desc: 'Full VTE state machine, 256-color, truecolor, all DECSET/DECRST modes' },
+      { title: 'Multiplexer', href: '/features/multiplexer', desc: 'Splits, tabs, floating panes, zoom, undo/redo, session persistence' },
+      { title: 'Fonts', href: '/features/fonts', desc: 'HarfBuzz shaping, ligatures, emoji, multi-face fallback, subpixel rendering' },
+    ],
+  },
+  {
+    label: 'INTERACTION',
+    features: [
+      { title: 'Keyboard', href: '/features/keyboard', desc: 'Kitty keyboard protocol, IME, dead keys, configurable keybindings' },
+      { title: 'Mouse & Selection', href: '/features/mouse-selection', desc: '3-point selection, word/line/block modes, copy-on-select, mark mode' },
+      { title: 'Search', href: '/features/search', desc: 'Plain text and regex search with match highlighting and navigation' },
+      { title: 'URLs & Hyperlinks', href: '/features/urls', desc: 'Implicit URL detection, OSC 8 hyperlinks, configurable patterns' },
+    ],
+  },
+  {
+    label: 'VISUAL',
+    features: [
+      { title: 'Themes', href: '/features/themes', desc: 'TOML color schemes, hot-reload, auto light/dark switching' },
+      { title: 'Images', href: '/features/images', desc: 'Kitty graphics, Sixel, iTerm2 inline images with GPU compositing' },
+      { title: 'Window Chrome', href: '/features/window', desc: 'Frameless window, custom controls, Aero Snap, transparency, HiDPI' },
+    ],
+  },
+  {
+    label: 'SYSTEM',
+    features: [
+      { title: 'Daemon Mode', href: '/features/daemon', desc: 'Persistent sessions, crash recovery, multi-client IPC, binary protocol' },
+      { title: 'Platform Support', href: '/features/platform', desc: 'Windows, Linux, macOS — first-class on all three' },
+      { title: 'Shell Integration', href: '/features/shell-integration', desc: 'OSC 7 CWD tracking, OSC 133 semantic zones, prompt detection' },
+      { title: 'Configuration', href: '/features/configuration', desc: 'TOML config with hot-reload, sensible defaults, per-platform paths' },
+    ],
+  },
+];
+---
+
+<Base title="Features — ori-term">
+  <Nav client:load />
+
+  <main>
+    <header class="page-header">
+      <div class="container">
+        <h1>FEATURES</h1>
+        <h2 class="page-subtitle">EVERYTHING ORI-TERM CAN DO</h2>
+        <p class="page-desc">GPU rendering, terminal emulation, multiplexing, theming, and more. Explore each feature in detail.</p>
+      </div>
+    </header>
+
+    {categories.map((cat) => (
+      <section class="category">
+        <div class="container">
+          <h3 class="category-label">// {cat.label}</h3>
+          <div class="feature-list">
+            {cat.features.map((f) => (
+              <a href={f.href} class="feature-row">
+                <span class="feature-title">{f.title}</span>
+                <span class="feature-desc">{f.desc}</span>
+                <svg class="feature-arrow" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
+                </svg>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    ))}
+  </main>
+
+  <Footer client:load />
+</Base>
+
+<style>
+  main {
+    padding-top: 56px;
+  }
+
+  .page-header {
+    padding: 80px 0 64px;
+    border-bottom: var(--border-weight) solid var(--border);
+  }
+
+  .page-header :global(h1) {
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    letter-spacing: 0.1em;
+    line-height: 1;
+  }
+
+  .page-subtitle {
+    font-size: clamp(0.65rem, 1.5vw, 0.85rem);
+    color: var(--text-muted);
+    letter-spacing: 0.25em;
+    margin-top: 16px;
+    font-weight: 400;
+  }
+
+  .page-desc {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-top: 16px;
+  }
+
+  .category {
+    border-bottom: var(--border-weight) solid var(--border);
+    padding: 48px 0;
+  }
+
+  .category-label {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    letter-spacing: 0.2em;
+    margin-bottom: 24px;
+    font-weight: 400;
+  }
+
+  .feature-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .feature-row {
+    display: grid;
+    grid-template-columns: 200px 1fr auto;
+    gap: 24px;
+    align-items: baseline;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    color: inherit;
+    
+  }
+
+  .feature-row:last-child {
+    border-bottom: none;
+  }
+
+  .feature-row:hover {
+    background: var(--bg-raised);
+    padding-left: 16px;
+    padding-right: 16px;
+    margin-left: -16px;
+    margin-right: -16px;
+  }
+
+  .feature-row:hover .feature-title {
+    color: var(--accent);
+  }
+
+  .feature-row:hover .feature-arrow {
+    color: var(--accent);
+  }
+
+  .feature-title {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--text-bright);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    
+  }
+
+  .feature-desc {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+
+  .feature-arrow {
+    width: 14px;
+    height: 14px;
+    color: var(--border-strong);
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 768px) {
+    .feature-row {
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+    }
+
+    .feature-desc {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    .feature-arrow {
+      grid-row: 1;
+    }
+  }
+</style>

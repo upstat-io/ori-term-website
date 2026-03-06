@@ -1,0 +1,26 @@
+---
+import Feature from '../../layouts/Feature.astro';
+---
+
+<Feature
+  title="SEARCH"
+  subtitle="Plain text and regex search with match highlighting and navigation."
+>
+  <h2>Search Overlay</h2>
+  <p>Press <kbd>Ctrl+F</kbd> to open the search bar. Type your query and matches are highlighted across the viewport and scrollback in real time. The search bar shows "N of M" match counts and supports keyboard navigation.</p>
+
+  <h2>Search Modes</h2>
+  <ul>
+    <li><strong>Plain text</strong> -- Literal substring matching with optional case sensitivity</li>
+    <li><strong>Regex</strong> -- Full regular expression support with multiline matching</li>
+  </ul>
+
+  <h2>Navigation</h2>
+  <ul>
+    <li><kbd>Enter</kbd> / <kbd>Shift+Enter</kbd> -- Next/previous match</li>
+    <li><kbd>/</kbd> -- Forward search (from mark mode)</li>
+    <li><kbd>?</kbd> -- Backward search (from mark mode)</li>
+    <li><kbd>Esc</kbd> -- Close search</li>
+  </ul>
+  <p>The viewport automatically scrolls to center the current match.</p>
+</Feature>

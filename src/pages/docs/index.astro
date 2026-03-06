@@ -1,0 +1,188 @@
+---
+import Base from '../../layouts/Base.astro';
+import Nav from '../../components/Nav.svelte';
+import Footer from '../../components/Footer.svelte';
+
+const sections = [
+  {
+    label: 'GETTING STARTED',
+    pages: [
+      { title: 'Installation', href: '/docs/installation', desc: 'Install ori-term on Windows, Linux, or macOS' },
+      { title: 'Quick Start', href: '/docs/quick-start', desc: 'First launch, basic navigation, essential shortcuts' },
+      { title: 'Configuration', href: '/docs/configuration', desc: 'Config file location, format, and hot-reload' },
+    ],
+  },
+  {
+    label: 'USAGE',
+    pages: [
+      { title: 'Keybindings', href: '/docs/keybindings', desc: 'Complete keybinding reference with defaults' },
+      { title: 'Panes & Splits', href: '/docs/panes', desc: 'Splitting, resizing, navigating, and managing panes' },
+      { title: 'Tabs & Windows', href: '/docs/tabs', desc: 'Tab management, multi-window, drag and drop' },
+      { title: 'Theming', href: '/docs/theming', desc: 'Built-in themes, custom themes, light/dark switching' },
+      { title: 'Search & Mark Mode', href: '/docs/search', desc: 'Finding text, vi-style navigation, selection' },
+      { title: 'Shell Integration', href: '/docs/shell-integration', desc: 'CWD tracking, semantic zones, notifications' },
+    ],
+  },
+  {
+    label: 'ADVANCED',
+    pages: [
+      { title: 'Daemon & Sessions', href: '/docs/daemon', desc: 'Session persistence, crash recovery, multi-client' },
+      { title: 'Images', href: '/docs/images', desc: 'Displaying images with Kitty, Sixel, and iTerm2 protocols' },
+      { title: 'URL Patterns', href: '/docs/url-patterns', desc: 'Custom regex patterns for clickable URLs' },
+      { title: 'Font Configuration', href: '/docs/font-config', desc: 'Fallback chains, ligatures, OpenType features' },
+    ],
+  },
+];
+---
+
+<Base title="Documentation — ori-term">
+  <Nav client:load />
+
+  <main>
+    <header class="page-header">
+      <div class="container">
+        <h1>DOCS</h1>
+        <h2 class="page-subtitle">LEARN ORI-TERM</h2>
+        <p class="page-desc">Installation, configuration, keybindings, and everything else you need to use ori-term.</p>
+      </div>
+    </header>
+
+    {sections.map((section) => (
+      <section class="doc-section">
+        <div class="container">
+          <h3 class="section-label">// {section.label}</h3>
+          <div class="doc-list">
+            {section.pages.map((page) => (
+              <a href={page.href} class="doc-row">
+                <span class="doc-title">{page.title}</span>
+                <span class="doc-desc">{page.desc}</span>
+                <svg class="doc-arrow" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
+                </svg>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    ))}
+  </main>
+
+  <Footer client:load />
+</Base>
+
+<style>
+  main {
+    padding-top: 56px;
+  }
+
+  .page-header {
+    padding: 80px 0 64px;
+    border-bottom: var(--border-weight) solid var(--border);
+  }
+
+  .page-header :global(h1) {
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    letter-spacing: 0.1em;
+    line-height: 1;
+  }
+
+  .page-subtitle {
+    font-size: clamp(0.65rem, 1.5vw, 0.85rem);
+    color: var(--text-muted);
+    letter-spacing: 0.25em;
+    margin-top: 16px;
+    font-weight: 400;
+  }
+
+  .page-desc {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-top: 16px;
+  }
+
+  .doc-section {
+    border-bottom: var(--border-weight) solid var(--border);
+    padding: 48px 0;
+  }
+
+  .section-label {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    letter-spacing: 0.2em;
+    margin-bottom: 24px;
+    font-weight: 400;
+  }
+
+  .doc-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .doc-row {
+    display: grid;
+    grid-template-columns: 220px 1fr auto;
+    gap: 24px;
+    align-items: baseline;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .doc-row:last-child {
+    border-bottom: none;
+  }
+
+  .doc-row:hover {
+    background: var(--bg-raised);
+    padding-left: 16px;
+    padding-right: 16px;
+    margin-left: -16px;
+    margin-right: -16px;
+  }
+
+  .doc-row:hover .doc-title {
+    color: var(--accent);
+  }
+
+  .doc-row:hover .doc-arrow {
+    color: var(--accent);
+  }
+
+  .doc-title {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--text-bright);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .doc-desc {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+
+  .doc-arrow {
+    width: 14px;
+    height: 14px;
+    color: var(--border-strong);
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 768px) {
+    .doc-row {
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+    }
+
+    .doc-desc {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    .doc-arrow {
+      grid-row: 1;
+    }
+  }
+</style>

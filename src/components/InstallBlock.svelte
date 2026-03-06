@@ -25,7 +25,7 @@
       </button>
     </div>
     <p class="install-note">
-      Requires Rust 1.80+. See <a href="https://github.com/user/ori-term">source</a> for build instructions.
+      Native binary. No runtime dependencies. See <a href="/docs/installation">installation docs</a> for all platforms.
     </p>
   </div>
 </section>
@@ -64,7 +64,7 @@
     cursor: pointer;
     text-align: left;
     color: var(--text);
-    transition: background-color 0.1s steps(1);
+    
   }
 
   .install-cmd:hover {
@@ -85,7 +85,7 @@
     font-size: 0.6rem;
     letter-spacing: 0.15em;
     color: var(--text-muted);
-    transition: color 0.1s steps(1);
+    
   }
 
   .install-cmd:hover .copy-hint {

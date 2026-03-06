@@ -1,0 +1,137 @@
+---
+import Base from './Base.astro';
+import Nav from '../components/Nav.svelte';
+import Footer from '../components/Footer.svelte';
+
+interface Props {
+  title: string;
+  subtitle: string;
+  description?: string;
+}
+
+const { title, subtitle, description } = Astro.props;
+---
+
+<Base title={`${title} — ori-term`} description={description}>
+  <Nav client:load />
+
+  <main>
+    <header class="feature-header">
+      <div class="container">
+        <p class="breadcrumb">
+          <a href="/">home</a> / <a href="/features">features</a> / <span class="current">{title.toLowerCase()}</span>
+        </p>
+        <h1>{title}</h1>
+        <p class="subtitle">{subtitle}</p>
+      </div>
+    </header>
+
+    <div class="feature-body container">
+      <slot />
+    </div>
+  </main>
+
+  <Footer client:load />
+</Base>
+
+<style>
+  main {
+    padding-top: 56px;
+  }
+
+  .feature-header {
+    padding: 80px 0 64px;
+    border-bottom: var(--border-weight) solid var(--border);
+  }
+
+  .breadcrumb {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    margin-bottom: 24px;
+  }
+
+  .breadcrumb a {
+    color: var(--text-muted);
+    border-bottom: none;
+  }
+
+  .breadcrumb a:hover {
+    color: var(--accent);
+  }
+
+  .current {
+    color: var(--text);
+  }
+
+  .subtitle {
+    margin-top: 16px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    max-width: 60ch;
+  }
+
+  .feature-body {
+    padding-top: 64px;
+    padding-bottom: 120px;
+  }
+
+  .feature-body :global(h2) {
+    margin-top: 64px;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: var(--border-weight) solid var(--border);
+  }
+
+  .feature-body :global(h2:first-child) {
+    margin-top: 0;
+  }
+
+  .feature-body :global(h3) {
+    margin-top: 40px;
+    margin-bottom: 12px;
+  }
+
+  .feature-body :global(p) {
+    margin-bottom: 16px;
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  .feature-body :global(ul) {
+    margin-bottom: 16px;
+    padding-left: 24px;
+  }
+
+  .feature-body :global(li) {
+    margin-bottom: 8px;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .feature-body :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    background: var(--bg-surface);
+    padding: 2px 6px;
+    border: 1px solid var(--border);
+    color: var(--accent);
+  }
+
+  .feature-body :global(pre) {
+    background: var(--bg-raised);
+    border: var(--border-weight) solid var(--border);
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    overflow-x: auto;
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+
+  .feature-body :global(pre code) {
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--text);
+  }
+</style>

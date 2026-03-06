@@ -1,0 +1,80 @@
+---
+import Docs from '../../layouts/Docs.astro';
+
+const toc = [
+  { id: 'selecting', text: 'Selecting a Theme', level: 2 },
+  { id: 'light-dark', text: 'Light / Dark Auto-Switch', level: 2 },
+  { id: 'custom', text: 'Custom Themes', level: 2 },
+  { id: 'color-slots', text: 'Color Slots', level: 3 },
+  { id: 'importing', text: 'Importing Themes', level: 2 },
+];
+---
+
+<Docs title="Theming" toc={toc}>
+  <h2 id="selecting">Selecting a Theme</h2>
+  <p>Set the theme in your <code>config.toml</code>:</p>
+  <pre><code>[theme]
+name = "my-theme"</code></pre>
+  <p>The change takes effect immediately via hot-reload.</p>
+
+  <h2 id="light-dark">Light / Dark Auto-Switch</h2>
+  <p>Configure separate themes for light and dark system appearances:</p>
+  <pre><code>[theme]
+light = "my-light-theme"
+dark = "my-dark-theme"</code></pre>
+  <p>ori-term follows your system appearance setting and switches instantly. When you toggle light/dark mode on your OS, ori-term matches automatically.</p>
+
+  <h2 id="custom">Custom Themes</h2>
+  <p>Create a TOML file in your config directory:</p>
+  <pre><code># ~/.config/ori-term/themes/my-theme.toml
+
+[colors]
+foreground = "#d4d4d4"
+background = "#0a0a0a"
+cursor = "#00ff41"
+selection_bg = "#264f78"
+selection_fg = "#ffffff"
+
+[colors.normal]
+black = "#0a0a0a"
+red = "#f44747"
+green = "#00ff41"
+yellow = "#e5e510"
+blue = "#2472c8"
+magenta = "#bc3fbc"
+cyan = "#11a8cd"
+white = "#e5e5e5"
+
+[colors.bright]
+black = "#666666"
+red = "#f14c4c"
+green = "#23d18b"
+yellow = "#f5f543"
+blue = "#3b8eea"
+magenta = "#d670d6"
+cyan = "#29b8db"
+white = "#f5f5f5"</code></pre>
+  <p>Then reference it in your config:</p>
+  <pre><code>[theme]
+name = "my-theme"</code></pre>
+
+  <h3 id="color-slots">Color Slots</h3>
+  <p>Every theme defines these color slots:</p>
+  <ul>
+    <li><strong>foreground</strong> — Default text color</li>
+    <li><strong>background</strong> — Terminal background</li>
+    <li><strong>cursor</strong> — Cursor color</li>
+    <li><strong>selection_bg / selection_fg</strong> — Selected text colors</li>
+    <li><strong>normal</strong> — 8 standard ANSI colors (0-7)</li>
+    <li><strong>bright</strong> — 8 bright ANSI colors (8-15)</li>
+  </ul>
+
+  <h2 id="importing">Importing Themes</h2>
+  <p>ori-term can import themes from other terminal emulators:</p>
+  <ul>
+    <li><strong>iTerm2</strong> — .itermcolors XML files</li>
+    <li><strong>Ghostty</strong> — Ghostty theme format</li>
+    <li><strong>base16</strong> — base16 YAML/JSON schemes</li>
+  </ul>
+  <p>Bring your existing theme collection with you when you switch to ori-term.</p>
+</Docs>

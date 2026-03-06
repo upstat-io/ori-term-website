@@ -1,0 +1,38 @@
+---
+import Docs from '../../layouts/Docs.astro';
+
+const toc = [
+  { id: 'auto-detection', text: 'Auto-Detection', level: 2 },
+  { id: 'cwd', text: 'Working Directory Tracking', level: 2 },
+  { id: 'semantic-zones', text: 'Smart Navigation', level: 2 },
+  { id: 'notifications', text: 'Notifications', level: 2 },
+  { id: 'manual-setup', text: 'Manual Setup', level: 2 },
+];
+---
+
+<Docs title="Shell Integration" toc={toc}>
+  <h2 id="auto-detection">Auto-Detection</h2>
+  <p>ori-term automatically detects your shell -- bash, zsh, fish, or PowerShell -- and sets up integration scripts. No manual configuration is needed. Your shell config files are not modified; ori-term handles everything transparently.</p>
+
+  <h2 id="cwd">Working Directory Tracking</h2>
+  <p>Your shell reports its current working directory after each command. ori-term uses this for:</p>
+  <ul>
+    <li>Setting window and tab titles to a short path</li>
+    <li>Opening new panes and tabs in the same directory</li>
+    <li>Resolving relative file paths for clickable links</li>
+  </ul>
+
+  <h2 id="semantic-zones">Smart Navigation</h2>
+  <p>The shell marks boundaries between prompts, input, and output. This enables:</p>
+  <ul>
+    <li>Jumping between command prompts in your scrollback</li>
+    <li>Selecting just a command's output</li>
+    <li>Identifying whether the shell is idle or running a command</li>
+  </ul>
+
+  <h2 id="notifications">Notifications</h2>
+  <p>ori-term supports desktop notifications from terminal applications. Notifications use your platform's native notification system. This is useful for alerting you when long-running commands complete in background tabs.</p>
+
+  <h2 id="manual-setup">Manual Setup</h2>
+  <p>Shell integration is automatic for most shells. If you need to set it up manually or are using an uncommon shell, you can add the appropriate escape sequences to your shell prompt. See your shell's documentation for prompt customization.</p>
+</Docs>

@@ -28,6 +28,6 @@ Astro 5 + Svelte 5 components. IBM Plex Mono throughout. Brutalist terminal aest
 ## Design System
 
 - **Font**: IBM Plex Mono (400/500/700) — monospace everywhere, no sans-serif mixing
-- **Palette**: Near-black bg (`#0a0a0a`), raw white text (`#d4d4d4`), terminal green accent (`#00ff41`), hard borders (`#2a2a2a` / `#444444`)
-- **Brutalism rules**: No rounded corners. No gradients. No soft shadows. `steps()` timing for animations. Visible structural borders. Tight spacing. Uppercase section headers.
-- **Animations**: Typing effect (hero), glitch-decode text, `steps()` CSS transitions — never smooth easing
+- **Palette**: Near-black bg (`#0a0a0a`), body text (`#d4d4d4`), muted text (`#888888`), terminal green accent (`#00ff41`), hard borders (`#2a2a2a` / `#444444`)
+- **Brutalism rules**: No rounded corners. No gradients. No soft shadows. No transition delays — hovers are instant. Visible structural borders. Tight spacing. Uppercase section headers.
+- **Animations**: Typing effect (hero), glitch-decode text on page load only (no hover re-trigger). `steps()` for CSS animations. See `DESIGN.md` for full guidelines.

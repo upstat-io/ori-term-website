@@ -1,0 +1,162 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.svelte';
+import InstallBlock from '../components/InstallBlock.svelte';
+import Footer from '../components/Footer.svelte';
+---
+
+<Base title="Install — ori-term">
+  <Nav client:load />
+
+  <main>
+    <header class="page-header">
+      <div class="container">
+        <h1>INSTALL</h1>
+        <h2 class="page-subtitle">GET ORI-TERM</h2>
+        <p class="page-desc">Native compiled binary. No runtime dependencies. Download and run.</p>
+      </div>
+    </header>
+
+    <InstallBlock client:load />
+
+    <section class="platforms">
+      <div class="container">
+        <h2 class="section-label">// PLATFORMS</h2>
+        <div class="platform-grid">
+          <div class="platform-block">
+            <h3>WINDOWS</h3>
+            <p>Download the <code>.exe</code> from the releases page. Requires a GPU with Vulkan or DX12 support. Supports Aero Snap, Mica/Acrylic transparency, ConPTY, and DirectWrite font rendering.</p>
+          </div>
+          <div class="platform-block">
+            <h3>LINUX</h3>
+            <p>Download the binary and place it in your PATH. Requires Vulkan GPU support and fontconfig. Works on both X11 and Wayland.</p>
+          </div>
+          <div class="platform-block">
+            <h3>MACOS</h3>
+            <p>Download the <code>.dmg</code> and drag to Applications. Requires Metal support (any Mac from 2012+). Native CoreText font rendering and vibrancy transparency.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="from-source">
+      <div class="container">
+        <h2 class="section-label">// FROM SOURCE</h2>
+        <p class="source-note">If you prefer to build from source, you need Rust 1.80+.</p>
+        <pre><code>git clone https://github.com/user/ori-term.git
+cd ori-term
+cargo build --release</code></pre>
+        <p class="source-note">See <a href="/docs/installation">installation docs</a> for platform-specific build dependencies.</p>
+      </div>
+    </section>
+  </main>
+
+  <Footer client:load />
+</Base>
+
+<style>
+  main {
+    padding-top: 56px;
+  }
+
+  .page-header {
+    padding: 80px 0 64px;
+    border-bottom: var(--border-weight) solid var(--border);
+    text-align: center;
+  }
+
+  .page-header :global(h1) {
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    letter-spacing: 0.1em;
+    line-height: 1;
+  }
+
+  .page-header :global(h2) {
+    font-size: clamp(0.65rem, 1.5vw, 0.85rem);
+    color: var(--text-muted);
+    letter-spacing: 0.25em;
+    margin-top: 16px;
+    font-weight: 400;
+  }
+
+  .page-desc {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-top: 16px;
+  }
+
+  .platforms {
+    padding: 80px 0;
+    border-bottom: var(--border-weight) solid var(--border);
+  }
+
+  .section-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 0.2em;
+    margin-bottom: 32px;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+
+  .platform-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+  }
+
+  .platform-block {
+    border: var(--border-weight) solid var(--border);
+    padding: 32px 24px;
+  }
+
+  .platform-block h3 {
+    font-size: 1rem;
+    color: var(--text-bright);
+    margin-bottom: 12px;
+    letter-spacing: 0.1em;
+  }
+
+  .platform-block p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  .platform-block code {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    background: var(--bg-surface);
+    padding: 2px 6px;
+    border: 1px solid var(--border);
+    color: var(--accent);
+  }
+
+  .from-source {
+    padding: 80px 0 120px;
+  }
+
+  .source-note {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    line-height: 1.6;
+  }
+
+  pre {
+    background: var(--bg-raised);
+    border: var(--border-weight) solid var(--border);
+    padding: 20px 24px;
+    margin-bottom: 16px;
+    overflow-x: auto;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--text);
+  }
+
+  @media (max-width: 768px) {
+    .platform-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

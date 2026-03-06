@@ -1,0 +1,30 @@
+---
+import Feature from '../../layouts/Feature.astro';
+---
+
+<Feature
+  title="FONTS"
+  subtitle="Ligatures, emoji, multi-font fallback, and crisp rendering on every display."
+>
+  <h2>Ligatures and Advanced Shaping</h2>
+  <p>Programming ligatures like <code>==</code>, <code>!=</code>, and <code>=></code> render correctly out of the box. Complex scripts, kerning, and diacritics all display properly. You can enable or disable individual OpenType features per font -- ligatures, contextual alternates, stylistic sets, and more.</p>
+
+  <h2>Font Fallback</h2>
+  <p>Configure a chain of fallback fonts. When a character is missing from your primary font, ori-term automatically tries the next font in the chain. This means you can use a coding font for text, a separate font for emoji, and another for special symbols -- all seamlessly.</p>
+  <p>Regular, Bold, Italic, and BoldItalic each have their own fallback chain. Font discovery is platform-native, so fonts are found the same way other apps find them.</p>
+
+  <h2>Emoji</h2>
+  <p>Full color emoji support. Emoji render inline alongside your text with correct sizing and alignment. Variation selectors work properly -- the same codepoint can display as text or emoji depending on context.</p>
+
+  <h2>Built-in Glyphs</h2>
+  <p>Box drawing characters, block elements, braille patterns, and Powerline symbols always render correctly -- regardless of your font selection. These are drawn by ori-term itself, so your prompt and TUI layouts look right with any font.</p>
+
+  <h2>Subpixel Rendering</h2>
+  <p>ClearType-style subpixel rendering for crisp text on LCD displays. Subpixel order is auto-detected for precise glyph placement.</p>
+
+  <h2>Bold and Italic Synthesis</h2>
+  <p>When your font family does not include a bold or italic variant, ori-term synthesizes them automatically. You always get styled text, even with incomplete font families.</p>
+
+  <h2>Font Size</h2>
+  <p>Adjust font size on the fly with <kbd>Ctrl+=</kbd> and <kbd>Ctrl+-</kbd>. Text stays crisp at any size thanks to DPI-aware rendering. Reset to default with <kbd>Ctrl+0</kbd>.</p>
+</Feature>

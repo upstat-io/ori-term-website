@@ -1,0 +1,33 @@
+---
+import Feature from '../../layouts/Feature.astro';
+---
+
+<Feature
+  title="SHELL INTEGRATION"
+  subtitle="Automatic setup. Smart directory tracking. Jump between prompts. Desktop notifications."
+>
+  <h2>Automatic Setup</h2>
+  <p>ori-term automatically detects your shell -- bash, zsh, fish, or PowerShell -- and sets up integration without modifying your shell config files. No manual configuration required.</p>
+
+  <h2>Working Directory Tracking</h2>
+  <p>Your shell tells ori-term its current directory after each command. ori-term uses this for:</p>
+  <ul>
+    <li>Showing the current path in window and tab titles</li>
+    <li>Opening new panes and tabs in the same directory</li>
+    <li>Resolving file paths for clickable links</li>
+  </ul>
+
+  <h2>Smart Navigation</h2>
+  <p>ori-term understands where your prompts, commands, and output begin and end. This enables:</p>
+  <ul>
+    <li>Jumping between command prompts in your scrollback</li>
+    <li>Selecting just a command's output</li>
+    <li>Knowing whether your shell is idle or running a command</li>
+  </ul>
+
+  <h2>Desktop Notifications</h2>
+  <p>Long-running commands can send you a desktop notification when they complete. Notifications use your platform's native notification system. Useful for builds, tests, or any command running in a background tab.</p>
+
+  <h2>Keyboard Handling</h2>
+  <p>Advanced keyboard features and legacy key handling both work correctly through shell integration. Mode changes are properly managed across focus events and application switches.</p>
+</Feature>

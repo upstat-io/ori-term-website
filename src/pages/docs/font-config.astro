@@ -1,0 +1,52 @@
+---
+import Docs from '../../layouts/Docs.astro';
+
+const toc = [
+  { id: 'basic', text: 'Basic Setup', level: 2 },
+  { id: 'fallback', text: 'Fallback Chains', level: 2 },
+  { id: 'opentype', text: 'OpenType Features', level: 2 },
+  { id: 'size', text: 'Size & Scaling', level: 2 },
+  { id: 'synthesis', text: 'Font Synthesis', level: 2 },
+  { id: 'discovery', text: 'Font Discovery', level: 2 },
+];
+---
+
+<Docs title="Font Configuration" toc={toc}>
+  <h2 id="basic">Basic Setup</h2>
+  <p>Set your font in <code>config.toml</code>:</p>
+  <pre><code>[font]
+family = "JetBrains Mono"
+size = 14</code></pre>
+  <p>The font name must match what your system reports. ori-term loads Regular, Bold, Italic, and BoldItalic faces automatically from the same family.</p>
+
+  <h2 id="fallback">Fallback Chains</h2>
+  <p>When a glyph is missing from the primary font, ori-term tries the next font in a fallback chain:</p>
+  <pre><code>[font]
+family = "JetBrains Mono"
+fallback = [
+  "Noto Sans Mono",       # Wide Unicode coverage
+  "Noto Color Emoji",     # Emoji
+  "Symbols Nerd Font",    # Nerd Font icons
+]</code></pre>
+  <p>Each face variant (Regular, Bold, Italic, BoldItalic) has its own fallback chain. Box drawing, block elements, braille, and Powerline symbols are always available via built-in glyph rendering, regardless of font selection.</p>
+
+  <h2 id="opentype">OpenType Features</h2>
+  <p>Enable or disable OpenType features per font:</p>
+  <pre><code>[font.features]
+liga = true     # Standard ligatures (== != =>)
+calt = true     # Contextual alternates
+kern = true     # Kerning
+ss01 = true     # Stylistic set 1 (font-specific)</code></pre>
+  <p>Feature tags follow the OpenType specification. Available features depend on your font -- check your font's documentation for supported tags.</p>
+
+  <h2 id="size">Size & Scaling</h2>
+  <p>Font size is specified in points. Adjust at runtime with <kbd>Ctrl+=</kbd> and <kbd>Ctrl+-</kbd>.</p>
+  <p>ori-term is DPI-aware. On HiDPI displays, fonts are rendered at the appropriate scale factor. Moving a window between monitors with different DPIs triggers automatic rescaling.</p>
+
+  <h2 id="synthesis">Font Synthesis</h2>
+  <p>When a Bold or Italic face is not available in your font family, ori-term synthesizes them automatically. This ensures you always get styled text, though native font faces always look better when available.</p>
+
+  <h2 id="discovery">Font Discovery</h2>
+  <p>Font rendering is platform-native. ori-term uses each operating system's built-in font system for rendering, discovery, and fallback resolution. Fonts are found the same way other applications on your system find them.</p>
+  <p>Subpixel rendering (ClearType-style on LCD displays) is enabled by default with automatic display order detection.</p>
+</Docs>

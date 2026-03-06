@@ -1,0 +1,61 @@
+---
+import Docs from '../../layouts/Docs.astro';
+
+const toc = [
+  { id: 'splitting', text: 'Splitting', level: 2 },
+  { id: 'navigation', text: 'Navigation', level: 2 },
+  { id: 'resizing', text: 'Resizing', level: 2 },
+  { id: 'zoom', text: 'Zoom', level: 2 },
+  { id: 'floating', text: 'Floating Panes', level: 2 },
+  { id: 'history', text: 'Undo / Redo', level: 2 },
+  { id: 'closing', text: 'Closing', level: 2 },
+];
+---
+
+<Docs title="Panes & Splits" toc={toc}>
+  <h2 id="splitting">Splitting</h2>
+  <p>Split the focused pane into two:</p>
+  <ul>
+    <li><kbd>Ctrl+Shift+D</kbd> — Split right (vertical divider)</li>
+    <li><kbd>Ctrl+Shift+E</kbd> — Split down (horizontal divider)</li>
+  </ul>
+  <p>New panes inherit the working directory of the pane they were split from. Splits can be nested to any depth — split a split, split that split again.</p>
+
+  <h2 id="navigation">Navigation</h2>
+  <p>Move focus between panes spatially:</p>
+  <ul>
+    <li><kbd>Alt+Left</kbd> / <kbd>Alt+Right</kbd> / <kbd>Alt+Up</kbd> / <kbd>Alt+Down</kbd> — Focus by direction</li>
+    <li><kbd>Alt+]</kbd> / <kbd>Alt+[</kbd> — Cycle through panes in order</li>
+  </ul>
+  <p>The focused pane has an accent-colored border. Unfocused panes are dimmed slightly.</p>
+
+  <h2 id="resizing">Resizing</h2>
+  <ul>
+    <li><kbd>Alt+Shift+Arrow</kbd> — Resize the focused pane in a direction</li>
+    <li><kbd>Ctrl+Shift+=</kbd> — Equalize all pane sizes</li>
+    <li><strong>Mouse drag</strong> — Drag any divider to resize (5px hit zone)</li>
+  </ul>
+  <p>Content reflows to fit the new pane size as you resize.</p>
+
+  <h2 id="zoom">Zoom</h2>
+  <p>Press <kbd>Ctrl+Shift+Z</kbd> to zoom the focused pane to fill the entire tab. Press again to unzoom and return to the split layout. While zoomed, all other panes are hidden but remain running.</p>
+
+  <h2 id="floating">Floating Panes</h2>
+  <p>Floating panes overlay the split tree. They can be dragged, resized, and stacked:</p>
+  <ul>
+    <li><kbd>Ctrl+Shift+F</kbd> — Create or toggle a floating pane</li>
+    <li><kbd>Ctrl+Shift+G</kbd> — Move the focused pane between floating and tiled</li>
+  </ul>
+  <p>Floating panes snap to edges and enforce minimum dimensions. They have proper z-ordering — click a floating pane to raise it.</p>
+
+  <h2 id="history">Undo / Redo</h2>
+  <p>Every split, close, and layout change is recorded:</p>
+  <ul>
+    <li><kbd>Ctrl+Shift+U</kbd> — Undo the last layout change</li>
+    <li><kbd>Ctrl+Shift+Y</kbd> — Redo</li>
+  </ul>
+  <p>The full history of split tree states is preserved for the session lifetime.</p>
+
+  <h2 id="closing">Closing</h2>
+  <p><kbd>Ctrl+W</kbd> closes the focused pane. The split tree collapses automatically — the remaining panes expand to fill the space. If it's the last pane in a tab, the tab closes.</p>
+</Docs>

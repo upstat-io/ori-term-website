@@ -1,0 +1,43 @@
+---
+import Docs from '../../layouts/Docs.astro';
+
+const toc = [
+  { id: 'overview', text: 'Overview', level: 2 },
+  { id: 'auto-start', text: 'Auto-Start', level: 2 },
+  { id: 'persistence', text: 'Session Persistence', level: 2 },
+  { id: 'crash-recovery', text: 'Crash Recovery', level: 2 },
+  { id: 'multi-client', text: 'Multi-Client', level: 2 },
+  { id: 'managing', text: 'Managing the Daemon', level: 2 },
+];
+---
+
+<Docs title="Daemon & Sessions" toc={toc}>
+  <h2 id="overview">Overview</h2>
+  <p>ori-term keeps your shell sessions running in a background process, separate from the window. Close the window -- your sessions keep running. Reopen ori-term -- pick up where you left off. This is similar to tmux's client-server model, but built right into the terminal.</p>
+
+  <h2 id="auto-start">Auto-Start</h2>
+  <p>The background process starts automatically when you launch ori-term. If one is already running, the window connects to it instead of starting a new one. No manual management needed for normal use.</p>
+  <p>For sandboxed environments where a background process is not possible, ori-term falls back to single-process mode automatically.</p>
+
+  <h2 id="persistence">Session Persistence</h2>
+  <p>Your workspace is auto-saved every 30 seconds:</p>
+  <ul>
+    <li>Window positions and sizes</li>
+    <li>Tab order and names</li>
+    <li>Pane layout and split arrangement</li>
+    <li>Working directories</li>
+  </ul>
+  <p>Session data is written safely to prevent corruption from unexpected shutdowns.</p>
+
+  <h2 id="crash-recovery">Crash Recovery</h2>
+  <p>If the window or background process terminates unexpectedly, ori-term detects it on next launch and offers to restore your session. Your shell processes continue running -- only the window connection was lost.</p>
+
+  <h2 id="multi-client">Multi-Client</h2>
+  <p>Multiple windows can connect to the same background process simultaneously. All windows see the same session state. Changes made in one window are reflected in all others.</p>
+
+  <h2 id="managing">Managing the Daemon</h2>
+  <p>For advanced use cases, the background process supports command-line flags:</p>
+  <pre><code>ori-term --daemon       # Start background process manually
+ori-term --stop         # Stop the running background process
+ori-term --persist      # Keep sessions alive after last window closes</code></pre>
+</Docs>
