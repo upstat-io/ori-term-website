@@ -79,6 +79,18 @@
     border-top: var(--border-weight) solid var(--border);
   }
 
+  .footer-bottom > * {
+    flex: 1;
+  }
+
+  .footer-bottom > :nth-child(2) {
+    text-align: center;
+  }
+
+  .footer-bottom > :last-child {
+    text-align: right;
+  }
+
   .muted {
     color: var(--text-muted);
   }

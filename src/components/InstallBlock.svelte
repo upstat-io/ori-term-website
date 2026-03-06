@@ -3,7 +3,7 @@
 
   let copied = $state(false);
 
-  const command = 'cargo install ori-term';
+  const command = 'echo "coming soon"';
 
   async function copy() {
     try {

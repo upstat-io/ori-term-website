@@ -63,6 +63,5 @@
 <style>
   .glitch-text {
     position: relative;
-    display: inline-block;
   }
 </style>
