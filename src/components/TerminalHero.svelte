@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
 
   type Platform = 'macos' | 'windows' | 'linux';
+  type Phase = 'idle' | 'glitching' | 'shutdown' | 'dead';
 
   const lines = [
     { prompt: '~/projects', cmd: 'ori-term --version', delay: 0 },
@@ -15,6 +16,91 @@
   let cursorLine = $state<number>(0);
   let platform = $state<Platform>('linux');
 
+  let phase = $state<Phase>('idle');
+  let glitchLines = $state<string[]>([]);
+  let tearBars = $state<{ id: number; y: number; h: number; color: string; opacity: number }[]>([]);
+  let sparks = $state<{ id: number; x: number; y: number; dx: number; dy: number; size: number; color: string }[]>([]);
+  let tabLabel = $state('zsh');
+
+  const G = '!@#$%^&*░▒▓█▄▀■□▪▫╔╗╚╝║═╬┼├┤┬┴▲▼◄►';
+  const sparkColors = ['#00ff41', '#ff5f57', '#3b8eea', '#febc2e', '#fff'];
+  const errorMsgs = [
+    'SEGFAULT AT 0x00000000',
+    'KERNEL PANIC — NOT SYNCING',
+    'FATAL: MEMORY CORRUPTION',
+    'ERR: STACK OVERFLOW',
+    'CRITICAL: GPU PIPE DESTROYED',
+    'FAULT 0xDEADBEEF',
+    'ABORT: BUFFER OVERRUN',
+    'ILLEGAL INSTRUCTION',
+    '*** PROCESS TERMINATED ***',
+  ];
+
+  function rc() { return G[Math.floor(Math.random() * G.length)]; }
+  function rline() {
+    if (Math.random() < 0.15) return errorMsgs[Math.floor(Math.random() * errorMsgs.length)];
+    return Array.from({ length: 15 + Math.floor(Math.random() * 50) }, rc).join('');
+  }
+
+  function triggerDestroy() {
+    if (phase !== 'idle') return;
+    phase = 'glitching';
+
+    const contentInterval = setInterval(() => {
+      glitchLines = Array.from({ length: 3 + Math.floor(Math.random() * 12) }, rline);
+      tabLabel = Array.from({ length: 3 }, rc).join('');
+    }, 40);
+
+    const tearInterval = setInterval(() => {
+      tearBars = Array.from({ length: 2 + Math.floor(Math.random() * 6) }, (_, i) => ({
+        id: Date.now() + i,
+        y: Math.random() * 100,
+        h: 1 + Math.random() * 6,
+        color: sparkColors[Math.floor(Math.random() * sparkColors.length)],
+        opacity: 0.2 + Math.random() * 0.8,
+      }));
+    }, 60);
+
+    let sparkId = 0;
+    const sparkInterval = setInterval(() => {
+      const batch = Array.from({ length: 3 + Math.floor(Math.random() * 5) }, () => {
+        const angle = Math.random() * Math.PI * 2;
+        const dist = 80 + Math.random() * 250;
+        return {
+          id: sparkId++,
+          x: 10 + Math.random() * 80,
+          y: 10 + Math.random() * 80,
+          dx: Math.cos(angle) * dist,
+          dy: Math.sin(angle) * dist,
+          size: 2 + Math.random() * 5,
+          color: sparkColors[Math.floor(Math.random() * sparkColors.length)],
+        };
+      });
+      sparks = [...sparks.slice(-40), ...batch];
+    }, 70);
+
+    setTimeout(() => {
+      clearInterval(contentInterval);
+      clearInterval(tearInterval);
+      clearInterval(sparkInterval);
+      tearBars = [];
+      sparks = [];
+      phase = 'shutdown';
+      setTimeout(() => { phase = 'dead'; }, 800);
+    }, 2000);
+  }
+
+  function reboot() {
+    phase = 'idle';
+    tabLabel = 'zsh';
+    glitchLines = [];
+    visibleLines = 0;
+    typedChars = 0;
+    currentlyTyping = false;
+    cursorLine = 0;
+    startTyping();
+  }
+
   function detectPlatform(): Platform {
     const ua = navigator.userAgent.toLowerCase();
     if (ua.includes('mac')) return 'macos';
@@ -22,18 +108,15 @@
     return 'linux';
   }
 
-  function getCurrentLine() {
-    return lines[visibleLines];
-  }
-
   function getCurrentCmd() {
-    const line = getCurrentLine();
+    const line = lines[visibleLines];
     if (!line) return '';
     return line.cmd.slice(0, typedChars);
   }
 
-  onMount(() => {
-    platform = detectPlatform();
+  let cleanupTyping: (() => void) | undefined;
+
+  function startTyping() {
     let timeout: ReturnType<typeof setTimeout>;
 
     function typeLine(lineIndex: number) {
@@ -77,67 +160,114 @@
     }
 
     typeLine(0);
+    cleanupTyping = () => clearTimeout(timeout);
+  }
 
-    return () => clearTimeout(timeout);
+  onMount(() => {
+    platform = detectPlatform();
+    startTyping();
+    return () => cleanupTyping?.();
   });
 </script>
 
 <section class="hero" aria-label="Terminal hero">
-  <div class="terminal-window">
-    <div class="title-bar" class:macos={platform === 'macos'} class:windows={platform === 'windows'} class:linux={platform === 'linux'}>
-      {#if platform === 'macos'}
-        <div class="traffic-lights">
-          <span class="tl close"></span>
-          <span class="tl minimize"></span>
-          <span class="tl maximize"></span>
-        </div>
-      {/if}
-
-      <div class="tabs">
-        <div class="tab active">
-          <span class="tab-label">zsh</span>
-          <span class="tab-close">×</span>
-        </div>
-        <button class="tab-new" aria-label="New tab">+</button>
-      </div>
-
-      {#if platform !== 'macos'}
-        <div class="window-controls" class:gtk={platform === 'linux'}>
-          <button class="wc minimize" aria-label="Minimize">
-            <svg viewBox="0 0 12 12" fill="none"><path d="M1 6h10" stroke="currentColor" stroke-width="1"/></svg>
-          </button>
-          <button class="wc maximize" aria-label="Maximize">
-            <svg viewBox="0 0 12 12" fill="none"><rect x="1.5" y="1.5" width="9" height="9" stroke="currentColor" stroke-width="1"/></svg>
-          </button>
-          <button class="wc close" aria-label="Close">
-            <svg viewBox="0 0 12 12" fill="none"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1"/></svg>
-          </button>
-        </div>
-      {/if}
-    </div>
-    <div class="terminal-body">
-      {#each lines as line, i}
-        {#if i <= visibleLines}
-          <div class="line" class:output={line.isOutput}>
-            {#if !line.isOutput && line.prompt}
-              <span class="prompt">{line.prompt}</span>
-              <span class="separator">❯</span>
-            {/if}
-            <span class="cmd">
-              {#if i === visibleLines}
-                {getCurrentCmd()}
-              {:else}
-                {line.cmd}
-              {/if}
-            </span>
-            {#if i === cursorLine && (currentlyTyping || i === lines.length - 1)}
-              <span class="cursor"></span>
-            {/if}
+  {#if phase !== 'dead'}
+    <div
+      class="terminal-window"
+      class:glitching={phase === 'glitching'}
+      class:shutdown={phase === 'shutdown'}
+    >
+      <div class="title-bar">
+        {#if platform === 'macos'}
+          <div class="traffic-lights">
+            <button class="tl close" aria-label="Close" onclick={triggerDestroy}></button>
+            <span class="tl minimize"></span>
+            <span class="tl maximize"></span>
           </div>
         {/if}
+
+        <div class="tabs">
+          <div class="tab active">
+            <span class="tab-label">{tabLabel}</span>
+            <span class="tab-close">&#xd7;</span>
+          </div>
+          <button class="tab-new" aria-label="New tab">+</button>
+        </div>
+
+        {#if platform !== 'macos'}
+          <div class="window-controls" class:gtk={platform === 'linux'}>
+            <button class="wc" aria-label="Minimize">
+              <svg viewBox="0 0 12 12" fill="none"><path d="M1 6h10" stroke="currentColor" stroke-width="1"/></svg>
+            </button>
+            <button class="wc" aria-label="Maximize">
+              <svg viewBox="0 0 12 12" fill="none"><rect x="1.5" y="1.5" width="9" height="9" stroke="currentColor" stroke-width="1"/></svg>
+            </button>
+            <button class="wc close" aria-label="Close" onclick={triggerDestroy}>
+              <svg viewBox="0 0 12 12" fill="none"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1"/></svg>
+            </button>
+          </div>
+        {/if}
+      </div>
+
+      <div class="terminal-body">
+        {#if phase === 'idle'}
+          {#each lines as line, i}
+            {#if i <= visibleLines}
+              <div class="line" class:output={line.isOutput}>
+                {#if !line.isOutput && line.prompt}
+                  <span class="prompt">{line.prompt}</span>
+                  <span class="separator">&#x276f;</span>
+                {/if}
+                <span class="cmd">
+                  {#if i === visibleLines}
+                    {getCurrentCmd()}
+                  {:else}
+                    {line.cmd}
+                  {/if}
+                </span>
+                {#if i === cursorLine && (currentlyTyping || i === lines.length - 1)}
+                  <span class="cursor"></span>
+                {/if}
+              </div>
+            {/if}
+          {/each}
+        {:else}
+          {#each glitchLines as gline, i}
+            <div class="glitch-line" class:error={gline === gline.toUpperCase() && gline.length < 40} style="--gi: {i}">
+              {gline}
+            </div>
+          {/each}
+        {/if}
+      </div>
+
+      {#each tearBars as bar (bar.id)}
+        <div
+          class="tear-bar"
+          style="top: {bar.y}%; height: {bar.h}px; background: {bar.color}; opacity: {bar.opacity};"
+        ></div>
+      {/each}
+
+      {#each sparks as spark (spark.id)}
+        <div
+          class="spark"
+          style="
+            left: {spark.x}%;
+            top: {spark.y}%;
+            --dx: {spark.dx}px;
+            --dy: {spark.dy}px;
+            width: {spark.size}px;
+            height: {spark.size}px;
+            background: {spark.color};
+          "
+        ></div>
       {/each}
     </div>
-  </div>
+  {:else}
+    <button class="dead-zone" onclick={reboot} aria-label="Reboot terminal">
+      <span class="dead-text">// SIGNAL LOST</span>
+      <span class="dead-sub">[ click to reboot ]</span>
+    </button>
+  {/if}
 </section>
 
 <style>
@@ -153,6 +283,178 @@
     max-width: 720px;
     border: var(--border-weight) solid var(--border-strong);
     background: var(--bg);
+    position: relative;
+    overflow: visible;
+  }
+
+  /* ── Glitching state ── */
+
+  .terminal-window.glitching {
+    animation:
+      terminalShake 0.08s steps(1) infinite,
+      borderGlitch 0.12s steps(1) infinite;
+  }
+
+  .terminal-window.glitching .terminal-body {
+    animation: rgbSplit 0.1s steps(1) infinite;
+    overflow: hidden;
+  }
+
+  .terminal-window.glitching .title-bar {
+    animation: barFlicker 0.15s steps(1) infinite;
+  }
+
+  /* ── Shutdown state ── */
+
+  .terminal-window.shutdown {
+    animation: crtShutdown 0.8s ease-in forwards;
+    pointer-events: none;
+  }
+
+  @keyframes terminalShake {
+    0%   { transform: translate(0, 0) skew(0); }
+    10%  { transform: translate(-8px, 5px) skew(-2.5deg); }
+    20%  { transform: translate(10px, -3px) skew(1.8deg); }
+    30%  { transform: translate(-5px, -8px) skew(-1.2deg); }
+    40%  { transform: translate(12px, 4px) skew(3deg); }
+    50%  { transform: translate(-10px, 6px) skew(-2deg); }
+    60%  { transform: translate(6px, -10px) skew(1deg); }
+    70%  { transform: translate(-12px, -3px) skew(-3deg); }
+    80%  { transform: translate(8px, 8px) skew(2deg); }
+    90%  { transform: translate(-4px, -6px) skew(-0.8deg); }
+    100% { transform: translate(7px, -2px) skew(1.5deg); }
+  }
+
+  @keyframes borderGlitch {
+    0%   { border-color: var(--border-strong); }
+    20%  { border-color: #ff5f57; }
+    40%  { border-color: #00ff41; }
+    60%  { border-color: #3b8eea; }
+    80%  { border-color: #febc2e; }
+    100% { border-color: var(--border-strong); }
+  }
+
+  @keyframes rgbSplit {
+    0%   { text-shadow: -2px 0 #ff0000, 2px 0 #00ffff; }
+    25%  { text-shadow: -5px 0 #ff0000, 5px 0 #00ffff; }
+    50%  { text-shadow: -3px 2px #ff0000, 3px -2px #00ffff; }
+    75%  { text-shadow: -6px -1px #ff0000, 6px 1px #00ffff; }
+    100% { text-shadow: -2px 0 #ff0000, 2px 0 #00ffff; }
+  }
+
+  @keyframes barFlicker {
+    0%   { opacity: 1; background: var(--bg-raised); }
+    15%  { opacity: 0.2; background: #ff5f57; }
+    30%  { opacity: 1; background: var(--bg-raised); }
+    45%  { opacity: 0.6; background: var(--bg-raised); }
+    60%  { opacity: 0; }
+    65%  { opacity: 1; background: #3b8eea; }
+    75%  { opacity: 1; background: var(--bg-raised); }
+    90%  { opacity: 0.3; }
+    100% { opacity: 1; background: var(--bg-raised); }
+  }
+
+  @keyframes crtShutdown {
+    0%   { transform: scale(1, 1); filter: brightness(1); opacity: 1; }
+    10%  { filter: brightness(3); }
+    40%  { transform: scale(1.02, 0.008); filter: brightness(2.5); opacity: 1; }
+    70%  { transform: scale(0.15, 0.005); filter: brightness(4); opacity: 0.9; }
+    90%  { transform: scale(0.02, 0.005); filter: brightness(6); opacity: 0.6; }
+    100% { transform: scale(0, 0); filter: brightness(0); opacity: 0; }
+  }
+
+  /* ── Glitch content lines ── */
+
+  .glitch-line {
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: clamp(0.75rem, 1.8vw, 0.95rem);
+    line-height: 1.6;
+    color: var(--accent);
+  }
+
+  .glitch-line.error {
+    color: #ff5f57;
+    font-weight: 700;
+  }
+
+  .glitch-line:nth-child(3n) {
+    color: #3b8eea;
+  }
+
+  .glitch-line:nth-child(5n) {
+    color: #febc2e;
+  }
+
+  .glitch-line:nth-child(7n+2) {
+    color: var(--text-bright);
+  }
+
+  /* ── Tear bars ── */
+
+  .tear-bar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    pointer-events: none;
+    z-index: 10;
+    mix-blend-mode: screen;
+  }
+
+  /* ── Sparks ── */
+
+  .spark {
+    position: absolute;
+    pointer-events: none;
+    z-index: 20;
+    animation: sparkFly 0.5s ease-out forwards;
+  }
+
+  @keyframes sparkFly {
+    from {
+      transform: translate(0, 0);
+      opacity: 1;
+    }
+    to {
+      transform: translate(var(--dx), var(--dy));
+      opacity: 0;
+    }
+  }
+
+  /* ── Dead state ── */
+
+  .dead-zone {
+    width: 100%;
+    max-width: 720px;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: none;
+    border: var(--border-weight) dashed var(--border);
+    cursor: pointer;
+    font-family: inherit;
+    padding: 0;
+  }
+
+  .dead-text {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    letter-spacing: 0.2em;
+    animation: deadBlink 1s steps(1) infinite;
+  }
+
+  .dead-sub {
+    font-size: 0.65rem;
+    color: var(--border-strong);
+    letter-spacing: 0.15em;
+  }
+
+  @keyframes deadBlink {
+    0%   { opacity: 1; }
+    50%  { opacity: 0; }
   }
 
   /* ── Title bar ── */
@@ -180,6 +482,12 @@
     width: 12px;
     height: 12px;
     border: var(--border-weight) solid var(--border-strong);
+  }
+
+  button.tl {
+    cursor: pointer;
+    padding: 0;
+    font: inherit;
   }
 
   .tl.close { background: #ff5f57; }
@@ -271,12 +579,15 @@
     height: 10px;
   }
 
+  .wc.close {
+    cursor: pointer;
+  }
+
   .wc.close:hover {
     background: #c42b1c;
     color: #fff;
   }
 
-  /* GTK style — smaller, closer together */
   .window-controls.gtk .wc {
     width: 36px;
   }
