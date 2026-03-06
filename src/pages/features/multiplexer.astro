@@ -1,5 +1,6 @@
 ---
 import Feature from '../../layouts/Feature.astro';
+import { keys } from '../../lib/keybindings';
 ---
 
 <Feature
@@ -9,38 +10,38 @@ import Feature from '../../layouts/Feature.astro';
   <h2>Pane Splits</h2>
   <p>Split any pane horizontally or vertically to run multiple shells side by side. Splits can be nested as deep as you like.</p>
   <ul>
-    <li><kbd>Ctrl+Shift+D</kbd> -- Split right</li>
-    <li><kbd>Ctrl+Shift+E</kbd> -- Split down</li>
-    <li><kbd>Alt+Arrow</kbd> -- Focus pane by direction</li>
-    <li><kbd>Alt+Shift+Arrow</kbd> -- Resize pane</li>
-    <li><kbd>Ctrl+Shift+=</kbd> -- Equalize all panes</li>
-    <li><kbd>Ctrl+Shift+Z</kbd> -- Zoom/unzoom focused pane</li>
+    <li><kbd>{keys.splitRight}</kbd> -- Split right</li>
+    <li><kbd>{keys.splitDown}</kbd> -- Split down</li>
+    <li><kbd>{keys.focusPaneDir}</kbd> -- Focus pane by direction</li>
+    <li><kbd>{keys.resizePane}</kbd> -- Resize pane</li>
+    <li><kbd>{keys.equalizePanes}</kbd> -- Equalize all panes</li>
+    <li><kbd>{keys.zoomPane}</kbd> -- Zoom/unzoom focused pane</li>
   </ul>
-  <p>Dividers are draggable. Close a pane with <kbd>Ctrl+W</kbd> and the remaining panes expand to fill the space.</p>
+  <p>Dividers are draggable. Close a pane with <kbd>{keys.closePane}</kbd> and the remaining panes expand to fill the space.</p>
 
   <h2>Floating Panes</h2>
   <p>Any pane can become a floating overlay that sits on top of your splits. Drag, resize, and stack floating panes freely. Toggle between floating and tiled with a single keystroke.</p>
   <ul>
-    <li><kbd>Ctrl+Shift+F</kbd> -- Toggle floating pane</li>
-    <li><kbd>Ctrl+Shift+G</kbd> -- Move pane between floating and tiled</li>
+    <li><kbd>{keys.toggleFloating}</kbd> -- Toggle floating pane</li>
+    <li><kbd>{keys.floatTileToggle}</kbd> -- Move pane between floating and tiled</li>
   </ul>
   <p>Floating panes snap to edges and enforce minimum dimensions.</p>
 
   <h2>Undo / Redo Layout</h2>
   <p>Every split, close, and layout change is recorded. Made a mistake? Just undo it.</p>
   <ul>
-    <li><kbd>Ctrl+Shift+U</kbd> -- Undo last split/close</li>
-    <li><kbd>Ctrl+Shift+Y</kbd> -- Redo</li>
+    <li><kbd>{keys.undoSplit}</kbd> -- Undo last split/close</li>
+    <li><kbd>{keys.redoSplit}</kbd> -- Redo</li>
   </ul>
   <p>The full history of your layout changes is preserved for the session.</p>
 
   <h2>Tabs</h2>
   <p>Chrome-style tab management. Tabs can be torn off into new windows, dragged back in, and reordered with smooth animation.</p>
   <ul>
-    <li><kbd>Ctrl+T</kbd> -- New tab</li>
-    <li><kbd>Ctrl+W</kbd> -- Close tab</li>
-    <li><kbd>Ctrl+Tab</kbd> / <kbd>Ctrl+Shift+Tab</kbd> -- Next/previous tab</li>
-    <li><kbd>Ctrl+Shift+T</kbd> -- Undo close tab (restores working directory)</li>
+    <li><kbd>{keys.newTab}</kbd> -- New tab</li>
+    <li><kbd>{keys.closeTab}</kbd> -- Close tab</li>
+    <li><kbd>{keys.nextTab}</kbd> / <kbd>{keys.prevTab}</kbd> -- Next/previous tab</li>
+    <li><kbd>{keys.undoCloseTab}</kbd> -- Undo close tab (restores working directory)</li>
   </ul>
   <p>Hover over a tab to see a live thumbnail preview of its content.</p>
 

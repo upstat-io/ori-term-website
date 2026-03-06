@@ -1,5 +1,6 @@
 ---
 import Feature from '../../layouts/Feature.astro';
+import { keys } from '../../lib/keybindings';
 ---
 
 <Feature
@@ -26,5 +27,5 @@ import Feature from '../../layouts/Feature.astro';
   <p>When your font family does not include a bold or italic variant, ori-term synthesizes them automatically. You always get styled text, even with incomplete font families.</p>
 
   <h2>Font Size</h2>
-  <p>Adjust font size on the fly with <kbd>Ctrl+=</kbd> and <kbd>Ctrl+-</kbd>. Text stays crisp at any size thanks to DPI-aware rendering. Reset to default with <kbd>Ctrl+0</kbd>.</p>
+  <p>Adjust font size on the fly with <kbd>{keys.fontLarger}</kbd> and <kbd>{keys.fontSmaller}</kbd>. Text stays crisp at any size thanks to DPI-aware rendering. Reset to default with <kbd>{keys.fontReset}</kbd>.</p>
 </Feature>

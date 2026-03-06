@@ -1,0 +1,38 @@
+---
+import Feature from '../../layouts/Feature.astro';
+---
+
+<Feature
+  title="SCRIPTING"
+  subtitle="Lua event hooks, custom commands, and WGSL post-processing shaders."
+>
+  <h2>Lua Scripting</h2>
+  <p>ori-term embeds a Lua scripting engine that lets you extend the terminal with your own logic. Hook into events, define custom commands, and automate workflows without modifying ori-term itself.</p>
+
+  <h3>Event Hooks</h3>
+  <p>Hook into terminal events to run custom logic whenever something happens -- a tab opens, a command finishes, focus changes, or any other lifecycle event.</p>
+  <ul>
+    <li><code>oriterm.on</code> -- register a callback for any terminal event</li>
+  </ul>
+
+  <h3>Custom Commands</h3>
+  <p>Define your own commands that are accessible from the command palette. Add project-specific shortcuts, workflow automations, or anything else you need.</p>
+
+  <h3>Full API</h3>
+  <p>The scripting API exposes core terminal operations:</p>
+  <ul>
+    <li><code>oriterm.on</code> -- subscribe to terminal events</li>
+    <li><code>oriterm.new_tab</code> -- open a new tab programmatically</li>
+    <li><code>oriterm.send_text</code> -- send text to the active pane</li>
+    <li>And more -- the API surface covers tabs, panes, configuration, and event handling</li>
+  </ul>
+
+  <h2>Custom Shaders</h2>
+  <p>ori-term supports WGSL post-processing shaders applied as a full-screen pass on the GPU. Write your own visual effects or use built-in presets.</p>
+  <ul>
+    <li><strong>CRT scanlines</strong> -- simulate a CRT monitor with scanline overlay</li>
+    <li><strong>Bloom</strong> -- add a glow effect to bright text and UI elements</li>
+    <li><strong>Custom effects</strong> -- write any WGSL shader and apply it as a post-processing pass</li>
+  </ul>
+  <p>Shaders run entirely on the GPU with zero impact on terminal throughput. The post-processing pipeline composites your effect over the final rendered frame.</p>
+</Feature>

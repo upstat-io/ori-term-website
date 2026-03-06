@@ -1,5 +1,6 @@
 ---
 import Feature from '../../layouts/Feature.astro';
+import { keys } from '../../lib/keybindings';
 ---
 
 <Feature
@@ -17,7 +18,7 @@ import Feature from '../../layouts/Feature.astro';
   </ul>
 
   <h2>Hot Reload</h2>
-  <p>A file watcher monitors your config. Save the file and changes apply immediately -- no restart needed. You can also trigger a reload manually with <kbd>Ctrl+Shift+R</kbd>.</p>
+  <p>A file watcher monitors your config. Save the file and changes apply immediately -- no restart needed. You can also trigger a reload manually with <kbd>{keys.reloadConfig}</kbd>.</p>
 
   <h2>What You Can Configure</h2>
   <ul>

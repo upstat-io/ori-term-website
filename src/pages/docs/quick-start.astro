@@ -1,5 +1,6 @@
 ---
 import Docs from '../../layouts/Docs.astro';
+import { keys } from '../../lib/keybindings';
 
 const toc = [
   { id: 'first-launch', text: 'First Launch', level: 2 },
@@ -27,37 +28,37 @@ const toc = [
       </tr>
     </thead>
     <tbody>
-      <tr><td>New tab</td><td><kbd>Ctrl+T</kbd></td></tr>
-      <tr><td>Close pane/tab</td><td><kbd>Ctrl+W</kbd></td></tr>
-      <tr><td>Split right</td><td><kbd>Ctrl+Shift+D</kbd></td></tr>
-      <tr><td>Split down</td><td><kbd>Ctrl+Shift+E</kbd></td></tr>
-      <tr><td>Focus pane</td><td><kbd>Alt+Arrow</kbd></td></tr>
-      <tr><td>Next tab</td><td><kbd>Ctrl+Tab</kbd></td></tr>
-      <tr><td>Previous tab</td><td><kbd>Ctrl+Shift+Tab</kbd></td></tr>
-      <tr><td>Search</td><td><kbd>Ctrl+F</kbd></td></tr>
-      <tr><td>Font larger</td><td><kbd>Ctrl+=</kbd></td></tr>
-      <tr><td>Font smaller</td><td><kbd>Ctrl+-</kbd></td></tr>
-      <tr><td>Reload config</td><td><kbd>Ctrl+Shift+R</kbd></td></tr>
+      <tr><td>New tab</td><td><kbd>{keys.newTab}</kbd></td></tr>
+      <tr><td>Close pane/tab</td><td><kbd>{keys.closePane}</kbd></td></tr>
+      <tr><td>Split right</td><td><kbd>{keys.splitRight}</kbd></td></tr>
+      <tr><td>Split down</td><td><kbd>{keys.splitDown}</kbd></td></tr>
+      <tr><td>Focus pane</td><td><kbd>{keys.focusPaneDir}</kbd></td></tr>
+      <tr><td>Next tab</td><td><kbd>{keys.nextTab}</kbd></td></tr>
+      <tr><td>Previous tab</td><td><kbd>{keys.prevTab}</kbd></td></tr>
+      <tr><td>Search</td><td><kbd>{keys.openSearch}</kbd></td></tr>
+      <tr><td>Font larger</td><td><kbd>{keys.fontLarger}</kbd></td></tr>
+      <tr><td>Font smaller</td><td><kbd>{keys.fontSmaller}</kbd></td></tr>
+      <tr><td>Reload config</td><td><kbd>{keys.reloadConfig}</kbd></td></tr>
     </tbody>
   </table>
   <p>See <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/docs/keybindings`}>Keybindings</a> for the complete reference.</p>
 
   <h2 id="splits">Your First Split</h2>
-  <p>Press <kbd>Ctrl+Shift+D</kbd> to split the current pane to the right. You now have two panes side by side, each running your shell. Navigate between them with <kbd>Alt+Left</kbd> and <kbd>Alt+Right</kbd>.</p>
-  <p>Press <kbd>Ctrl+Shift+E</kbd> to split down. Resize with <kbd>Alt+Shift+Arrow</kbd>. Close a pane with <kbd>Ctrl+W</kbd> — the remaining panes expand to fill the space.</p>
+  <p>Press <kbd>{keys.splitRight}</kbd> to split the current pane to the right. You now have two panes side by side, each running your shell. Navigate between them with <kbd>{keys.focusLeft}</kbd> and <kbd>{keys.focusRight}</kbd>.</p>
+  <p>Press <kbd>{keys.splitDown}</kbd> to split down. Resize with <kbd>{keys.resizePane}</kbd>. Close a pane with <kbd>{keys.closePane}</kbd> — the remaining panes expand to fill the space.</p>
 
   <h2 id="tabs">Tabs</h2>
-  <p>Press <kbd>Ctrl+T</kbd> for a new tab. Each tab has its own split tree. Switch between tabs with <kbd>Ctrl+Tab</kbd> and <kbd>Ctrl+Shift+Tab</kbd>, or click the tab bar.</p>
-  <p>Accidentally closed a tab? <kbd>Ctrl+Shift+T</kbd> restores it with the working directory preserved.</p>
+  <p>Press <kbd>{keys.newTab}</kbd> for a new tab. Each tab has its own split tree. Switch between tabs with <kbd>{keys.nextTab}</kbd> and <kbd>{keys.prevTab}</kbd>, or click the tab bar.</p>
+  <p>Accidentally closed a tab? <kbd>{keys.undoCloseTab}</kbd> restores it with the working directory preserved.</p>
 
   <h2 id="font-size">Font Size</h2>
-  <p>Adjust on the fly with <kbd>Ctrl+=</kbd> to increase and <kbd>Ctrl+-</kbd> to decrease. The terminal reflows content to fit the new cell size.</p>
+  <p>Adjust on the fly with <kbd>{keys.fontLarger}</kbd> to increase and <kbd>{keys.fontSmaller}</kbd> to decrease. The terminal reflows content to fit the new cell size.</p>
 
   <h2 id="search">Search</h2>
-  <p><kbd>Ctrl+F</kbd> opens the search bar. Type your query and matches highlight across the viewport and scrollback. Press <kbd>Enter</kbd> to jump to the next match, <kbd>Shift+Enter</kbd> for previous. <kbd>Esc</kbd> to close.</p>
+  <p><kbd>{keys.openSearch}</kbd> opens the search bar. Type your query and matches highlight across the viewport and scrollback. Press <kbd>{keys.nextMatch}</kbd> to jump to the next match, <kbd>{keys.prevMatch}</kbd> for previous. <kbd>{keys.closeSearch}</kbd> to close.</p>
 
   <h2 id="copy-paste">Copy & Paste</h2>
-  <p>Select text by clicking and dragging. Double-click to select a word, triple-click for a line. Copy with <kbd>Ctrl+Shift+C</kbd> (or enable copy-on-select in config). Paste with <kbd>Ctrl+Shift+V</kbd>.</p>
+  <p>Select text by clicking and dragging. Double-click to select a word, triple-click for a line. Copy with <kbd>{keys.copy}</kbd> (or enable copy-on-select in config). Paste with <kbd>{keys.paste}</kbd>.</p>
 
   <h2 id="next-steps">Next Steps</h2>
   <ul>

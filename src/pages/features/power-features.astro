@@ -1,0 +1,48 @@
+---
+import Feature from '../../layouts/Feature.astro';
+import { keys } from '../../lib/keybindings';
+---
+
+<Feature
+  title="POWER FEATURES"
+  subtitle="Command palette, quick terminal, smart paste, and more productivity tools."
+>
+  <h2>Command Palette</h2>
+  <p>Press <kbd>{keys.commandPalette}</kbd> to open a fuzzy-search action picker. Every action in ori-term is accessible from the palette -- switch tabs, change themes, run scripts, toggle settings. Type to filter, arrow keys to select, enter to execute.</p>
+
+  <h2>Quick Terminal</h2>
+  <p>A global hotkey dropdown terminal in the style of Quake consoles. Press <kbd>{keys.quickTerminal}</kbd> from anywhere on your desktop to slide a terminal down from the top of the screen. Press again to dismiss. Always one keystroke away, no window switching required.</p>
+
+  <h2>Smart Paste</h2>
+  <p>ori-term protects you from accidental pastes that could cause damage:</p>
+  <ul>
+    <li><strong>Multi-line paste warning</strong> -- asks for confirmation before pasting content that spans multiple lines</li>
+    <li><strong>ESC sanitization</strong> -- strips escape characters from pasted text to prevent injection of terminal control sequences</li>
+    <li><strong>Large paste confirmation</strong> -- warns before pasting unusually large content</li>
+  </ul>
+
+  <h2>Undo Close Tab</h2>
+  <p>Press <kbd>{keys.undoCloseTab}</kbd> to restore a recently closed tab. The tab reopens with its original working directory intact. No more losing context because of an accidental close.</p>
+
+  <h2>Desktop Notifications</h2>
+  <p>ori-term supports native desktop notifications through standard escape sequences:</p>
+  <ul>
+    <li><strong>OSC 9</strong> -- basic notification with message text</li>
+    <li><strong>OSC 777</strong> -- notification with title and body</li>
+    <li><strong>OSC 99</strong> -- extended notification protocol</li>
+  </ul>
+  <p>Notifications use your platform's native toast system. Useful for long-running builds, test suites, or any background task that needs your attention.</p>
+
+  <h2>Progress Indicators</h2>
+  <p>Applications can report progress to ori-term via <code>OSC 9;4</code>, which displays as a taskbar progress bar on your OS. On Windows this uses the ITaskbarList3 API for native integration with the taskbar. See at a glance whether a build or download is still running.</p>
+
+  <h2>Terminal Inspector</h2>
+  <p>Press <kbd>{keys.terminalInspector}</kbd> to open a debug overlay that shows the escape sequence log. Inspect exactly what your shell and applications are sending to the terminal in real time. Invaluable for debugging shell prompts, TUI applications, and escape sequence issues.</p>
+
+  <h2>Session Serialization</h2>
+  <p>Save and restore full workspace layouts:</p>
+  <ul>
+    <li><strong>Workspace presets</strong> -- define named layouts with specific tab and pane arrangements, working directories, and startup commands</li>
+    <li><strong>Broadcast input</strong> -- send keystrokes to all panes simultaneously for parallel operations across multiple sessions</li>
+  </ul>
+</Feature>

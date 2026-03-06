@@ -1,5 +1,6 @@
 ---
 import Docs from '../../layouts/Docs.astro';
+import { keys } from '../../lib/keybindings';
 
 const toc = [
   { id: 'general', text: 'General', level: 2 },
@@ -17,10 +18,10 @@ const toc = [
   <table>
     <thead><tr><th>Action</th><th>Shortcut</th></tr></thead>
     <tbody>
-      <tr><td>Reload config</td><td><kbd>Ctrl+Shift+R</kbd></td></tr>
-      <tr><td>Font larger</td><td><kbd>Ctrl+=</kbd></td></tr>
-      <tr><td>Font smaller</td><td><kbd>Ctrl+-</kbd></td></tr>
-      <tr><td>Font reset</td><td><kbd>Ctrl+0</kbd></td></tr>
+      <tr><td>Reload config</td><td><kbd>{keys.reloadConfig}</kbd></td></tr>
+      <tr><td>Font larger</td><td><kbd>{keys.fontLarger}</kbd></td></tr>
+      <tr><td>Font smaller</td><td><kbd>{keys.fontSmaller}</kbd></td></tr>
+      <tr><td>Font reset</td><td><kbd>{keys.fontReset}</kbd></td></tr>
     </tbody>
   </table>
 
@@ -28,21 +29,21 @@ const toc = [
   <table>
     <thead><tr><th>Action</th><th>Shortcut</th></tr></thead>
     <tbody>
-      <tr><td>Split right</td><td><kbd>Ctrl+Shift+D</kbd></td></tr>
-      <tr><td>Split down</td><td><kbd>Ctrl+Shift+E</kbd></td></tr>
-      <tr><td>Close pane</td><td><kbd>Ctrl+W</kbd></td></tr>
-      <tr><td>Focus left</td><td><kbd>Alt+Left</kbd></td></tr>
-      <tr><td>Focus right</td><td><kbd>Alt+Right</kbd></td></tr>
-      <tr><td>Focus up</td><td><kbd>Alt+Up</kbd></td></tr>
-      <tr><td>Focus down</td><td><kbd>Alt+Down</kbd></td></tr>
-      <tr><td>Cycle panes</td><td><kbd>Alt+]</kbd> / <kbd>Alt+[</kbd></td></tr>
-      <tr><td>Resize pane</td><td><kbd>Alt+Shift+Arrow</kbd></td></tr>
-      <tr><td>Equalize panes</td><td><kbd>Ctrl+Shift+=</kbd></td></tr>
-      <tr><td>Zoom pane</td><td><kbd>Ctrl+Shift+Z</kbd></td></tr>
-      <tr><td>Toggle floating</td><td><kbd>Ctrl+Shift+F</kbd></td></tr>
-      <tr><td>Float ↔ tile</td><td><kbd>Ctrl+Shift+G</kbd></td></tr>
-      <tr><td>Undo split</td><td><kbd>Ctrl+Shift+U</kbd></td></tr>
-      <tr><td>Redo split</td><td><kbd>Ctrl+Shift+Y</kbd></td></tr>
+      <tr><td>Split right</td><td><kbd>{keys.splitRight}</kbd></td></tr>
+      <tr><td>Split down</td><td><kbd>{keys.splitDown}</kbd></td></tr>
+      <tr><td>Close pane</td><td><kbd>{keys.closePane}</kbd></td></tr>
+      <tr><td>Focus left</td><td><kbd>{keys.focusLeft}</kbd></td></tr>
+      <tr><td>Focus right</td><td><kbd>{keys.focusRight}</kbd></td></tr>
+      <tr><td>Focus up</td><td><kbd>{keys.focusUp}</kbd></td></tr>
+      <tr><td>Focus down</td><td><kbd>{keys.focusDown}</kbd></td></tr>
+      <tr><td>Cycle panes</td><td><kbd>{keys.cyclePanesForward}</kbd> / <kbd>{keys.cyclePanesBack}</kbd></td></tr>
+      <tr><td>Resize pane</td><td><kbd>{keys.resizePane}</kbd></td></tr>
+      <tr><td>Equalize panes</td><td><kbd>{keys.equalizePanes}</kbd></td></tr>
+      <tr><td>Zoom pane</td><td><kbd>{keys.zoomPane}</kbd></td></tr>
+      <tr><td>Toggle floating</td><td><kbd>{keys.toggleFloating}</kbd></td></tr>
+      <tr><td>Float ↔ tile</td><td><kbd>{keys.floatTileToggle}</kbd></td></tr>
+      <tr><td>Undo split</td><td><kbd>{keys.undoSplit}</kbd></td></tr>
+      <tr><td>Redo split</td><td><kbd>{keys.redoSplit}</kbd></td></tr>
     </tbody>
   </table>
 
@@ -50,11 +51,11 @@ const toc = [
   <table>
     <thead><tr><th>Action</th><th>Shortcut</th></tr></thead>
     <tbody>
-      <tr><td>New tab</td><td><kbd>Ctrl+T</kbd></td></tr>
-      <tr><td>Close tab</td><td><kbd>Ctrl+W</kbd></td></tr>
-      <tr><td>Next tab</td><td><kbd>Ctrl+Tab</kbd></td></tr>
-      <tr><td>Previous tab</td><td><kbd>Ctrl+Shift+Tab</kbd></td></tr>
-      <tr><td>Undo close tab</td><td><kbd>Ctrl+Shift+T</kbd></td></tr>
+      <tr><td>New tab</td><td><kbd>{keys.newTab}</kbd></td></tr>
+      <tr><td>Close tab</td><td><kbd>{keys.closeTab}</kbd></td></tr>
+      <tr><td>Next tab</td><td><kbd>{keys.nextTab}</kbd></td></tr>
+      <tr><td>Previous tab</td><td><kbd>{keys.prevTab}</kbd></td></tr>
+      <tr><td>Undo close tab</td><td><kbd>{keys.undoCloseTab}</kbd></td></tr>
     </tbody>
   </table>
 
@@ -62,8 +63,8 @@ const toc = [
   <table>
     <thead><tr><th>Action</th><th>Shortcut</th></tr></thead>
     <tbody>
-      <tr><td>Copy</td><td><kbd>Ctrl+Shift+C</kbd></td></tr>
-      <tr><td>Paste</td><td><kbd>Ctrl+Shift+V</kbd></td></tr>
+      <tr><td>Copy</td><td><kbd>{keys.copy}</kbd></td></tr>
+      <tr><td>Paste</td><td><kbd>{keys.paste}</kbd></td></tr>
     </tbody>
   </table>
 
@@ -71,10 +72,10 @@ const toc = [
   <table>
     <thead><tr><th>Action</th><th>Shortcut</th></tr></thead>
     <tbody>
-      <tr><td>Open search</td><td><kbd>Ctrl+F</kbd></td></tr>
-      <tr><td>Next match</td><td><kbd>Enter</kbd></td></tr>
-      <tr><td>Previous match</td><td><kbd>Shift+Enter</kbd></td></tr>
-      <tr><td>Close search</td><td><kbd>Esc</kbd></td></tr>
+      <tr><td>Open search</td><td><kbd>{keys.openSearch}</kbd></td></tr>
+      <tr><td>Next match</td><td><kbd>{keys.nextMatch}</kbd></td></tr>
+      <tr><td>Previous match</td><td><kbd>{keys.prevMatch}</kbd></td></tr>
+      <tr><td>Close search</td><td><kbd>{keys.closeSearch}</kbd></td></tr>
     </tbody>
   </table>
 
@@ -82,7 +83,7 @@ const toc = [
   <table>
     <thead><tr><th>Action</th><th>Key</th></tr></thead>
     <tbody>
-      <tr><td>Enter mark mode</td><td><kbd>Ctrl+Shift+M</kbd></td></tr>
+      <tr><td>Enter mark mode</td><td><kbd>{keys.enterMarkMode}</kbd></td></tr>
       <tr><td>Word forward</td><td><kbd>w</kbd></td></tr>
       <tr><td>Word back</td><td><kbd>b</kbd></td></tr>
       <tr><td>Word end</td><td><kbd>e</kbd></td></tr>
@@ -91,14 +92,14 @@ const toc = [
       <tr><td>Line end</td><td><kbd>$</kbd></td></tr>
       <tr><td>Top of scrollback</td><td><kbd>gg</kbd></td></tr>
       <tr><td>Bottom</td><td><kbd>G</kbd></td></tr>
-      <tr><td>Half-page up</td><td><kbd>Ctrl+U</kbd></td></tr>
-      <tr><td>Half-page down</td><td><kbd>Ctrl+D</kbd></td></tr>
+      <tr><td>Half-page up</td><td><kbd>{keys.halfPageUp}</kbd></td></tr>
+      <tr><td>Half-page down</td><td><kbd>{keys.halfPageDown}</kbd></td></tr>
       <tr><td>Find char</td><td><kbd>f</kbd> / <kbd>F</kbd></td></tr>
       <tr><td>Find before char</td><td><kbd>t</kbd> / <kbd>T</kbd></td></tr>
       <tr><td>Bracket match</td><td><kbd>%</kbd></td></tr>
       <tr><td>Char selection</td><td><kbd>v</kbd></td></tr>
       <tr><td>Line selection</td><td><kbd>V</kbd></td></tr>
-      <tr><td>Block selection</td><td><kbd>Ctrl+V</kbd></td></tr>
+      <tr><td>Block selection</td><td><kbd>{keys.blockSelection}</kbd></td></tr>
       <tr><td>Yank</td><td><kbd>y</kbd></td></tr>
       <tr><td>Search forward</td><td><kbd>/</kbd></td></tr>
       <tr><td>Search backward</td><td><kbd>?</kbd></td></tr>

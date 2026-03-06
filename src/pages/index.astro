@@ -72,23 +72,27 @@ import Footer from '../components/Footer.svelte';
 
     <section class="highlights" aria-label="Highlights">
       <div class="container">
-        <h2 class="section-label">// HIGHLIGHTS</h2>
+        <h2 class="section-label">// WHY SWITCH</h2>
         <div class="highlight-grid">
           <div class="highlight-block">
-            <h3>CUSTOM THEMES</h3>
-            <p>Define your color scheme in TOML. Changes apply instantly via hot-reload. Configure separate light and dark themes — ori-term switches automatically with your system.</p>
+            <h3>LIGATURES THAT ACTUALLY WORK</h3>
+            <p class="highlight-pain">Alacritty won't add ligature support. Their most-requested issue — open since 2017 — is closed as wontfix.</p>
+            <p>ori-term ships HarfBuzz shaping out of the box. Fira Code, JetBrains Mono, Iosevka — ligatures, complex scripts, multi-face fallback chains. No config needed.</p>
           </div>
           <div class="highlight-block">
-            <h3>FULL IMAGE SUPPORT</h3>
-            <p>Kitty graphics protocol, Sixel, and iTerm2 inline images. GPU-composited alongside the terminal grid. Animated GIF support. LRU eviction keeps memory in check.</p>
+            <h3>DROP TMUX</h3>
+            <p class="highlight-pain">tmux breaks truecolor, mangles escape sequences, fights your clipboard, and demands its own config language. It's a second system bolted onto your terminal.</p>
+            <p>ori-term has splits, tabs, floating panes, and sessions built in. One config file, one process, zero compatibility hacks. Your colors stay correct.</p>
           </div>
           <div class="highlight-block">
-            <h3>MARK MODE</h3>
-            <p>Vi-style keyboard navigation. Word motions, line motions, inline search, bracket matching, visual selection modes. Navigate your terminal like you navigate your editor.</p>
+            <h3>SESSIONS THAT SURVIVE</h3>
+            <p class="highlight-pain">SSH drops. GUI crashes. Power blips. Most terminals lose everything — scrollback, layout, working directories. Gone.</p>
+            <p>ori-term's daemon keeps sessions alive independently. Crash recovery is automatic. Reconnect from any client and pick up exactly where you left off.</p>
           </div>
           <div class="highlight-block">
-            <h3>SMART FONTS</h3>
-            <p>HarfBuzz shaping for ligatures and complex scripts. Multi-face fallback chains. Color emoji. Subpixel rendering. Built-in box drawing and Powerline glyphs.</p>
+            <h3>GPU SPEED WITHOUT THE TRADEOFFS</h3>
+            <p class="highlight-pain">Fast terminals strip features to stay fast. Slow terminals add features but lag on large output. Pick two out of three.</p>
+            <p>ori-term renders every frame on the GPU via wgpu with damage tracking — only changed cells hit the pipeline. Full features, full speed, no compromise.</p>
           </div>
         </div>
       </div>
@@ -158,7 +162,7 @@ import Footer from '../components/Footer.svelte';
 
   .pitch-number {
     display: block;
-    font-size: 0.65rem;
+    font-size: 0.9rem;
     color: var(--accent);
     letter-spacing: 0.2em;
     margin-bottom: 16px;
@@ -232,6 +236,16 @@ import Footer from '../components/Footer.svelte';
     font-size: 1rem;
     margin-bottom: 16px;
     letter-spacing: 0.1em;
+  }
+
+  .highlight-pain {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    border-left: var(--border-weight) solid var(--border-strong);
+    padding-left: 16px;
+    margin-bottom: 16px;
+    font-style: italic;
   }
 
   .highlight-block p {

@@ -1,0 +1,85 @@
+---
+import Feature from '../../layouts/Feature.astro';
+import { keys } from '../../lib/keybindings';
+---
+
+<Feature
+  title="VI MODE"
+  subtitle="Vi-style keyboard navigation for your terminal. Navigate, select, and copy without the mouse."
+>
+  <h2>Modal Navigation</h2>
+  <p>Toggle vi mode with <kbd>{keys.toggleViMode}</kbd> to enter a full keyboard-driven navigation layer over your terminal. Movement uses the familiar <kbd>h</kbd><kbd>j</kbd><kbd>k</kbd><kbd>l</kbd> keys -- left, down, up, right. No mouse required.</p>
+
+  <div class="screenshot-placeholder" role="img" aria-label="Screenshot of vi mode overlay showing cursor navigation in the terminal">
+    <span>[ SCREENSHOT COMING SOON ]</span>
+  </div>
+
+  <h2>Word Motions</h2>
+  <p>Navigate by word boundaries with precision:</p>
+  <ul>
+    <li><kbd>w</kbd> <kbd>b</kbd> <kbd>e</kbd> -- Word forward, backward, end (punctuation-aware boundaries)</li>
+    <li><kbd>W</kbd> <kbd>B</kbd> <kbd>E</kbd> -- WORD forward, backward, end (whitespace-delimited boundaries)</li>
+  </ul>
+
+  <h2>Line Motions</h2>
+  <p>Jump within and across lines:</p>
+  <ul>
+    <li><kbd>0</kbd> -- Start of line</li>
+    <li><kbd>^</kbd> -- First non-blank character</li>
+    <li><kbd>$</kbd> -- End of line</li>
+    <li><kbd>gg</kbd> -- Top of scrollback</li>
+    <li><kbd>G</kbd> -- Bottom of scrollback</li>
+    <li><kbd>H</kbd> <kbd>M</kbd> <kbd>L</kbd> -- Viewport top, middle, bottom</li>
+  </ul>
+
+  <h2>Page Scrolling</h2>
+  <ul>
+    <li><kbd>{keys.halfPageUp}</kbd> <kbd>{keys.halfPageDown}</kbd> -- Half-page up/down</li>
+    <li><kbd>{keys.fullPageUp}</kbd> <kbd>{keys.fullPageDown}</kbd> -- Full-page up/down</li>
+    <li><kbd>zz</kbd> -- Center view on cursor</li>
+  </ul>
+
+  <h2>Inline Search</h2>
+  <p>Find characters on the current line:</p>
+  <ul>
+    <li><kbd>f</kbd> <kbd>F</kbd> -- Jump to character forward/backward</li>
+    <li><kbd>t</kbd> <kbd>T</kbd> -- Jump to just before character forward/backward</li>
+    <li><kbd>;</kbd> -- Repeat last inline search</li>
+    <li><kbd>,</kbd> -- Repeat last inline search in reverse</li>
+  </ul>
+
+  <h2>Bracket Matching</h2>
+  <p>Press <kbd>%</kbd> to jump between matching brackets -- parentheses, square brackets, and curly braces. Works across visible lines.</p>
+
+  <h2>Visual Selection</h2>
+  <p>Select text without the mouse using three selection modes:</p>
+  <ul>
+    <li><kbd>v</kbd> -- Character selection</li>
+    <li><kbd>V</kbd> -- Line selection</li>
+    <li><kbd>{keys.blockSelection}</kbd> -- Block (rectangular) selection</li>
+  </ul>
+  <p>Combine with any motion to select precisely. Press <kbd>y</kbd> to yank (copy) the selected text to the clipboard.</p>
+
+  <h2>Search Integration</h2>
+  <p>Search directly from vi mode:</p>
+  <ul>
+    <li><kbd>/</kbd> -- Forward search</li>
+    <li><kbd>?</kbd> -- Backward search</li>
+    <li><kbd>n</kbd> -- Next match</li>
+    <li><kbd>N</kbd> -- Previous match</li>
+  </ul>
+  <p>Matches are highlighted across the scrollback. The viewport scrolls automatically to follow the current match.</p>
+</Feature>
+
+<style>
+  .screenshot-placeholder {
+    border: var(--border-weight) solid var(--border);
+    background: var(--bg-raised);
+    padding: 120px 24px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    margin-bottom: 24px;
+  }
+</style>

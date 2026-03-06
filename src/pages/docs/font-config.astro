@@ -1,5 +1,6 @@
 ---
 import Docs from '../../layouts/Docs.astro';
+import { keys } from '../../lib/keybindings';
 
 const toc = [
   { id: 'basic', text: 'Basic Setup', level: 2 },
@@ -40,7 +41,7 @@ ss01 = true     # Stylistic set 1 (font-specific)</code></pre>
   <p>Feature tags follow the OpenType specification. Available features depend on your font -- check your font's documentation for supported tags.</p>
 
   <h2 id="size">Size & Scaling</h2>
-  <p>Font size is specified in points. Adjust at runtime with <kbd>Ctrl+=</kbd> and <kbd>Ctrl+-</kbd>.</p>
+  <p>Font size is specified in points. Adjust at runtime with <kbd>{keys.fontLarger}</kbd> and <kbd>{keys.fontSmaller}</kbd>.</p>
   <p>ori-term is DPI-aware. On HiDPI displays, fonts are rendered at the appropriate scale factor. Moving a window between monitors with different DPIs triggers automatic rescaling.</p>
 
   <h2 id="synthesis">Font Synthesis</h2>

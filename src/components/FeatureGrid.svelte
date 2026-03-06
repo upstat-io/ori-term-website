@@ -1,5 +1,6 @@
 <script lang="ts">
   import { base } from '../lib/base';
+  import { keys } from '../lib/keybindings';
 
   interface Props {
     features?: Feature[];
@@ -17,14 +18,8 @@
     {
       label: 'RENDERER',
       value: 'wgpu',
-      detail: 'GPU-accelerated rendering via Vulkan, DX12, and Metal',
+      detail: 'GPU-accelerated via Vulkan, DX12, and Metal with damage tracking',
       href: `${base}/features/gpu-rendering`,
-    },
-    {
-      label: 'LANGUAGE',
-      value: 'Rust',
-      detail: 'Zero-cost abstractions, no garbage collector, no runtime',
-      href: `${base}/features/platform`,
     },
     {
       label: 'MULTIPLEXER',
@@ -33,16 +28,52 @@
       href: `${base}/features/multiplexer`,
     },
     {
-      label: 'PROTOCOL',
-      value: 'Full VT',
-      detail: 'xterm-256color, Kitty keyboard, SGR mouse, OSC extensions',
-      href: `${base}/features/terminal-emulation`,
+      label: 'TABS',
+      value: 'Chrome-style',
+      detail: 'Tear off into windows, drag back in, hover previews, reorder',
+      href: `${base}/features`,
+    },
+    {
+      label: 'DAEMON',
+      value: 'Persistent',
+      detail: 'Sessions survive crashes. Crash recovery. Multiple clients',
+      href: `${base}/features/daemon`,
+    },
+    {
+      label: 'REMOTE',
+      value: 'SSH + WSL',
+      detail: 'Remote domains, predictive echo, reconnection, TUI client',
+      href: `${base}/features`,
     },
     {
       label: 'THEMES',
-      value: 'Custom',
-      detail: 'TOML color schemes, hot-reload, auto light/dark switching',
+      value: '100+',
+      detail: 'Built-in color schemes, TOML files, hot-reload, auto light/dark',
       href: `${base}/features/themes`,
+    },
+    {
+      label: 'VI MODE',
+      value: 'Native',
+      detail: 'hjkl navigation, word motions, visual selection, hints, search',
+      href: `${base}/features`,
+    },
+    {
+      label: 'IMAGES',
+      value: 'GPU',
+      detail: 'Kitty graphics, Sixel, iTerm2 inline images, animated GIF',
+      href: `${base}/features/images`,
+    },
+    {
+      label: 'SCRIPTING',
+      value: 'Lua',
+      detail: 'Event hooks, custom commands, WGSL post-processing shaders',
+      href: `${base}/features`,
+    },
+    {
+      label: 'FONTS',
+      value: 'Shaped',
+      detail: 'HarfBuzz shaping, ligatures, emoji, multi-face fallback chains',
+      href: `${base}/features/fonts`,
     },
     {
       label: 'PLATFORM',
@@ -51,22 +82,10 @@
       href: `${base}/features/platform`,
     },
     {
-      label: 'IMAGES',
-      value: 'Native',
-      detail: 'Kitty graphics, Sixel, iTerm2 inline images with GPU compositing',
-      href: `${base}/features/images`,
-    },
-    {
-      label: 'DAEMON',
-      value: 'Persistent',
-      detail: 'Sessions survive crashes. Multiple clients, one daemon',
-      href: `${base}/features/daemon`,
-    },
-    {
-      label: 'FONTS',
-      value: 'Shaped',
-      detail: 'HarfBuzz shaping, ligatures, emoji, multi-face fallback chains',
-      href: `${base}/features/fonts`,
+      label: 'PALETTE',
+      value: keys.commandPalette,
+      detail: 'Fuzzy-search command palette, quick terminal, smart paste',
+      href: `${base}/features`,
     },
   ];
 

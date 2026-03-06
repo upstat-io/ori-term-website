@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import Nav from '../../components/Nav.svelte';
 import Footer from '../../components/Footer.svelte';
+import { keys } from '../../lib/keybindings';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
@@ -9,36 +10,56 @@ const categories = [
   {
     label: 'CORE',
     features: [
-      { title: 'GPU Rendering', href: `${base}/features/gpu-rendering`, desc: 'wgpu pipeline with damage tracking, frame pacing, and offscreen targets' },
-      { title: 'Terminal Emulation', href: `${base}/features/terminal-emulation`, desc: 'Full VTE state machine, 256-color, truecolor, all DECSET/DECRST modes' },
-      { title: 'Multiplexer', href: `${base}/features/multiplexer`, desc: 'Splits, tabs, floating panes, zoom, undo/redo, session persistence' },
-      { title: 'Fonts', href: `${base}/features/fonts`, desc: 'HarfBuzz shaping, ligatures, emoji, multi-face fallback, subpixel rendering' },
+      { title: 'GPU Rendering', href: `${base}/features/gpu-rendering`, desc: 'wgpu with Vulkan + DX12 on Windows, Vulkan on Linux, Metal on macOS. Damage tracking, frame pacing' },
+      { title: 'Terminal Emulation', href: `${base}/features/terminal-emulation`, desc: 'Full VTE escape sequences, truecolor, text reflow on resize, configurable scrollback, mouse reporting, Kitty keyboard protocol' },
+      { title: 'Fonts & Text', href: `${base}/features/fonts`, desc: 'HarfBuzz shaping, ligatures, complex scripts, multi-face fallback, color emoji, subpixel rendering, OpenType features, text decorations' },
+      { title: 'Images', href: `${base}/features/images`, desc: 'Kitty graphics protocol, Sixel, iTerm2 inline images, animated GIF support, GPU compositing' },
+    ],
+  },
+  {
+    label: 'MULTIPLEXER',
+    features: [
+      { title: 'Split Panes', href: `${base}/features/multiplexer`, desc: 'Horizontal and vertical splits, spatial navigation, drag-to-resize dividers, zoom/unzoom, equalize, undo/redo splits' },
+      { title: 'Floating Panes', href: `${base}/features/floating-panes`, desc: 'Overlay panes that float, drag, resize, and toggle between floating and tiled layouts with z-ordering' },
+      { title: 'Tabs', href: `${base}/features/tabs`, desc: 'Chrome-style tear-off into new windows, drag back in, reorder with animation, hover preview thumbnails, bell indicators' },
+      { title: 'Multi-Window', href: `${base}/features/multi-window`, desc: 'Shared GPU across windows, cross-window tab drag and drop, per-window DPI scaling' },
     ],
   },
   {
     label: 'INTERACTION',
     features: [
-      { title: 'Keyboard', href: `${base}/features/keyboard`, desc: 'Kitty keyboard protocol, IME, dead keys, configurable keybindings' },
-      { title: 'Mouse & Selection', href: `${base}/features/mouse-selection`, desc: '3-point selection, word/line/block modes, copy-on-select, mark mode' },
-      { title: 'Search', href: `${base}/features/search`, desc: 'Plain text and regex search with match highlighting and navigation' },
-      { title: 'URLs & Hyperlinks', href: `${base}/features/urls`, desc: 'Implicit URL detection, OSC 8 hyperlinks, configurable patterns' },
+      { title: 'Keyboard', href: `${base}/features/keyboard`, desc: 'Kitty keyboard protocol, progressive enhancement, IME, dead keys, configurable keybindings' },
+      { title: 'Mouse & Selection', href: `${base}/features/mouse-selection`, desc: 'Word, line, and block selection, formatted copy (HTML/RTF), copy-on-select, file drag-and-drop, OSC 52 clipboard' },
+      { title: 'Vi Mode', href: `${base}/features/vi-mode`, desc: 'Modal hjkl navigation, word and line motions, inline search (f/F/t/T), bracket matching, visual selection modes, yank' },
+      { title: 'Hints & Quick Select', href: `${base}/features/hints`, desc: 'Vimium-style keyboard labels for URLs, file paths, git hashes, IP addresses, emails. Custom regex patterns and actions' },
+      { title: 'Search', href: `${base}/features/search`, desc: `Plain text and regex search, <kbd>${keys.openSearch}</kbd> overlay with match count, highlighted matches, keyboard navigation` },
+      { title: 'URLs & Hyperlinks', href: `${base}/features/urls`, desc: `Implicit URL detection with hover underline, OSC 8 explicit hyperlinks, <kbd>${keys.openUrl}</kbd> to open, custom URL patterns` },
     ],
   },
   {
     label: 'VISUAL',
     features: [
-      { title: 'Themes', href: `${base}/features/themes`, desc: 'TOML color schemes, hot-reload, auto light/dark switching' },
-      { title: 'Images', href: `${base}/features/images`, desc: 'Kitty graphics, Sixel, iTerm2 inline images with GPU compositing' },
-      { title: 'Window Chrome', href: `${base}/features/window`, desc: 'Frameless window, custom controls, Aero Snap, transparency, HiDPI' },
+      { title: 'Themes & Color', href: `${base}/features/themes`, desc: '100+ built-in themes (Catppuccin, Dracula, Nord, Gruvbox, Tokyo Night, and more). TOML files, hot-reload, auto light/dark switching, import from iTerm2/Ghostty/base16' },
+      { title: 'Window & Display', href: `${base}/features/window`, desc: 'Frameless window with tab bar as title bar, platform-specific controls, Aero Snap, transparency, HiDPI, smooth scrolling, background images' },
+    ],
+  },
+  {
+    label: 'SESSION & REMOTE',
+    features: [
+      { title: 'Daemon Mode', href: `${base}/features/daemon`, desc: 'Sessions survive after GUI closes. Crash recovery with auto-restore. Multiple clients connect to one daemon' },
+      { title: 'Session Persistence', href: `${base}/features/sessions`, desc: 'Auto-save layout every 30 seconds. Scrollback archived to disk. Unlimited scrollback with configurable retention' },
+      { title: 'Remote Access', href: `${base}/features/remote`, desc: 'SSH domains with agent forwarding, WSL integration, TCP+TLS connections, reconnection with Mosh-style predictive echo' },
+      { title: 'TUI Client', href: `${base}/features/tui-client`, desc: 'Terminal-in-terminal tmux replacement. Prefix key mode, split rendering, mouse support. Attaches to the same daemon sessions' },
     ],
   },
   {
     label: 'SYSTEM',
     features: [
-      { title: 'Daemon Mode', href: `${base}/features/daemon`, desc: 'Persistent sessions, crash recovery, multi-client IPC, binary protocol' },
-      { title: 'Platform Support', href: `${base}/features/platform`, desc: 'Windows, Linux, macOS — first-class on all three' },
-      { title: 'Shell Integration', href: `${base}/features/shell-integration`, desc: 'OSC 7 CWD tracking, OSC 133 semantic zones, prompt detection' },
-      { title: 'Configuration', href: `${base}/features/configuration`, desc: 'TOML config with hot-reload, sensible defaults, per-platform paths' },
+      { title: 'Shell Integration', href: `${base}/features/shell-integration`, desc: 'Automatic shell detection (bash, zsh, fish, PowerShell), CWD tracking, semantic zones, prompt detection, desktop notifications' },
+      { title: 'Configuration', href: `${base}/features/configuration`, desc: 'TOML config with hot-reload. Configurable keybindings, font size zoom, sensible defaults, per-platform paths' },
+      { title: 'Platform Support', href: `${base}/features/platform`, desc: 'Windows (ConPTY, DirectWrite, Aero Snap), Linux (X11 + Wayland, fontconfig), macOS (CoreText, Metal). All first-class' },
+      { title: 'Scripting', href: `${base}/features/scripting`, desc: 'Lua event hooks, custom commands, full API access. WGSL post-processing shaders (CRT, bloom, scanlines)' },
+      { title: 'Power Features', href: `${base}/features/power-features`, desc: 'Command palette, Quake-style quick terminal, smart paste protection, undo close tab, desktop notifications, taskbar progress' },
     ],
   },
 ];
@@ -52,7 +73,6 @@ const categories = [
       <div class="container">
         <h1>FEATURES</h1>
         <h2 class="page-subtitle">EVERYTHING ORI-TERM CAN DO</h2>
-        <p class="page-desc">GPU rendering, terminal emulation, multiplexing, theming, and more. Explore each feature in detail.</p>
       </div>
     </header>
 
@@ -64,7 +84,7 @@ const categories = [
             {cat.features.map((f) => (
               <a href={f.href} class="feature-row">
                 <span class="feature-title">{f.title}</span>
-                <span class="feature-desc">{f.desc}</span>
+                <span class="feature-desc" set:html={f.desc} />
                 <svg class="feature-arrow" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                   <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
                 </svg>
@@ -89,7 +109,7 @@ const categories = [
     border-bottom: var(--border-weight) solid var(--border);
   }
 
-  .page-header :global(h1) {
+  .page-header h1 {
     font-size: clamp(2.5rem, 8vw, 5rem);
     letter-spacing: 0.1em;
     line-height: 1;
@@ -101,12 +121,6 @@ const categories = [
     letter-spacing: 0.25em;
     margin-top: 16px;
     font-weight: 400;
-  }
-
-  .page-desc {
-    color: var(--text-muted);
-    font-size: 0.85rem;
-    margin-top: 16px;
   }
 
   .category {
@@ -136,7 +150,6 @@ const categories = [
     border-bottom: 1px solid var(--border);
     text-decoration: none;
     color: inherit;
-    
   }
 
   .feature-row:last-child {
@@ -165,7 +178,6 @@ const categories = [
     color: var(--text-bright);
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    
   }
 
   .feature-desc {

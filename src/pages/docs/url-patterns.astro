@@ -1,5 +1,6 @@
 ---
 import Docs from '../../layouts/Docs.astro';
+import { keys } from '../../lib/keybindings';
 
 const toc = [
   { id: 'implicit', text: 'Implicit Detection', level: 2 },
@@ -20,7 +21,7 @@ const toc = [
     <li>IP addresses</li>
     <li>Email addresses</li>
   </ul>
-  <p>Hover over a detected URL with <kbd>Ctrl</kbd> held to see it underlined. <kbd>Ctrl+Click</kbd> to open it in your default browser.</p>
+  <p>Hover over a detected URL with <kbd>{keys.urlModifier}</kbd> held to see it underlined. <kbd>{keys.openUrl}</kbd> to open it in your default browser.</p>
 
   <h2 id="osc8">OSC 8 Hyperlinks</h2>
   <p>Applications can emit explicit hyperlinks using the OSC 8 escape sequence. These render as clickable links without regex detection. Many modern CLI tools support this:</p>
@@ -39,7 +40,7 @@ action = "open"</code></pre>
   <p>The <code>regex</code> field defines what to match. The <code>url</code> field defines the URL template with capture group substitution (<code>$0</code> for full match, <code>$1</code>, <code>$2</code>... for groups).</p>
 
   <h2 id="actions">Actions</h2>
-  <p>Each pattern specifies what happens on <kbd>Ctrl+Click</kbd>:</p>
+  <p>Each pattern specifies what happens on <kbd>{keys.openUrl}</kbd>:</p>
   <table>
     <thead><tr><th>Action</th><th>Behavior</th></tr></thead>
     <tbody>

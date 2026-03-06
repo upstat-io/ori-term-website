@@ -1,5 +1,6 @@
 ---
 import Docs from '../../layouts/Docs.astro';
+import { keys } from '../../lib/keybindings';
 
 const toc = [
   { id: 'location', text: 'Config Location', level: 2 },
@@ -43,7 +44,7 @@ name = "catppuccin-mocha"
 opacity = 0.95</code></pre>
 
   <h2 id="hot-reload">Hot Reload</h2>
-  <p>ori-term watches your config file for changes. Save the file and settings apply immediately — no restart needed. You can also trigger a manual reload with <kbd>Ctrl+Shift+R</kbd>.</p>
+  <p>ori-term watches your config file for changes. Save the file and settings apply immediately — no restart needed. You can also trigger a manual reload with <kbd>{keys.reloadConfig}</kbd>.</p>
   <p>Hot reload applies to: theme, font size, keybindings, cursor style, window opacity, and most visual settings. Some settings (like shell or scrollback limits) only apply to new panes.</p>
 
   <h2 id="font">Font</h2>

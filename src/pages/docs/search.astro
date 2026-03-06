@@ -1,5 +1,6 @@
 ---
 import Docs from '../../layouts/Docs.astro';
+import { keys } from '../../lib/keybindings';
 
 const toc = [
   { id: 'search-bar', text: 'Search Bar', level: 2 },
@@ -14,7 +15,7 @@ const toc = [
 
 <Docs title="Search & Mark Mode" toc={toc}>
   <h2 id="search-bar">Search Bar</h2>
-  <p>Press <kbd>Ctrl+F</kbd> to open the search overlay. Type your query and matches are highlighted across the viewport and scrollback in real time. The bar shows "N of M" indicating the current match position and total count.</p>
+  <p>Press <kbd>{keys.openSearch}</kbd> to open the search overlay. Type your query and matches are highlighted across the viewport and scrollback in real time. The bar shows "N of M" indicating the current match position and total count.</p>
 
   <h2 id="modes">Search Modes</h2>
   <ul>
@@ -24,14 +25,14 @@ const toc = [
 
   <h2 id="navigation">Navigation</h2>
   <ul>
-    <li><kbd>Enter</kbd> — Jump to next match</li>
-    <li><kbd>Shift+Enter</kbd> — Jump to previous match</li>
-    <li><kbd>Esc</kbd> — Close search bar</li>
+    <li><kbd>{keys.nextMatch}</kbd> — Jump to next match</li>
+    <li><kbd>{keys.prevMatch}</kbd> — Jump to previous match</li>
+    <li><kbd>{keys.closeSearch}</kbd> — Close search bar</li>
   </ul>
   <p>The viewport scrolls to center the current match.</p>
 
   <h2 id="mark-mode">Mark Mode</h2>
-  <p>Mark mode gives you vi-style keyboard navigation and selection. Enter with <kbd>Ctrl+Shift+M</kbd>. The cursor becomes independently movable — navigate scrollback, select text, and yank without leaving the keyboard.</p>
+  <p>Mark mode gives you vi-style keyboard navigation and selection. Enter with <kbd>{keys.enterMarkMode}</kbd>. The cursor becomes independently movable — navigate scrollback, select text, and yank without leaving the keyboard.</p>
 
   <h3 id="motions">Motions</h3>
   <table>
@@ -43,8 +44,8 @@ const toc = [
       <tr><td><kbd>0</kbd> <kbd>^</kbd> <kbd>$</kbd></td><td>Line start, first non-blank, end</td></tr>
       <tr><td><kbd>gg</kbd> / <kbd>G</kbd></td><td>Top / bottom of scrollback</td></tr>
       <tr><td><kbd>H</kbd> <kbd>M</kbd> <kbd>L</kbd></td><td>Viewport top, middle, bottom</td></tr>
-      <tr><td><kbd>Ctrl+U</kbd> / <kbd>Ctrl+D</kbd></td><td>Half-page up / down</td></tr>
-      <tr><td><kbd>Ctrl+B</kbd> / <kbd>Ctrl+F</kbd></td><td>Full-page up / down</td></tr>
+      <tr><td><kbd>{keys.halfPageUp}</kbd> / <kbd>{keys.halfPageDown}</kbd></td><td>Half-page up / down</td></tr>
+      <tr><td><kbd>{keys.fullPageUp}</kbd> / <kbd>{keys.fullPageDown}</kbd></td><td>Full-page up / down</td></tr>
       <tr><td><kbd>zz</kbd></td><td>Center view on cursor</td></tr>
     </tbody>
   </table>
@@ -53,7 +54,7 @@ const toc = [
   <ul>
     <li><kbd>v</kbd> — Character-wise selection</li>
     <li><kbd>V</kbd> — Line-wise selection</li>
-    <li><kbd>Ctrl+V</kbd> — Block (rectangular) selection</li>
+    <li><kbd>{keys.blockSelection}</kbd> — Block (rectangular) selection</li>
     <li><kbd>y</kbd> — Yank (copy) selected text to clipboard</li>
   </ul>
 

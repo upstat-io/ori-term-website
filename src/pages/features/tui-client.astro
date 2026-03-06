@@ -1,0 +1,73 @@
+---
+import Feature from '../../layouts/Feature.astro';
+import { keys } from '../../lib/keybindings';
+---
+
+<Feature
+  title="TUI CLIENT"
+  subtitle="A terminal-in-terminal tmux replacement that connects to the same daemon sessions."
+>
+  <h2>Terminal-in-Terminal</h2>
+  <p>A full multiplexer rendered entirely via crossterm escape sequences. Run ori-term's multiplexer inside any terminal emulator -- no GPU required, no special protocol needed.</p>
+
+  <div class="screenshot-placeholder" role="img" aria-label="TUI client showing split panes in a terminal">
+    <span>[ SCREENSHOT COMING SOON ]</span>
+  </div>
+
+  <h2>tmux Replacement</h2>
+  <p>Full session management without the tmux learning curve:</p>
+  <ul>
+    <li>Attach and detach from sessions</li>
+    <li>List active sessions</li>
+    <li>Create new sessions</li>
+    <li>Kill sessions</li>
+  </ul>
+
+  <h2>Prefix Key</h2>
+  <p><kbd>{keys.tuiPrefix}</kbd> enters prefix mode for split, navigation, and session commands. The same keybinding model as tmux, with ori-term's full feature set behind it.</p>
+
+  <h2>Split Rendering</h2>
+  <p>Pane splits are drawn with box-drawing characters for clean borders. Floating pane overlays are rendered on top of the split layout, matching the GUI client's behavior.</p>
+
+  <h2>Color Adaptation</h2>
+  <p>The TUI client detects the host terminal's color capabilities and automatically downgrades rendering:</p>
+  <ul>
+    <li>Truecolor (24-bit)</li>
+    <li>256 colors</li>
+    <li>16 colors</li>
+    <li>No color</li>
+  </ul>
+
+  <h2>Cursor Passthrough</h2>
+  <p>The focused pane's cursor style is forwarded to the host terminal. Block, underline, bar -- whatever the inner application requests is passed through.</p>
+
+  <h2>Mouse Support</h2>
+  <ul>
+    <li><strong>Click</strong> -- focus panes and switch tabs</li>
+    <li><strong>Drag</strong> -- resize pane splits</li>
+    <li><strong>Scroll</strong> -- scroll forwarding to the focused pane</li>
+  </ul>
+
+  <h2>Multi-Client</h2>
+  <p>Multiple TUI clients can attach to the same session simultaneously. Changes made in one client are reflected in all others in real time.</p>
+
+  <h2>Remote Attach</h2>
+  <p>Connect to remote daemons directly from the TUI client:</p>
+  <ul>
+    <li><code>oriterm tui --ssh user@host</code> -- attach via SSH tunnel</li>
+    <li><code>oriterm tui --host address:port</code> -- attach to a remote daemon directly</li>
+  </ul>
+</Feature>
+
+<style>
+  .screenshot-placeholder {
+    border: var(--border-weight) solid var(--border);
+    background: var(--bg-raised);
+    padding: 120px 24px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    margin-bottom: 24px;
+  }
+</style>

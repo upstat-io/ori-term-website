@@ -1,0 +1,40 @@
+---
+import Feature from '../../layouts/Feature.astro';
+---
+
+<Feature
+  title="MULTI-WINDOW"
+  subtitle="Multiple windows sharing one GPU, with cross-window tab movement."
+>
+  <h2>Shared GPU</h2>
+  <p>All ori-term windows share a single GPU device and surface management layer. This keeps resource usage low regardless of how many windows you have open, and avoids the overhead of initializing separate GPU contexts per window.</p>
+
+  <h2>Cross-Window Tab Movement</h2>
+  <p>Drag tabs between windows or use a keyboard shortcut to move a tab to a new window. Your shell session, scrollback, and layout travel with the tab seamlessly.</p>
+
+  <div class="screenshot-placeholder" role="img" aria-label="Screenshot of multiple ori-term windows with tabs being dragged between them">
+    <span>[ SCREENSHOT COMING SOON ]</span>
+  </div>
+
+  <h2>Per-Window DPI</h2>
+  <p>Each window tracks its own display scale factor. Moving a window from a standard-DPI monitor to a HiDPI display triggers an immediate rescale -- fonts, chrome, and terminal content all stay sharp without any manual intervention.</p>
+
+  <h2>Aero Snap</h2>
+  <p>Full Windows Aero Snap support across all windows. Drag to screen edges to snap left, right, or maximize. Each window snaps independently, making it easy to tile ori-term alongside other applications.</p>
+
+  <h2>ConPTY-Safe Shutdown</h2>
+  <p>On Windows, ori-term performs clean process cleanup when closing windows. ConPTY handles are released properly so child processes terminate gracefully, preventing orphaned shells or leaked resources.</p>
+</Feature>
+
+<style>
+  .screenshot-placeholder {
+    border: var(--border-weight) solid var(--border);
+    background: var(--bg-raised);
+    padding: 120px 24px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    margin-bottom: 24px;
+  }
+</style>

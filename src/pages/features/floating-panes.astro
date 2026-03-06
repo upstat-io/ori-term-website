@@ -1,0 +1,41 @@
+---
+import Feature from '../../layouts/Feature.astro';
+import { keys } from '../../lib/keybindings';
+---
+
+<Feature
+  title="FLOATING PANES"
+  subtitle="Overlay panes that float, drag, resize, and toggle between floating and tiled."
+>
+  <h2>Toggle Floating</h2>
+  <p>Press <kbd>{keys.toggleFloating}</kbd> to create a new floating pane or toggle the floating pane overlay on and off. Floating panes sit above your tiled splits, giving you quick access to a shell without disrupting your layout.</p>
+
+  <h2>Float-Tile Toggle</h2>
+  <p>Move any pane between floating and tiled modes with <kbd>{keys.floatTileToggle}</kbd>. A tiled pane becomes a floating overlay; a floating pane snaps back into the tile tree. Your shell session is preserved through the transition.</p>
+
+  <h2>Drag and Resize</h2>
+  <p>Floating panes support full mouse-driven positioning. Drag the title area to move a pane anywhere in the window, and drag edges or corners to resize. Panes snap to window edges for quick alignment.</p>
+
+  <div class="screenshot-placeholder" role="img" aria-label="Screenshot of a floating pane being dragged and resized over tiled splits">
+    <span>[ SCREENSHOT COMING SOON ]</span>
+  </div>
+
+  <h2>Z-Ordering</h2>
+  <p>When multiple floating panes are open, they layer naturally with proper z-ordering. Clicking a pane raises it to the front. Drop shadows distinguish floating panes from the tiled layout beneath them.</p>
+
+  <h2>Minimum Size</h2>
+  <p>Floating panes enforce minimum dimensions so they never shrink too small to be usable. You can resize freely within those bounds without worrying about losing content or controls.</p>
+</Feature>
+
+<style>
+  .screenshot-placeholder {
+    border: var(--border-weight) solid var(--border);
+    background: var(--bg-raised);
+    padding: 120px 24px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    margin-bottom: 24px;
+  }
+</style>

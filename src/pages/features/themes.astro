@@ -1,5 +1,6 @@
 ---
 import Feature from '../../layouts/Feature.astro';
+import { keys } from '../../lib/keybindings';
 ---
 
 <Feature
@@ -10,7 +11,7 @@ import Feature from '../../layouts/Feature.astro';
   <p>Define your color scheme in TOML. Every color slot is configurable — foreground, background, cursor, selection, and all 16 ANSI colors. Place your theme file in the config directory and reference it by name.</p>
 
   <h2>Hot Reload</h2>
-  <p>Theme changes take effect immediately. Edit your theme file, save, and see the results without restarting. Triggered automatically via file watcher or manually with <kbd>Ctrl+Shift+R</kbd>.</p>
+  <p>Theme changes take effect immediately. Edit your theme file, save, and see the results without restarting. Triggered automatically via file watcher or manually with <kbd>{keys.reloadConfig}</kbd>.</p>
 
   <h2>Light/Dark Auto-Switch</h2>
   <p>Configure separate light and dark themes in your config. ori-term follows your system appearance preference and switches instantly when you change your system setting.</p>

@@ -1,5 +1,6 @@
 ---
 import Feature from '../../layouts/Feature.astro';
+import { keys } from '../../lib/keybindings';
 ---
 
 <Feature
@@ -7,7 +8,7 @@ import Feature from '../../layouts/Feature.astro';
   subtitle="Clickable URLs, app-generated links, and configurable custom patterns."
 >
   <h2>Clickable URLs</h2>
-  <p>ori-term automatically detects URLs, file paths, git hashes, IP addresses, and email addresses in terminal output. Hold <kbd>Ctrl</kbd> and hover to see detected links underlined. <kbd>Ctrl+Click</kbd> to open them in your default browser.</p>
+  <p>ori-term automatically detects URLs, file paths, git hashes, IP addresses, and email addresses in terminal output. Hold <kbd>{keys.urlModifier}</kbd> and hover to see detected links underlined. <kbd>{keys.openUrl}</kbd> to open them in your default browser.</p>
 
   <h2>App-Generated Hyperlinks</h2>
   <p>Many modern CLI tools emit explicit hyperlinks that ori-term renders as clickable links with hover underline. Tools like <code>ls --hyperlink</code>, <code>gcc</code>, and <code>ripgrep</code> use this to link directly to files and locations.</p>

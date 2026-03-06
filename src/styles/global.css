@@ -42,8 +42,8 @@
   --bg-raised: #111111;
   --bg-surface: #1a1a1a;
   --text: #d4d4d4;
-  --text-muted: #888888;
-  --text-bright: #ffffff;
+  --text-muted: #aaaaaa;
+  --text-bright: #eeeeee;
   --accent: #00ff41;
   --accent-dim: #00cc33;
   --border: #2a2a2a;
@@ -92,6 +92,15 @@ p {
   max-width: 65ch;
 }
 
+kbd {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+  padding: 2px 8px;
+  color: var(--text-bright);
+}
+
 a {
   color: var(--accent);
   text-decoration: none;
@@ -104,8 +113,8 @@ a:hover {
 }
 
 ::selection {
-  background: var(--accent);
-  color: var(--bg);
+  background: #d0d0d0;
+  color: #0a0a0a;
 }
 
 /* --- CURSOR BLINK --- */
