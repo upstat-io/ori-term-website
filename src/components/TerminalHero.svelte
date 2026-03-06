@@ -1,17 +1,26 @@
 <script lang="ts">
   import { onMount } from 'svelte';
 
+  type Platform = 'macos' | 'windows' | 'linux';
+
   const lines = [
-    { prompt: '~', cmd: 'ori-term --version', delay: 0 },
-    { prompt: '', cmd: 'ori-term v0.1.0 — GPU-accelerated terminal emulator', delay: 800, isOutput: true },
-    { prompt: '', cmd: 'Built with Rust. Rendered with wgpu.', delay: 1400, isOutput: true },
-    { prompt: '~', cmd: 'ori-term', delay: 2200 },
+    { prompt: '~/projects', cmd: 'ori-term --version', delay: 0 },
+    { prompt: '', cmd: 'ori-term v0.1.0', delay: 800, isOutput: true },
+    { prompt: '~/projects', cmd: 'ori-term', delay: 1400 },
   ];
 
   let visibleLines = $state<number>(0);
   let typedChars = $state<number>(0);
   let currentlyTyping = $state<boolean>(false);
   let cursorLine = $state<number>(0);
+  let platform = $state<Platform>('linux');
+
+  function detectPlatform(): Platform {
+    const ua = navigator.userAgent.toLowerCase();
+    if (ua.includes('mac')) return 'macos';
+    if (ua.includes('win')) return 'windows';
+    return 'linux';
+  }
 
   function getCurrentLine() {
     return lines[visibleLines];
@@ -24,6 +33,7 @@
   }
 
   onMount(() => {
+    platform = detectPlatform();
     let timeout: ReturnType<typeof setTimeout>;
 
     function typeLine(lineIndex: number) {
@@ -74,14 +84,36 @@
 
 <section class="hero" aria-label="Terminal hero">
   <div class="terminal-window">
-    <div class="title-bar">
-      <div class="title-buttons">
-        <span class="btn close"></span>
-        <span class="btn minimize"></span>
-        <span class="btn maximize"></span>
+    <div class="title-bar" class:macos={platform === 'macos'} class:windows={platform === 'windows'} class:linux={platform === 'linux'}>
+      {#if platform === 'macos'}
+        <div class="traffic-lights">
+          <span class="tl close"></span>
+          <span class="tl minimize"></span>
+          <span class="tl maximize"></span>
+        </div>
+      {/if}
+
+      <div class="tabs">
+        <div class="tab active">
+          <span class="tab-label">zsh</span>
+          <span class="tab-close">×</span>
+        </div>
+        <button class="tab-new" aria-label="New tab">+</button>
       </div>
-      <span class="title-text">ori-term</span>
-      <span class="title-spacer"></span>
+
+      {#if platform !== 'macos'}
+        <div class="window-controls" class:gtk={platform === 'linux'}>
+          <button class="wc minimize" aria-label="Minimize">
+            <svg viewBox="0 0 12 12" fill="none"><path d="M1 6h10" stroke="currentColor" stroke-width="1"/></svg>
+          </button>
+          <button class="wc maximize" aria-label="Maximize">
+            <svg viewBox="0 0 12 12" fill="none"><rect x="1.5" y="1.5" width="9" height="9" stroke="currentColor" stroke-width="1"/></svg>
+          </button>
+          <button class="wc close" aria-label="Close">
+            <svg viewBox="0 0 12 12" fill="none"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1"/></svg>
+          </button>
+        </div>
+      {/if}
     </div>
     <div class="terminal-body">
       {#each lines as line, i}
@@ -89,7 +121,7 @@
           <div class="line" class:output={line.isOutput}>
             {#if !line.isOutput && line.prompt}
               <span class="prompt">{line.prompt}</span>
-              <span class="separator">$</span>
+              <span class="separator">❯</span>
             {/if}
             <span class="cmd">
               {#if i === visibleLines}
@@ -123,41 +155,133 @@
     background: var(--bg);
   }
 
+  /* ── Title bar ── */
+
   .title-bar {
     display: flex;
-    align-items: center;
-    padding: 10px 16px;
+    align-items: flex-end;
     border-bottom: var(--border-weight) solid var(--border-strong);
     background: var(--bg-raised);
+    height: 44px;
+    padding: 0 0 0 8px;
   }
 
-  .title-buttons {
+  /* ── macOS traffic lights ── */
+
+  .traffic-lights {
     display: flex;
     gap: 8px;
+    padding: 0 16px 0 8px;
+    flex-shrink: 0;
+    align-self: center;
   }
 
-  .btn {
+  .tl {
     width: 12px;
     height: 12px;
     border: var(--border-weight) solid var(--border-strong);
   }
 
-  .close { background: #ff5f57; }
-  .minimize { background: #febc2e; }
-  .maximize { background: #28c840; }
+  .tl.close { background: #ff5f57; }
+  .tl.minimize { background: #febc2e; }
+  .tl.maximize { background: #28c840; }
 
-  .title-text {
+  /* ── Tabs ── */
+
+  .tabs {
+    display: flex;
+    align-items: flex-end;
+    height: 100%;
     flex: 1;
-    text-align: center;
+    min-width: 0;
+  }
+
+  .tab {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
     font-size: 0.75rem;
     color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.05em;
+    border-top: var(--border-weight) solid var(--border);
+    border-right: var(--border-weight) solid var(--border);
+    border-left: var(--border-weight) solid var(--border);
+    margin-left: calc(-1 * var(--border-weight));
+    cursor: default;
+    white-space: nowrap;
   }
 
-  .title-spacer {
-    width: 52px;
+  .tab:first-child {
+    margin-left: 0;
   }
+
+  .tab.active {
+    color: var(--text-bright);
+    background: var(--bg);
+    margin-bottom: calc(-1 * var(--border-weight));
+    padding-bottom: calc(8px + var(--border-weight));
+  }
+
+  .tab-close {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1;
+  }
+
+  .tab-new {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    padding-bottom: 8px;
+    font-size: 1rem;
+    color: var(--text-muted);
+    background: none;
+    border: none;
+    cursor: default;
+    font-family: inherit;
+    align-self: flex-end;
+  }
+
+  /* ── Window controls (Windows / Linux) ── */
+
+  .window-controls {
+    display: flex;
+    align-items: stretch;
+    align-self: stretch;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+
+  .wc {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: default;
+    padding: 0;
+  }
+
+  .wc svg {
+    width: 10px;
+    height: 10px;
+  }
+
+  .wc.close:hover {
+    background: #c42b1c;
+    color: #fff;
+  }
+
+  /* GTK style — smaller, closer together */
+  .window-controls.gtk .wc {
+    width: 36px;
+  }
+
+  /* ── Terminal body ── */
 
   .terminal-body {
     padding: 24px;
@@ -176,12 +300,12 @@
   }
 
   .prompt {
-    color: var(--accent);
+    color: #3b8eea;
     font-weight: 700;
   }
 
   .separator {
-    color: var(--text-muted);
+    color: var(--accent);
     margin: 0 0.5em;
   }
 
@@ -191,5 +315,15 @@
 
   .output .cmd {
     color: var(--text-muted);
+  }
+
+  @media (max-width: 480px) {
+    .tab:not(.active) {
+      display: none;
+    }
+
+    .wc {
+      width: 36px;
+    }
   }
 </style>
