@@ -75,24 +75,24 @@ import Footer from '../components/Footer.svelte';
         <h2 class="section-label">// WHY SWITCH</h2>
         <div class="highlight-grid">
           <div class="highlight-block">
-            <h3>LIGATURES THAT ACTUALLY WORK</h3>
-            <p class="highlight-pain">Alacritty won't add ligature support. Their most-requested issue — open since 2017 — is closed as wontfix.</p>
-            <p>ori-term ships HarfBuzz shaping out of the box. Fira Code, JetBrains Mono, Iosevka — ligatures, complex scripts, multi-face fallback chains. No config needed.</p>
+            <h3>REAL FONT RENDERING</h3>
+            <p class="highlight-pain">Most GPU terminals skip ligature support entirely. Your carefully chosen coding font renders as plain text.</p>
+            <p>ori-term ships HarfBuzz shaping. Fira Code, JetBrains Mono, Iosevka — ligatures, complex scripts, multi-face fallback chains. Your font works the way it was designed.</p>
           </div>
           <div class="highlight-block">
-            <h3>DROP TMUX</h3>
-            <p class="highlight-pain">tmux breaks truecolor, mangles escape sequences, fights your clipboard, and demands its own config language. It's a second system bolted onto your terminal.</p>
-            <p>ori-term has splits, tabs, floating panes, and sessions built in. One config file, one process, zero compatibility hacks. Your colors stay correct.</p>
+            <h3>NO MULTIPLEXER NEEDED</h3>
+            <p class="highlight-pain">Terminal multiplexers break truecolor, mangle escape sequences, fight your clipboard, and demand their own config language.</p>
+            <p>ori-term has splits, tabs, floating panes, and sessions built in. One config file, one process, zero compatibility layers. Your colors stay correct.</p>
           </div>
           <div class="highlight-block">
             <h3>SESSIONS THAT SURVIVE</h3>
             <p class="highlight-pain">SSH drops. GUI crashes. Power blips. Most terminals lose everything — scrollback, layout, working directories. Gone.</p>
-            <p>ori-term's daemon keeps sessions alive independently. Crash recovery is automatic. Reconnect from any client and pick up exactly where you left off.</p>
+            <p>A background daemon keeps sessions alive independently. Crash recovery is automatic. Reconnect and pick up exactly where you left off.</p>
           </div>
           <div class="highlight-block">
-            <h3>GPU SPEED WITHOUT THE TRADEOFFS</h3>
-            <p class="highlight-pain">Fast terminals strip features to stay fast. Slow terminals add features but lag on large output. Pick two out of three.</p>
-            <p>ori-term renders every frame on the GPU via wgpu with damage tracking — only changed cells hit the pipeline. Full features, full speed, no compromise.</p>
+            <h3>GPU SPEED, FULL FEATURES</h3>
+            <p class="highlight-pain">Fast terminals strip features to stay fast. Feature-rich terminals lag on large output. The tradeoff feels inevitable.</p>
+            <p>ori-term renders every frame on the GPU with damage tracking — only changed cells hit the pipeline. Full features at full speed.</p>
           </div>
         </div>
       </div>

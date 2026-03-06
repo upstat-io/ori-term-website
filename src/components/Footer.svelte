@@ -11,7 +11,7 @@
     { href: `${base}/install`, label: 'INSTALL' },
     { href: `${base}/screenshots`, label: 'SCREENSHOTS' },
     { href: 'https://github.com/sponsors/upstat-io', label: 'SPONSOR', external: true },
-    { href: 'https://github.com/user/ori-term', label: 'SOURCE', external: true },
+    { href: 'https://github.com/upstat-io/ori_term', label: 'SOURCE', external: true },
   ];
 </script>
 
