@@ -46,7 +46,7 @@ import Footer from '../components/Footer.svelte';
         <pre><code>git clone https://github.com/user/ori-term.git
 cd ori-term
 cargo build --release</code></pre>
-        <p class="source-note">See <a href="/docs/installation">installation docs</a> for platform-specific build dependencies.</p>
+        <p class="source-note">See <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/docs/installation`}>installation docs</a> for platform-specific build dependencies.</p>
       </div>
     </section>
   </main>

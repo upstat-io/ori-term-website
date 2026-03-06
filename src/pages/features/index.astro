@@ -3,40 +3,42 @@ import Base from '../../layouts/Base.astro';
 import Nav from '../../components/Nav.svelte';
 import Footer from '../../components/Footer.svelte';
 
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
 const categories = [
   {
     label: 'CORE',
     features: [
-      { title: 'GPU Rendering', href: '/features/gpu-rendering', desc: 'wgpu pipeline with damage tracking, frame pacing, and offscreen targets' },
-      { title: 'Terminal Emulation', href: '/features/terminal-emulation', desc: 'Full VTE state machine, 256-color, truecolor, all DECSET/DECRST modes' },
-      { title: 'Multiplexer', href: '/features/multiplexer', desc: 'Splits, tabs, floating panes, zoom, undo/redo, session persistence' },
-      { title: 'Fonts', href: '/features/fonts', desc: 'HarfBuzz shaping, ligatures, emoji, multi-face fallback, subpixel rendering' },
+      { title: 'GPU Rendering', href: `${base}/features/gpu-rendering`, desc: 'wgpu pipeline with damage tracking, frame pacing, and offscreen targets' },
+      { title: 'Terminal Emulation', href: `${base}/features/terminal-emulation`, desc: 'Full VTE state machine, 256-color, truecolor, all DECSET/DECRST modes' },
+      { title: 'Multiplexer', href: `${base}/features/multiplexer`, desc: 'Splits, tabs, floating panes, zoom, undo/redo, session persistence' },
+      { title: 'Fonts', href: `${base}/features/fonts`, desc: 'HarfBuzz shaping, ligatures, emoji, multi-face fallback, subpixel rendering' },
     ],
   },
   {
     label: 'INTERACTION',
     features: [
-      { title: 'Keyboard', href: '/features/keyboard', desc: 'Kitty keyboard protocol, IME, dead keys, configurable keybindings' },
-      { title: 'Mouse & Selection', href: '/features/mouse-selection', desc: '3-point selection, word/line/block modes, copy-on-select, mark mode' },
-      { title: 'Search', href: '/features/search', desc: 'Plain text and regex search with match highlighting and navigation' },
-      { title: 'URLs & Hyperlinks', href: '/features/urls', desc: 'Implicit URL detection, OSC 8 hyperlinks, configurable patterns' },
+      { title: 'Keyboard', href: `${base}/features/keyboard`, desc: 'Kitty keyboard protocol, IME, dead keys, configurable keybindings' },
+      { title: 'Mouse & Selection', href: `${base}/features/mouse-selection`, desc: '3-point selection, word/line/block modes, copy-on-select, mark mode' },
+      { title: 'Search', href: `${base}/features/search`, desc: 'Plain text and regex search with match highlighting and navigation' },
+      { title: 'URLs & Hyperlinks', href: `${base}/features/urls`, desc: 'Implicit URL detection, OSC 8 hyperlinks, configurable patterns' },
     ],
   },
   {
     label: 'VISUAL',
     features: [
-      { title: 'Themes', href: '/features/themes', desc: 'TOML color schemes, hot-reload, auto light/dark switching' },
-      { title: 'Images', href: '/features/images', desc: 'Kitty graphics, Sixel, iTerm2 inline images with GPU compositing' },
-      { title: 'Window Chrome', href: '/features/window', desc: 'Frameless window, custom controls, Aero Snap, transparency, HiDPI' },
+      { title: 'Themes', href: `${base}/features/themes`, desc: 'TOML color schemes, hot-reload, auto light/dark switching' },
+      { title: 'Images', href: `${base}/features/images`, desc: 'Kitty graphics, Sixel, iTerm2 inline images with GPU compositing' },
+      { title: 'Window Chrome', href: `${base}/features/window`, desc: 'Frameless window, custom controls, Aero Snap, transparency, HiDPI' },
     ],
   },
   {
     label: 'SYSTEM',
     features: [
-      { title: 'Daemon Mode', href: '/features/daemon', desc: 'Persistent sessions, crash recovery, multi-client IPC, binary protocol' },
-      { title: 'Platform Support', href: '/features/platform', desc: 'Windows, Linux, macOS — first-class on all three' },
-      { title: 'Shell Integration', href: '/features/shell-integration', desc: 'OSC 7 CWD tracking, OSC 133 semantic zones, prompt detection' },
-      { title: 'Configuration', href: '/features/configuration', desc: 'TOML config with hot-reload, sensible defaults, per-platform paths' },
+      { title: 'Daemon Mode', href: `${base}/features/daemon`, desc: 'Persistent sessions, crash recovery, multi-client IPC, binary protocol' },
+      { title: 'Platform Support', href: `${base}/features/platform`, desc: 'Windows, Linux, macOS — first-class on all three' },
+      { title: 'Shell Integration', href: `${base}/features/shell-integration`, desc: 'OSC 7 CWD tracking, OSC 133 semantic zones, prompt detection' },
+      { title: 'Configuration', href: `${base}/features/configuration`, desc: 'TOML config with hot-reload, sensible defaults, per-platform paths' },
     ],
   },
 ];

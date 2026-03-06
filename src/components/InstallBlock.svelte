@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { base } from '../lib/base';
+
   let copied = $state(false);
 
   const command = 'cargo install ori-term';
@@ -25,7 +27,7 @@
       </button>
     </div>
     <p class="install-note">
-      Native binary. No runtime dependencies. See <a href="/docs/installation">installation docs</a> for all platforms.
+      Native binary. No runtime dependencies. See <a href={`${base}/docs/installation`}>installation docs</a> for all platforms.
     </p>
   </div>
 </section>

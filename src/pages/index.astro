@@ -61,7 +61,7 @@ import Footer from '../components/Footer.svelte';
       </div>
       <FeatureGrid client:visible />
       <div class="container features-cta">
-        <a href="/features" class="cta-link">
+        <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/features`} class="cta-link">
           ALL FEATURES
           <svg class="cta-arrow" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>

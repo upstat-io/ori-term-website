@@ -40,7 +40,7 @@ const toc = [
       <tr><td>Reload config</td><td><kbd>Ctrl+Shift+R</kbd></td></tr>
     </tbody>
   </table>
-  <p>See <a href="/docs/keybindings">Keybindings</a> for the complete reference.</p>
+  <p>See <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/docs/keybindings`}>Keybindings</a> for the complete reference.</p>
 
   <h2 id="splits">Your First Split</h2>
   <p>Press <kbd>Ctrl+Shift+D</kbd> to split the current pane to the right. You now have two panes side by side, each running your shell. Navigate between them with <kbd>Alt+Left</kbd> and <kbd>Alt+Right</kbd>.</p>
@@ -61,9 +61,9 @@ const toc = [
 
   <h2 id="next-steps">Next Steps</h2>
   <ul>
-    <li><a href="/docs/configuration">Configuration</a> — Customize ori-term to your preferences</li>
-    <li><a href="/docs/keybindings">Keybindings</a> — Full shortcut reference</li>
-    <li><a href="/docs/panes">Panes & Splits</a> — Advanced pane management</li>
-    <li><a href="/docs/theming">Theming</a> — Choose or create your color scheme</li>
+    <li><a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/docs/configuration`}>Configuration</a> — Customize ori-term to your preferences</li>
+    <li><a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/docs/keybindings`}>Keybindings</a> — Full shortcut reference</li>
+    <li><a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/docs/panes`}>Panes & Splits</a> — Advanced pane management</li>
+    <li><a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/docs/theming`}>Theming</a> — Choose or create your color scheme</li>
   </ul>
 </Docs>

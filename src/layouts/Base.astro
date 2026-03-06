@@ -5,6 +5,7 @@ interface Props {
 }
 
 const { title, description = 'GPU-accelerated terminal emulator built in Rust.' } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <!doctype html>
@@ -14,7 +15,7 @@ const { title, description = 'GPU-accelerated terminal emulator built in Rust.' 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <title>{title}</title>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
   </head>
   <body>
     <slot />

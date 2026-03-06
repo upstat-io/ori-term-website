@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { base } from '../lib/base';
 
   type Platform = 'macos' | 'windows' | 'linux';
 
@@ -199,7 +200,6 @@
   }
 
   function detectPlatform(): Platform {
-    return 'linux'; // DEBUG: forced linux
     const ua = navigator.userAgent.toLowerCase();
     if (ua.includes('mac')) return 'macos';
     if (ua.includes('win')) return 'windows';
@@ -380,11 +380,13 @@
       <span class="dead-sub">[ click to reboot ]</span>
     </button>
   {/if}
+  <a class="hero-note" href={`${base}/screenshots`}>// SEE SCREENSHOTS OF THE REAL THING</a>
 </section>
 
 <style>
   .hero {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 48px var(--gutter) 64px;
@@ -853,6 +855,20 @@
 
   .output .cmd {
     color: var(--text-muted);
+  }
+
+  .hero-note {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    letter-spacing: 0.15em;
+    margin-top: 16px;
+    border-bottom: var(--border-weight) solid var(--border);
+    padding-bottom: 2px;
+  }
+
+  .hero-note:hover {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
   }
 
   @media (max-width: 480px) {

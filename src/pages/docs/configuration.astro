@@ -65,7 +65,7 @@ name = "catppuccin-mocha"
 [theme]
 light = "catppuccin-latte"
 dark = "catppuccin-mocha"</code></pre>
-  <p>When <code>light</code> and <code>dark</code> are set, ori-term follows your system appearance. See <a href="/docs/theming">Theming</a> for custom theme creation.</p>
+  <p>When <code>light</code> and <code>dark</code> are set, ori-term follows your system appearance. See <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/docs/theming`}>Theming</a> for custom theme creation.</p>
 
   <h2 id="window">Window</h2>
   <pre><code>[window]
@@ -106,7 +106,7 @@ word_delimiters = " \t{}()[]\"'`,;:@"</code></pre>
 "ctrl+shift+e" = "SplitDown"
 "ctrl+shift+f" = "ToggleFloat"
 "ctrl+shift+z" = "ZoomPane"</code></pre>
-  <p>See <a href="/docs/keybindings">Keybindings</a> for all available actions and the full default binding list.</p>
+  <p>See <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/docs/keybindings`}>Keybindings</a> for all available actions and the full default binding list.</p>
 
   <h2 id="url-patterns">URL Patterns</h2>
   <pre><code>[[url_patterns]]
@@ -118,5 +118,5 @@ action = "open"
 regex = "#(\\d+)"
 url = "https://github.com/user/repo/issues/$1"
 action = "open"</code></pre>
-  <p>Each pattern defines a regex, an optional URL template with capture group substitution, and an action (<code>open</code>, <code>copy</code>, <code>select</code>). See <a href="/docs/url-patterns">URL Patterns</a> for details.</p>
+  <p>Each pattern defines a regex, an optional URL template with capture group substitution, and an action (<code>open</code>, <code>copy</code>, <code>select</code>). See <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/docs/url-patterns`}>URL Patterns</a> for details.</p>
 </Docs>

@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { base } from '../lib/base';
+
   interface Props {
     features?: Feature[];
     columns?: number;
@@ -16,55 +18,55 @@
       label: 'RENDERER',
       value: 'wgpu',
       detail: 'GPU-accelerated rendering via Vulkan, DX12, and Metal',
-      href: '/features/gpu-rendering',
+      href: `${base}/features/gpu-rendering`,
     },
     {
       label: 'LANGUAGE',
       value: 'Rust',
       detail: 'Zero-cost abstractions, no garbage collector, no runtime',
-      href: '/features/platform',
+      href: `${base}/features/platform`,
     },
     {
       label: 'MULTIPLEXER',
       value: 'Built-in',
       detail: 'Splits, tabs, floating panes, sessions — no tmux required',
-      href: '/features/multiplexer',
+      href: `${base}/features/multiplexer`,
     },
     {
       label: 'PROTOCOL',
       value: 'Full VT',
       detail: 'xterm-256color, Kitty keyboard, SGR mouse, OSC extensions',
-      href: '/features/terminal-emulation',
+      href: `${base}/features/terminal-emulation`,
     },
     {
       label: 'THEMES',
       value: 'Custom',
       detail: 'TOML color schemes, hot-reload, auto light/dark switching',
-      href: '/features/themes',
+      href: `${base}/features/themes`,
     },
     {
       label: 'PLATFORM',
       value: 'Cross',
       detail: 'Windows, Linux, macOS — first-class on all three',
-      href: '/features/platform',
+      href: `${base}/features/platform`,
     },
     {
       label: 'IMAGES',
       value: 'Native',
       detail: 'Kitty graphics, Sixel, iTerm2 inline images with GPU compositing',
-      href: '/features/images',
+      href: `${base}/features/images`,
     },
     {
       label: 'DAEMON',
       value: 'Persistent',
       detail: 'Sessions survive crashes. Multiple clients, one daemon',
-      href: '/features/daemon',
+      href: `${base}/features/daemon`,
     },
     {
       label: 'FONTS',
       value: 'Shaped',
       detail: 'HarfBuzz shaping, ligatures, emoji, multi-face fallback chains',
-      href: '/features/fonts',
+      href: `${base}/features/fonts`,
     },
   ];
 
