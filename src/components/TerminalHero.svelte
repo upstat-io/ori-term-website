@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { base } from '../lib/base';
+  import TermFrame from './TermFrame.svelte';
 
   type Platform = 'macos' | 'windows' | 'linux';
 
@@ -15,6 +16,8 @@
   let currentlyTyping = $state<boolean>(false);
   let cursorLine = $state<number>(0);
   let platform = $state<Platform>('linux');
+
+  let frameRef: any;
 
   // Visual state
   let dead = $state(false);
@@ -171,6 +174,7 @@
           setTimeout(() => {
             stopDisruption();
             windowClass = 'unbreaching';
+            frameRef?.setMaximized(false);
             setTimeout(() => {
               windowClass = '';
               animating = false;
@@ -269,58 +273,14 @@
 </script>
 
 <section class="hero" aria-label="Terminal hero">
+  <div class="hero-buttons">
+    <a class="hero-btn" href={`${base}/install`}>Install</a>
+    <a class="hero-btn secondary" href={`${base}/changelog`}>Changelog</a>
+  </div>
+
   {#if !dead}
     <div class="terminal-window {windowClass}">
-      <div class="title-bar">
-        {#if platform === 'macos'}
-          <div class="traffic-lights">
-            <button class="tl close" aria-label="Close" onclick={triggerDestroy}>
-              <svg viewBox="0 0 8 8"><path d="M1.2 6.8L6.8 1.2" stroke="#460804" stroke-width="1.2" stroke-linecap="round"/><path d="M1.2 1.2L6.8 6.8" stroke="#460804" stroke-width="1.2" stroke-linecap="round"/></svg>
-            </button>
-            <button class="tl minimize" aria-label="Minimize" onclick={triggerMinimize}>
-              <svg viewBox="0 0 8 2"><rect x="0" y="0.25" width="8" height="1.5" rx="0.75" fill="#90591d"/></svg>
-            </button>
-            <button class="tl maximize" aria-label="Maximize" onclick={triggerMaximize}>
-              <svg viewBox="0 0 8 8"><path d="M3.5 1H7v3.5zM4.5 7H1V3.5z" fill="#2a6218"/></svg>
-            </button>
-          </div>
-        {/if}
-
-        <div class="tabs">
-          <div class="tab active">
-            <span class="tab-label">{tabLabel}</span>
-            <span class="tab-close">&#xd7;</span>
-          </div>
-          <button class="tab-new" aria-label="New tab">+</button>
-        </div>
-
-        {#if platform === 'windows'}
-          <div class="window-controls windows">
-            <button class="wc" aria-label="Minimize" onclick={triggerMinimize}>
-              <svg viewBox="0 0 12 12" fill="none"><path d="M1 6h10" stroke="currentColor" stroke-width="1"/></svg>
-            </button>
-            <button class="wc" aria-label="Maximize" onclick={triggerMaximize}>
-              <svg viewBox="0 0 12 12" fill="none"><rect x="1.5" y="1.5" width="9" height="9" stroke="currentColor" stroke-width="1"/></svg>
-            </button>
-            <button class="wc close" aria-label="Close" onclick={triggerDestroy}>
-              <svg viewBox="0 0 12 12" fill="none"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1"/></svg>
-            </button>
-          </div>
-        {:else if platform === 'linux'}
-          <div class="window-controls kde">
-            <button class="wc kde-btn" aria-label="Minimize" onclick={triggerMinimize}>
-              <svg viewBox="0 0 18 18" fill="none"><path d="M4 13h10" stroke="currentColor" stroke-width="1.2"/></svg>
-            </button>
-            <button class="wc kde-btn" aria-label="Maximize" onclick={triggerMaximize}>
-              <svg viewBox="0 0 18 18" fill="none"><rect x="4" y="4" width="10" height="10" stroke="currentColor" stroke-width="1.2"/></svg>
-            </button>
-            <button class="wc kde-btn close" aria-label="Close" onclick={triggerDestroy}>
-              <svg viewBox="0 0 18 18" fill="none"><path d="M5 5l8 8M13 5l-8 8" stroke="currentColor" stroke-width="1.2"/></svg>
-            </button>
-          </div>
-        {/if}
-      </div>
-
+      <TermFrame bind:this={frameRef} tabs={[{ title: tabLabel, active: true }]} onclose={triggerDestroy} onminimize={triggerMinimize} onmaximize={triggerMaximize}>
       <div class="terminal-body">
         {#if disrupted}
           {#each glitchLines as gline, i}
@@ -351,6 +311,7 @@
           {/each}
         {/if}
       </div>
+      </TermFrame>
 
       {#each tearBars as bar (bar.id)}
         <div
@@ -392,14 +353,50 @@
     padding: 48px var(--gutter) 64px;
   }
 
+  .hero-buttons {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .hero-btn {
+    font-family: inherit;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 10px 28px;
+    border: 1px solid var(--border-strong);
+    color: var(--text);
+    background: transparent;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .hero-btn:hover {
+    border-color: var(--text-muted);
+    color: var(--text-bright);
+  }
+
+  .hero-btn.secondary {
+    color: var(--text-muted);
+  }
+
+  .hero-btn.secondary:hover {
+    border-color: var(--text-muted);
+    color: var(--text-bright);
+  }
+
   .terminal-window {
     width: 100%;
     max-width: 720px;
-    border: var(--border-weight) solid var(--border-strong);
-    background: var(--bg);
     position: relative;
     overflow: visible;
     transform-origin: center bottom;
+  }
+
+  .terminal-window :global(.frame) {
+    height: auto;
   }
 
   /* ── Shared: shaking class ── */
@@ -415,7 +412,7 @@
     overflow: hidden;
   }
 
-  .terminal-window.shaking .title-bar {
+  .terminal-window.shaking :global(.tab-bar) {
     animation: barFlicker 0.15s steps(1) infinite;
   }
 
@@ -643,182 +640,6 @@
   @keyframes deadBlink {
     0%   { opacity: 1; }
     50%  { opacity: 0; }
-  }
-
-  /* ── Title bar ── */
-
-  .title-bar {
-    display: flex;
-    align-items: flex-end;
-    border-bottom: var(--border-weight) solid var(--border-strong);
-    background: var(--bg-raised);
-    height: 44px;
-    padding: 0 0 0 8px;
-  }
-
-  /* ── macOS traffic lights ── */
-
-  .traffic-lights {
-    display: flex;
-    gap: 8px;
-    padding: 0 16px 0 8px;
-    flex-shrink: 0;
-    align-self: center;
-  }
-
-  .tl {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  button.tl {
-    cursor: pointer;
-    padding: 0;
-    font: inherit;
-    border: none;
-  }
-
-  .tl svg {
-    width: 7px;
-    height: 7px;
-    opacity: 0;
-  }
-
-  .traffic-lights:hover .tl svg {
-    opacity: 1;
-  }
-
-  .tl.close { background: #ff5f57; }
-  .tl.minimize { background: #febc2e; }
-  .tl.maximize { background: #28c840; }
-
-  /* ── Tabs ── */
-
-  .tabs {
-    display: flex;
-    align-items: flex-end;
-    height: 100%;
-    flex: 1;
-    min-width: 0;
-  }
-
-  .tab {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    letter-spacing: 0.05em;
-    border-top: var(--border-weight) solid var(--border);
-    border-right: var(--border-weight) solid var(--border);
-    border-left: var(--border-weight) solid var(--border);
-    margin-left: calc(-1 * var(--border-weight));
-    cursor: default;
-    white-space: nowrap;
-  }
-
-  .tab:first-child {
-    margin-left: 0;
-  }
-
-  .tab.active {
-    color: var(--text-bright);
-    background: var(--bg);
-    margin-bottom: calc(-1 * var(--border-weight));
-    padding-bottom: calc(8px + var(--border-weight));
-  }
-
-  .tab-close {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    line-height: 1;
-  }
-
-  .tab-new {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    padding-bottom: 8px;
-    font-size: 1rem;
-    color: var(--text-muted);
-    background: none;
-    border: none;
-    cursor: default;
-    font-family: inherit;
-    align-self: flex-end;
-  }
-
-  /* ── Window controls (shared) ── */
-
-  .window-controls {
-    display: flex;
-    align-items: stretch;
-    align-self: stretch;
-    margin-left: auto;
-    flex-shrink: 0;
-  }
-
-  .wc {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: none;
-    border: none;
-    color: var(--text-muted);
-    cursor: pointer;
-    padding: 0;
-    font-family: inherit;
-  }
-
-  /* ── Windows style ── */
-
-  .window-controls.windows .wc {
-    width: 46px;
-  }
-
-  .window-controls.windows .wc svg {
-    width: 10px;
-    height: 10px;
-  }
-
-  .window-controls.windows .wc.close:hover {
-    background: #c42b1c;
-    color: #fff;
-  }
-
-  /* ── KDE Breeze style ── */
-
-  .window-controls.kde {
-    gap: 2px;
-    padding: 0 8px;
-    align-items: center;
-    align-self: center;
-  }
-
-  .wc.kde-btn {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-  }
-
-  .wc.kde-btn svg {
-    width: 14px;
-    height: 14px;
-  }
-
-  .wc.kde-btn:hover {
-    background: var(--border);
-  }
-
-  .wc.kde-btn.close:hover {
-    background: #c42b1c;
-    color: #fff;
   }
 
   /* ── Terminal body ── */

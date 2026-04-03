@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import TermFrame from './TermFrame.svelte';
 
   type Status = 'complete' | 'in-progress' | 'not-started' | 'superseded' | 'partial';
   interface Section { num: string; name: string; status: Status; goal: string; }
@@ -34,6 +35,18 @@
   let root: HTMLDivElement | undefined = $state();
 
   const wins = ['roadmap', 'by-status', 'deps'];
+
+  let frameTabs = $derived(wins.map((w, i) => ({ title: w, active: win === i })));
+  let frameStatusLeft = $derived([
+    { label: `${total} sections`, accent: false },
+    { label: `${pctDone}% complete`, accent: false },
+  ]);
+  let frameStatusRight = $derived([
+    { label: 'ori-term', accent: true },
+    { label: 'roadmap', accent: false },
+  ]);
+
+  function handleFrameTab(i: number) { switchWin(i); }
 
   type NavItem =
     | { type: 'tier'; tier: Tier }
@@ -160,6 +173,8 @@
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+<div class="roadmap-shell">
+<TermFrame tabs={frameTabs} statusLeft={frameStatusLeft} statusRight={frameStatusRight} ontabclick={handleFrameTab}>
 <div class="tui" bind:this={root} tabindex="0" onkeydown={handleKey}>
 
   {#if screen === 'detail' && detailSection && detailTier}
@@ -234,12 +249,6 @@
           <div class="view-enter">
 
           {#if win === 0}
-            <div class="banner">$ oriterm roadmap --format=compact</div>
-            <div class="banner-sub">
-              <span class="cyan">ori_term</span> v0.1.0-dev
-              -- {total} sections, {tiers.length} tiers, <span class="green">{pctDone}%</span> complete
-            </div>
-            <div class="rule"></div>
             {#each nav as item, i}
               {#if item.type === 'tier'}
                 <!-- svelte-ignore a11y_click_events_have_key_events -->
@@ -362,78 +371,51 @@
     </div>
   {/if}
 
-  <!-- ═══ STATUS BAR (pinned to bottom) ═══ -->
-  <div class="bar">
-    <div class="bar-l">
-      <span class="bar-sess">[ori]</span>
-      {#each wins as w, i}
-        <button class="bar-tab" class:bar-active={win === i} onclick={() => switchWin(i)}>
-          {i}:{w}{win === i ? '*' : ''}
-        </button>
-      {/each}
-    </div>
-    <div class="bar-hints">
-      {#if screen === 'detail'}
-        <span class="dim">ESC</span> back
-      {:else}
-        <span class="dim">j/k</span> nav
-        <span class="dim">Enter</span> open
-        <span class="dim">1-3</span> view
-      {/if}
-    </div>
-    <div class="bar-r">"ori_term"</div>
-  </div>
+</div>
+</TermFrame>
 </div>
 
 <style>
   /* ── TUI Shell ─────────────────────────────────────── */
-  .tui {
-    --navy: transparent;
-    --navy-lt: rgba(255,255,255,0.03);
-    --navy-panel: rgba(255,255,255,0.02);
-    --border-color: var(--border, #2a2a2a);
-    --border-bright: var(--border-strong, #444444);
-    --text: var(--text-muted, #aaaaaa);
-    --bright: var(--text-bright, #eeeeee);
-    --dim: #505050;
-    --cyan: #00b0b0;
-    --green: #00a858;
-    --yellow: #c8a800;
-    --red: #a05050;
-    --cursor-bg: rgba(255,255,255,0.06);
-    --bar-bg: rgba(255,255,255,0.04);
+  .roadmap-shell { width: 100%; height: 100%; }
 
-    position: fixed;
-    top: 56px;
-    left: 0;
-    right: 0;
-    bottom: 0;
+  .tui {
+    --navy-lt: rgba(255,255,255,0.02);
+    --border-color: #2a2a36;
+    --border-bright: #3a3a48;
+    --text: #d4d4dc;
+    --bright: #eeeeef;
+    --dim: #5c5c70;
+    --cyan: #6d9be0;
+    --green: #4dba8a;
+    --yellow: #e0c454;
+    --red: #c87878;
+    --cursor-bg: rgba(255,255,255,0.03);
+
     display: flex;
     flex-direction: column;
-    background: var(--navy);
-    font-family: var(--font-mono, 'IBM Plex Mono', 'Consolas', monospace);
-    font-size: 0.95rem;
-    line-height: 1.6;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    line-height: 1.55;
     color: var(--text);
     outline: none;
-    overflow: hidden;
   }
 
   /* ── Layout ────────────────────────────────────────── */
-  .tui-content { display: flex; flex: 1; min-height: 0; }
-  .pane-main { flex: 1; min-width: 0; border-left: 2px solid var(--border-bright); display: flex; flex-direction: column; }
-  .pane-scroll { flex: 1; overflow-y: auto; overflow-x: auto; padding: 16px 20px; }
+  .tui-content { display: flex; }
+  .pane-main { flex: 1; min-width: 0; border-right: 1px solid var(--border-color); display: flex; flex-direction: column; }
+  .pane-scroll { padding: 16px 20px; }
   .pane-scroll::-webkit-scrollbar { width: 4px; height: 4px; }
   .pane-scroll::-webkit-scrollbar-thumb { background: var(--border-color); }
   .pane-scroll::-webkit-scrollbar-track { background: transparent; }
 
-  .sidebar { flex: 0 0 340px; display: flex; flex-direction: column; min-height: 0; }
-  .side-panel { padding: 16px 18px; flex: 1; overflow-x: auto; overflow-y: auto; min-height: 0; }
+  .sidebar { flex: 0 0 300px; display: flex; flex-direction: column; }
+  .side-panel { padding: 16px 18px; }
   .side-panel::-webkit-scrollbar { width: 4px; height: 4px; }
   .side-panel::-webkit-scrollbar-thumb { background: var(--border-color); }
   .side-panel::-webkit-scrollbar-track { background: transparent; }
 
-  .div-v { width: 1px; background: var(--border-color); flex-shrink: 0; }
+  .div-v { width: 1px; background: var(--border-color); flex-shrink: 0; display: none; }
   .div-h { height: 1px; background: var(--border-color); flex-shrink: 0; }
 
   /* ── Banner ────────────────────────────────────────── */
@@ -498,7 +480,7 @@
     display: inline-block;
     width: 100px;
     height: 12px;
-    background: var(--border-color);
+    background: #1e1e28;
     border: 1px solid var(--border-color);
     vertical-align: middle;
     overflow: hidden;
@@ -514,7 +496,7 @@
   .st-bg-superseded { background: var(--red); }
 
   /* ── Deps ──────────────────────────────────────────── */
-  .dep-graph { color: var(--cyan); font-size: 0.95rem; line-height: 1.5; margin: 0; padding: 0; background: none; border: none; white-space: pre; }
+  .dep-graph { color: var(--dim); font-size: 0.95rem; line-height: 1.5; margin: 0; padding: 0; background: none; border: none; white-space: pre; }
   .dep-legend { margin-top: 24px; border-top: 1px solid var(--border-color); padding-top: 12px; }
   .dep-tier { display: flex; align-items: center; gap: 10px; padding: 4px 0; font-size: 0.9rem; }
   .dep-tid { min-width: 32px; font-weight: 700; }
@@ -546,21 +528,6 @@
   .view-enter { animation: redraw 0.1s steps(3); }
   @keyframes redraw { 0% { opacity: 0.15; } 100% { opacity: 1; } }
 
-  /* ── Status Bar ────────────────────────────────────── */
-  .bar {
-    display: flex; justify-content: space-between; align-items: center;
-    height: 32px; padding: 0 18px;
-    background: var(--bar-bg); color: var(--cyan);
-    font-size: 0.82rem; letter-spacing: 0.03em;
-    flex-shrink: 0; border-top: 1px solid var(--border-color);
-    z-index: 50;
-  }
-  .bar-l, .bar-r { display: flex; gap: 10px; align-items: center; flex-shrink: 0; }
-  .bar-hints { flex: 1; text-align: center; font-size: 0.75rem; color: var(--dim); }
-  .bar-sess { font-weight: 700; }
-  .bar-tab { background: none; border: none; font-family: inherit; font-size: inherit; color: var(--dim); cursor: pointer; padding: 2px 6px; }
-  .bar-tab:hover { color: var(--cyan); }
-  .bar-active { color: var(--bg, #0a0a0a) !important; background: var(--cyan); font-weight: 700; }
 
   /* ── Detail Screen ─────────────────────────────────── */
   .detail-screen { flex: 1; display: flex; flex-direction: column; overflow-y: auto; padding: 0; }
