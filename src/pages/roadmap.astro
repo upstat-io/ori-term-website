@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.svelte';
+import TmuxRoadmap from '../components/TmuxRoadmap.svelte';
+import { loadRoadmapTiers } from '../lib/roadmap-data';
+
+const tiers = loadRoadmapTiers();
+---
+
+<Base title="ROADMAP — ori-term" description="Development roadmap for ori-term rendered as an interactive tmux session.">
+  <Nav client:load />
+  <TmuxRoadmap tiers={tiers} client:load />
+</Base>
+
+<style is:global>
+  /* Full-page layout — no scroll on body, tmux owns the viewport */
+  body:has(.tui) {
+    overflow: hidden;
+  }
+</style>

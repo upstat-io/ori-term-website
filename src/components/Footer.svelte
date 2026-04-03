@@ -7,6 +7,7 @@
 
   const links = [
     { href: `${base}/features`, label: 'FEATURES' },
+    { href: `${base}/roadmap`, label: 'ROADMAP' },
     { href: `${base}/docs`, label: 'DOCS' },
     { href: `${base}/install`, label: 'INSTALL' },
     { href: `${base}/screenshots`, label: 'SCREENSHOTS' },
