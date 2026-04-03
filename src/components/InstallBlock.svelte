@@ -4,6 +4,14 @@
 
   type Platform = 'windows' | 'macos' | 'linux';
 
+  interface Props {
+    windowsUrl?: string;
+    linuxUrl?: string;
+    macosUrl?: string;
+  }
+
+  let { windowsUrl, linuxUrl, macosUrl }: Props = $props();
+
   let copied = $state(false);
   let platform = $state<Platform>('linux');
 
@@ -38,7 +46,7 @@
 
     {#if platform === 'windows'}
       <div class="install-bar">
-        <a class="bar-main" href={releasesUrl}>
+        <a class="bar-main" href={windowsUrl ?? releasesUrl} download>
           <span class="dollar">&#8595;</span>
           <span class="cmd-text">Download for Windows (x86_64)</span>
         </a>

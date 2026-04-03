@@ -67,7 +67,12 @@ const fallback = `${releasesUrl}/latest`;
       {latest.tag && <p class="page-version">Latest: <a href={latest.url}>{latest.tag}</a></p>}
     </header>
 
-    <InstallBlock client:load />
+    <InstallBlock
+      client:load
+      windowsUrl={latest.windows?.url}
+      linuxUrl={latest.linux?.url}
+      macosUrl={latest.macos?.url}
+    />
 
     <section class="downloads">
       <div class="container">
