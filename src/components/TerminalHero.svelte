@@ -7,7 +7,7 @@
 
   const lines = [
     { prompt: '~/projects', cmd: 'ori-term --version', delay: 0 },
-    { prompt: '', cmd: 'coming soon!', delay: 800, isOutput: true },
+    { prompt: '', cmd: 'ori-term 0.2.0-alpha.20260403.4', delay: 800, isOutput: true },
     { prompt: '~/projects', cmd: 'ori-term', delay: 1400 },
   ];
 

@@ -1,7 +1,12 @@
 ---
 import Docs from '../../layouts/Docs.astro';
 
+const repo = 'upstat-io/ori-term';
+const releasesUrl = `https://github.com/${repo}/releases`;
+const latestUrl = `${releasesUrl}/latest`;
+
 const toc = [
+  { id: 'quick-install', text: 'Quick Install', level: 2 },
   { id: 'download', text: 'Download', level: 2 },
   { id: 'windows', text: 'Windows', level: 3 },
   { id: 'linux', text: 'Linux', level: 3 },
@@ -12,30 +17,46 @@ const toc = [
 ---
 
 <Docs title="Installation" toc={toc}>
+  <p>ori-term is in <strong>alpha</strong>. Pre-release builds are published to <a href={releasesUrl}>GitHub Releases</a> for every tagged version.</p>
+
+  <h2 id="quick-install">Quick Install</h2>
+  <p>On Linux or macOS, the install script detects your platform, downloads the latest release, and puts it in <code>~/.local/bin</code>:</p>
+  <pre><code>curl -fsSL https://oriterm.com/install.sh | sh</code></pre>
+  <p>Or with wget:</p>
+  <pre><code>wget -qO- https://oriterm.com/install.sh | sh</code></pre>
+  <p>To install to a custom directory:</p>
+  <pre><code>ORITERM_INSTALL_DIR=/usr/local/bin curl -fsSL https://oriterm.com/install.sh | sh</code></pre>
+
   <h2 id="download">Download</h2>
-  <p>ori-term ships as a single native binary. No runtime dependencies required -- just download and run.</p>
+  <p>Grab the latest pre-release binary from the <a href={latestUrl}>releases page</a>.</p>
 
   <h3 id="windows">Windows</h3>
-  <p>Download the latest <code>.exe</code> from the <a href="https://github.com/upstat-io/ori_term/releases">releases page</a> and place it in your PATH. Requires Windows 10 or later with a GPU that supports Vulkan or DX12.</p>
+  <p>Download the <code>.zip</code> from <a href={latestUrl}>the latest release</a>. Extract and run <code>oriterm.exe</code>. Optionally add to your PATH. Requires Windows 10 or later with a GPU that supports Vulkan or DX12.</p>
 
   <h3 id="linux">Linux</h3>
-  <p>Download the latest binary from the <a href="https://github.com/upstat-io/ori_term/releases">releases page</a>:</p>
-  <pre><code>curl -LO https://github.com/upstat-io/ori_term/releases/latest/download/ori-term-linux-x86_64
-chmod +x ori-term-linux-x86_64
-sudo mv ori-term-linux-x86_64 /usr/local/bin/ori-term</code></pre>
-  <p>Requires a GPU with Vulkan support. Works on most modern Linux distributions out of the box.</p>
+  <p>Download and install the <code>.tar.gz</code> from <a href={latestUrl}>the latest release</a>:</p>
+  <pre><code># Download the latest release
+# (or use the install script above)
+tar xzf oriterm-*.tar.gz
+chmod +x oriterm
+sudo mv oriterm /usr/local/bin/</code></pre>
+  <p>Requires a GPU with Vulkan support. Works on most modern Linux distributions, X11 and Wayland.</p>
 
   <h3 id="macos">macOS</h3>
-  <p>Download the latest <code>.dmg</code> from the <a href="https://github.com/upstat-io/ori_term/releases">releases page</a>. Drag ori-term to your Applications folder. Works on any Mac from 2012 or later.</p>
+  <p>Download the <code>.tar.gz</code> from <a href={latestUrl}>the latest release</a>:</p>
+  <pre><code>tar xzf oriterm-*.tar.gz
+chmod +x oriterm
+mv oriterm ~/.local/bin/</code></pre>
+  <p>Apple Silicon (aarch64) build available. Requires Metal support (any Mac from 2012+).</p>
 
   <h2 id="from-source">Build from Source</h2>
-  <p>If you prefer to build from source, you need Rust 1.80+:</p>
-  <pre><code>git clone https://github.com/upstat-io/ori_term.git
+  <p>Requires Rust 1.80+:</p>
+  <pre><code>git clone https://github.com/{repo}.git
 cd ori-term
 cargo build --release</code></pre>
-  <p>The binary will be at <code>target/release/ori-term</code>.</p>
+  <p>The binary will be at <code>target/release/oriterm</code> (or <code>oriterm.exe</code> on Windows).</p>
 
   <h2 id="verify">Verify Installation</h2>
-  <pre><code>ori-term --version</code></pre>
-  <p>You should see the version number and build information. Launch with <code>ori-term</code> or see the <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/docs/quick-start`}>Quick Start</a> guide.</p>
+  <pre><code>oriterm --version</code></pre>
+  <p>You should see the version number and build information. Launch with <code>oriterm</code> or see the <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/docs/quick-start`}>Quick Start</a> guide.</p>
 </Docs>

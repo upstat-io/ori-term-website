@@ -3,49 +3,128 @@ import Base from '../layouts/Base.astro';
 import Nav from '../components/Nav.svelte';
 import InstallBlock from '../components/InstallBlock.svelte';
 import Footer from '../components/Footer.svelte';
+import DownloadButton from '../components/DownloadButton.astro';
+
+const repo = 'upstat-io/ori-term';
+const releasesUrl = `https://github.com/${repo}/releases`;
+
+// Fetch latest release + asset URLs at build time
+interface Asset {
+  name: string;
+  url: string;
+  size: number;
+}
+
+interface LatestRelease {
+  tag: string;
+  url: string;
+  windows?: Asset;
+  linux?: Asset;
+  macos?: Asset;
+}
+
+let latest: LatestRelease = { tag: '', url: `${releasesUrl}/latest` };
+
+try {
+  const res = await fetch(
+    `https://api.github.com/repos/${repo}/releases?per_page=1`,
+    { headers: { 'Accept': 'application/vnd.github.v3+json' } }
+  );
+  if (res.ok) {
+    const releases = await res.json();
+    if (releases.length > 0) {
+      const data = releases[0];
+      latest.tag = data.tag_name;
+      latest.url = data.html_url;
+      for (const a of data.assets ?? []) {
+        const asset: Asset = { name: a.name, url: a.browser_download_url, size: a.size };
+        if (a.name.includes('windows'))     latest.windows = asset;
+        else if (a.name.includes('linux'))  latest.linux = asset;
+        else if (a.name.includes('macos'))  latest.macos = asset;
+      }
+    }
+  }
+} catch {
+  // Build continues with fallback links
+}
+
+function formatSize(bytes: number): string {
+  const mb = bytes / (1024 * 1024);
+  return `${mb.toFixed(1)} MB`;
+}
+
+const fallback = `${releasesUrl}/latest`;
 ---
 
 <Base title="Install — ori-term">
   <Nav client:load />
 
   <main>
-    <header class="page-header">
-      <div class="container">
-        <h1>INSTALL</h1>
-        <h2 class="page-subtitle">GET ORI-TERM</h2>
-        <p class="page-desc">Native compiled binary. No runtime dependencies. Download and run.</p>
-      </div>
+    <header class="page-header" style="text-align:center">
+      <h1>INSTALL</h1>
+      <h2 class="page-subtitle">GET ORI-TERM <span class="alpha-tag">ALPHA</span></h2>
+      <p class="page-desc">Alpha pre-release. Native compiled binary. No runtime dependencies. Download and run.</p>
+      {latest.tag && <p class="page-version">Latest: <a href={latest.url}>{latest.tag}</a></p>}
     </header>
 
     <InstallBlock client:load />
 
-    <section class="platforms">
+    <section class="downloads">
       <div class="container">
-        <h2 class="section-label">// PLATFORMS</h2>
-        <div class="platform-grid">
-          <div class="platform-block">
+        <h2 class="section-label">// DOWNLOAD {latest.tag || ''}</h2>
+        <p class="section-desc">Alpha pre-release builds from <a href={releasesUrl}>GitHub Releases</a>. Updated at build time.</p>
+        <div class="platform-grid" id="platform-grid">
+          <div class="platform-block" data-platform="windows">
+
             <h3>WINDOWS</h3>
-            <p>Download the <code>.exe</code> from the releases page. Requires a GPU with Vulkan or DX12 support. Supports Aero Snap, Mica/Acrylic transparency, ConPTY, and DirectWrite font rendering.</p>
+            <p>Extract the <code>.zip</code> and run <code>oriterm.exe</code>. Requires a GPU with Vulkan or DX12 support.</p>
+            <DownloadButton
+              href={latest.windows?.url ?? fallback}
+              label="Windows x86_64"
+              size={latest.windows ? formatSize(latest.windows.size) : undefined}
+            />
           </div>
-          <div class="platform-block">
+          <div class="platform-block" data-platform="linux">
+
             <h3>LINUX</h3>
-            <p>Download the binary and place it in your PATH. Requires Vulkan GPU support and fontconfig. Works on both X11 and Wayland.</p>
+            <p>Extract the <code>.tar.gz</code> and place in your PATH. Requires Vulkan GPU support. Works on X11 and Wayland.</p>
+            <DownloadButton
+              href={latest.linux?.url ?? fallback}
+              label="Linux x86_64"
+              size={latest.linux ? formatSize(latest.linux.size) : undefined}
+            />
           </div>
-          <div class="platform-block">
+          <div class="platform-block" data-platform="macos">
+
             <h3>MACOS</h3>
-            <p>Download the <code>.dmg</code> and drag to Applications. Requires Metal support (any Mac from 2012+). Native CoreText font rendering and vibrancy transparency.</p>
+            <p>Extract the <code>.tar.gz</code> for Apple Silicon. Requires Metal support (any Mac from 2012+).</p>
+            <DownloadButton
+              href={latest.macos?.url ?? fallback}
+              label="macOS aarch64"
+              size={latest.macos ? formatSize(latest.macos.size) : undefined}
+            />
           </div>
         </div>
+        <p class="releases-note">All releases, changelogs, and checksums: <a href={releasesUrl}>{repo}/releases</a></p>
+      </div>
+    </section>
+
+    <section class="quick-install" id="quick-install-section">
+      <div class="container">
+        <h2 class="section-label">// QUICK INSTALL <span class="platform-hint" id="quick-install-hint">(LINUX / MACOS)</span></h2>
+        <p class="source-note">Detects your platform, downloads the latest release, and installs to <code>~/.local/bin</code>:</p>
+        <pre><code>curl -fsSL https://oriterm.com/install.sh | sh</code></pre>
+        <p class="source-note">Or with wget:</p>
+        <pre><code>wget -qO- https://oriterm.com/install.sh | sh</code></pre>
       </div>
     </section>
 
     <section class="from-source">
       <div class="container">
-        <h2 class="section-label">// FROM SOURCE</h2>
-        <p class="source-note">If you prefer to build from source, you need Rust 1.80+.</p>
-        <pre><code>git clone https://github.com/upstat-io/ori_term.git
-cd ori-term
-cargo build --release</code></pre>
+        <h2 class="section-label">// BUILD FROM SOURCE</h2>
+        <p class="source-note">If you prefer to build from source, you need Rust 1.80+:</p>
+        <pre><code>{`git clone https://github.com/${repo}.git\ncd ori-term\ncargo build --release`}</code></pre>
+        <p class="source-note">The binary will be at <code>target/release/oriterm</code> (or <code>oriterm.exe</code> on Windows).</p>
         <p class="source-note">See <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/docs/installation`}>installation docs</a> for platform-specific build dependencies.</p>
       </div>
     </section>
@@ -62,6 +141,9 @@ cargo build --release</code></pre>
   .page-header {
     padding: 80px 0 64px;
     border-bottom: var(--border-weight) solid var(--border);
+  }
+
+  .page-header .container {
     text-align: center;
   }
 
@@ -79,6 +161,17 @@ cargo build --release</code></pre>
     font-weight: 400;
   }
 
+  .alpha-tag {
+    display: inline-block;
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    border: 1px solid var(--border-strong);
+    padding: 2px 8px;
+    margin-left: 4px;
+    vertical-align: middle;
+  }
+
   .page-desc {
     color: var(--text-muted);
     font-size: 0.85rem;
@@ -88,7 +181,33 @@ cargo build --release</code></pre>
     margin-right: auto;
   }
 
-  .platforms {
+  .page-version {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 12px;
+    letter-spacing: 0.06em;
+    min-width: 100%;
+    text-align: center;
+  }
+
+  .page-version a {
+    color: var(--text-bright);
+    text-decoration: none;
+    border-bottom: none;
+  }
+
+  .page-version a:hover {
+    text-decoration: underline;
+    border-bottom: none;
+  }
+
+  .downloads {
+    padding: 80px 0;
+    border-bottom: var(--border-weight) solid var(--border);
+  }
+
+  .quick-install {
     padding: 80px 0;
     border-bottom: var(--border-weight) solid var(--border);
   }
@@ -102,6 +221,22 @@ cargo build --release</code></pre>
     text-transform: uppercase;
   }
 
+  .platform-hint {
+    color: var(--text-muted);
+    opacity: 0.6;
+  }
+
+  .section-desc {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 32px;
+    line-height: 1.6;
+  }
+
+  .section-desc a {
+    color: var(--text-bright);
+  }
+
   .platform-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -111,6 +246,19 @@ cargo build --release</code></pre>
   .platform-block {
     border: var(--border-weight) solid var(--border);
     padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.15s;
+    position: relative;
+  }
+
+  .platform-tag {
+    display: none;
+  }
+
+  .platform-block.detected {
+    background: var(--bg-surface);
+    order: -1;
   }
 
   .platform-block h3 {
@@ -124,6 +272,7 @@ cargo build --release</code></pre>
     font-size: 0.85rem;
     color: var(--text-muted);
     line-height: 1.7;
+    flex: 1;
   }
 
   .platform-block code {
@@ -132,7 +281,48 @@ cargo build --release</code></pre>
     background: var(--bg-surface);
     padding: 2px 6px;
     border: 1px solid var(--border);
-    color: var(--accent);
+    color: var(--text-bright);
+  }
+
+  .dl-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+    color: var(--text);
+    background: var(--bg-raised);
+    border: var(--border-weight) solid var(--border-strong);
+    text-decoration: none;
+    transition: all 0.15s;
+  }
+
+  .dl-btn:hover {
+    border-color: var(--text-bright);
+    color: var(--text-bright);
+  }
+
+
+  .dl-icon {
+    font-size: 1.1em;
+  }
+
+  .dl-size {
+    font-size: 0.85em;
+    color: var(--text-muted);
+  }
+
+  .releases-note {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 32px;
+  }
+
+  .releases-note a {
+    color: var(--text-bright);
   }
 
   .from-source {
@@ -144,6 +334,19 @@ cargo build --release</code></pre>
     color: var(--text-muted);
     margin-bottom: 16px;
     line-height: 1.6;
+  }
+
+  .source-note a {
+    color: var(--text-bright);
+  }
+
+  .source-note code {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    background: var(--bg-surface);
+    padding: 2px 6px;
+    border: 1px solid var(--border);
+    color: var(--text-bright);
   }
 
   pre {
@@ -163,3 +366,24 @@ cargo build --release</code></pre>
     }
   }
 </style>
+
+<script>
+  function detectPlatform(): 'windows' | 'macos' | 'linux' {
+    const ua = navigator.userAgent.toLowerCase();
+    if (ua.includes('mac')) return 'macos';
+    if (ua.includes('win')) return 'windows';
+    return 'linux';
+  }
+
+  const platform = detectPlatform();
+
+  const match = document.querySelector(`.platform-block[data-platform="${platform}"]`);
+  if (match) {
+    match.classList.add('detected');
+  }
+
+  const hint = document.getElementById('quick-install-hint');
+  if (hint && platform === 'windows') {
+    hint.textContent = '(LINUX / MACOS / WSL)';
+  }
+</script>
