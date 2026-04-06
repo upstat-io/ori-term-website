@@ -23,11 +23,12 @@ jobs:
       - name: Checkout website
         uses: actions/checkout@v4
 
-      - name: Checkout ori_term (roadmap data)
+      - name: Checkout ori_term (roadmap + git history for changelog)
         uses: actions/checkout@v4
         with:
           repository: upstat-io/ori_term
           path: ori_term
+          fetch-depth: 500
           sparse-checkout: |
             plans/roadmap
           sparse-checkout-cone-mode: false
