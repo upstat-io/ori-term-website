@@ -29,7 +29,8 @@ const toc = [
     </thead>
     <tbody>
       <tr><td>New tab</td><td><kbd>{keys.newTab}</kbd></td></tr>
-      <tr><td>Close pane/tab</td><td><kbd>{keys.closePane}</kbd></td></tr>
+      <tr><td>Close tab</td><td><kbd>{keys.closeTab}</kbd></td></tr>
+      <tr><td>Close pane</td><td><kbd>{keys.closePane}</kbd></td></tr>
       <tr><td>Split right</td><td><kbd>{keys.splitRight}</kbd></td></tr>
       <tr><td>Split down</td><td><kbd>{keys.splitDown}</kbd></td></tr>
       <tr><td>Focus pane</td><td><kbd>{keys.focusPaneDir}</kbd></td></tr>
@@ -38,6 +39,7 @@ const toc = [
       <tr><td>Search</td><td><kbd>{keys.openSearch}</kbd></td></tr>
       <tr><td>Font larger</td><td><kbd>{keys.fontLarger}</kbd></td></tr>
       <tr><td>Font smaller</td><td><kbd>{keys.fontSmaller}</kbd></td></tr>
+      <tr><td>Settings</td><td><kbd>{keys.openSettings}</kbd></td></tr>
       <tr><td>Reload config</td><td><kbd>{keys.reloadConfig}</kbd></td></tr>
     </tbody>
   </table>
@@ -49,16 +51,16 @@ const toc = [
 
   <h2 id="tabs">Tabs</h2>
   <p>Press <kbd>{keys.newTab}</kbd> for a new tab. Each tab has its own split tree. Switch between tabs with <kbd>{keys.nextTab}</kbd> and <kbd>{keys.prevTab}</kbd>, or click the tab bar.</p>
-  <p>Accidentally closed a tab? <kbd>{keys.undoCloseTab}</kbd> restores it with the working directory preserved.</p>
 
   <h2 id="font-size">Font Size</h2>
-  <p>Adjust on the fly with <kbd>{keys.fontLarger}</kbd> to increase and <kbd>{keys.fontSmaller}</kbd> to decrease. The terminal reflows content to fit the new cell size.</p>
+  <p>Adjust on the fly with <kbd>{keys.fontLarger}</kbd> to increase, <kbd>{keys.fontSmaller}</kbd> to decrease, and <kbd>{keys.fontReset}</kbd> to reset. The terminal reflows content to fit the new cell size.</p>
 
   <h2 id="search">Search</h2>
   <p><kbd>{keys.openSearch}</kbd> opens the search bar. Type your query and matches highlight across the viewport and scrollback. Press <kbd>{keys.nextMatch}</kbd> to jump to the next match, <kbd>{keys.prevMatch}</kbd> for previous. <kbd>{keys.closeSearch}</kbd> to close.</p>
 
   <h2 id="copy-paste">Copy & Paste</h2>
   <p>Select text by clicking and dragging. Double-click to select a word, triple-click for a line. Copy with <kbd>{keys.copy}</kbd> (or enable copy-on-select in config). Paste with <kbd>{keys.paste}</kbd>.</p>
+  <p><kbd>{keys.smartCopy}</kbd> copies if there is an active selection, otherwise sends Ctrl+C to the shell. <kbd>{keys.smartPaste}</kbd> pastes from clipboard.</p>
 
   <h2 id="next-steps">Next Steps</h2>
   <ul>

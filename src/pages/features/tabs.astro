@@ -5,23 +5,15 @@ import { keys } from '../../lib/keybindings';
 
 <Feature
   title="TABS"
-  subtitle="Chrome-style tab management with tear-off, drag, and live previews."
+  subtitle="Chrome-style tab management with tear-off, drag, and reordering."
 >
   <h2>Chrome-Style Tabs</h2>
   <p>Tabs in ori-term work the way you expect from a browser. Tear a tab off into its own window by dragging it out, drag it back in to rejoin, and reorder tabs with smooth animation. Every operation feels instant.</p>
   <ul>
-    <li><kbd>{keys.newTab}</kbd> -- New tab</li>
-    <li><kbd>{keys.closeTab}</kbd> -- Close tab</li>
-    <li><kbd>{keys.nextTab}</kbd> / <kbd>{keys.prevTab}</kbd> -- Next / previous tab</li>
-    <li><kbd>{keys.undoCloseTab}</kbd> -- Undo close tab</li>
+    <li><kbd>{keys.newTab}</kbd> — New tab</li>
+    <li><kbd>{keys.closeTab}</kbd> — Close tab</li>
+    <li><kbd>{keys.nextTab}</kbd> / <kbd>{keys.prevTab}</kbd> — Next / previous tab</li>
   </ul>
-
-  <div class="screenshot-placeholder" role="img" aria-label="Screenshot of Chrome-style tabs with drag reordering and tear-off">
-    <span>[ SCREENSHOT COMING SOON ]</span>
-  </div>
-
-  <h2>Tab Hover Preview</h2>
-  <p>Hover over any tab to see a scaled-down live thumbnail of its terminal content. Previews are rendered via offscreen targets so they stay up to date without impacting performance.</p>
 
   <h2>Tab Width Lock</h2>
   <p>When closing tabs in rapid succession, the tab bar locks widths so close buttons stay aligned under your cursor. No more chasing a shifting close button across the bar.</p>
@@ -33,24 +25,11 @@ import { keys } from '../../lib/keybindings';
   <p>Right-click a tab for a GPU-rendered context menu with drop shadows, hover highlighting, and separators. Actions include close, duplicate, move to new window, and more.</p>
 
   <h2>Settings UI</h2>
-  <p>Access the settings panel to select color schemes with visual checkmark indicators. The settings UI is rendered inline using the same GPU pipeline as the rest of the chrome.</p>
+  <p>Access the settings panel with <kbd>{keys.openSettings}</kbd> to select color schemes with visual checkmark indicators. The settings UI is rendered inline using the same GPU pipeline as the rest of the chrome.</p>
 
   <h2>Window Controls</h2>
-  <p>Minimize, maximize, and close buttons are rendered per platform -- rectangular on Windows, circular on macOS. Controls are integrated into the tab bar for a clean, frameless look.</p>
+  <p>Minimize, maximize, and close buttons are rendered per platform — rectangular on Windows, circular on macOS. Controls are integrated into the tab bar for a clean, frameless look.</p>
 
   <h2>Frameless Drag</h2>
   <p>The tab bar doubles as the title bar. Drag to move the window, double-click to maximize, and drag to screen edges for Aero Snap support on Windows.</p>
 </Feature>
-
-<style>
-  .screenshot-placeholder {
-    border: var(--border-weight) solid var(--border);
-    background: var(--bg-raised);
-    padding: 120px 24px;
-    text-align: center;
-    color: var(--text-muted);
-    font-size: 0.75rem;
-    letter-spacing: 0.2em;
-    margin-bottom: 24px;
-  }
-</style>

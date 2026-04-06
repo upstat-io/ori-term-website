@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   repository_dispatch:
-    types: [oriterm-roadmap-updated]
+    types: [oriterm-roadmap-updated, oriterm-release-published]
   workflow_dispatch:
 
 permissions:

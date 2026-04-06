@@ -27,14 +27,14 @@ export const docSections: DocSection[] = [
       { title: 'Panes & Splits', href: `${base}/docs/panes`, desc: 'Splitting, resizing, navigating, and managing panes' },
       { title: 'Tabs & Windows', href: `${base}/docs/tabs`, desc: 'Tab management, multi-window, drag and drop' },
       { title: 'Theming', href: `${base}/docs/theming`, desc: 'Built-in themes, custom themes, light/dark switching' },
-      { title: 'Search & Mark Mode', href: `${base}/docs/search`, desc: 'Finding text, vi-style navigation, selection' },
-      { title: 'Shell Integration', href: `${base}/docs/shell-integration`, desc: 'CWD tracking, semantic zones, notifications' },
+      { title: 'Search & Mark Mode', href: `${base}/docs/search`, desc: 'Finding text, keyboard navigation, selection' },
+      { title: 'Shell Integration', href: `${base}/docs/shell-integration`, desc: 'CWD tracking, semantic zones, prompt navigation' },
     ],
   },
   {
     label: 'ADVANCED',
     pages: [
-      { title: 'Daemon & Sessions', href: `${base}/docs/daemon`, desc: 'Session persistence, crash recovery, multi-client' },
+      { title: 'Daemon & Sessions', href: `${base}/docs/daemon`, desc: 'Planned — session persistence, crash recovery, multi-client' },
       { title: 'Images', href: `${base}/docs/images`, desc: 'Displaying images with Kitty, Sixel, and iTerm2 protocols' },
       { title: 'URL Patterns', href: `${base}/docs/url-patterns`, desc: 'Custom regex patterns for clickable URLs' },
       { title: 'Font Configuration', href: `${base}/docs/font-config`, desc: 'Fallback chains, ligatures, OpenType features' },

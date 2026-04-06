@@ -1,14 +1,18 @@
 ---
 import Feature from '../../layouts/Feature.astro';
-import { keys } from '../../lib/keybindings';
 ---
 
 <Feature
   title="HINTS"
-  subtitle="Vimium-style keyboard labels for fast interaction with URLs, paths, and more."
+  subtitle="Planned — vimium-style keyboard labels for fast interaction with URLs, paths, and more."
 >
+  <div class="roadmap-banner">
+    <strong>This feature is on the roadmap and not yet implemented.</strong>
+    <p>The design is outlined below. See the <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/roadmap`}>roadmap</a> for current status.</p>
+  </div>
+
   <h2>Pattern Matching</h2>
-  <p>ori-term scans visible terminal content using regex-based detection to identify actionable text. Built-in patterns recognize:</p>
+  <p>ori-term will scan visible terminal content using regex-based detection to identify actionable text. Built-in patterns will recognize:</p>
   <ul>
     <li>URLs and hyperlinks</li>
     <li>File paths</li>
@@ -17,46 +21,32 @@ import { keys } from '../../lib/keybindings';
     <li>Email addresses</li>
   </ul>
 
-  <div class="screenshot-placeholder" role="img" aria-label="Screenshot of hint labels overlaid on detected URLs and file paths in terminal output">
-    <span>[ SCREENSHOT COMING SOON ]</span>
-  </div>
-
   <h2>Keyboard Labels</h2>
-  <p>When hints are activated, each detected item gets a short alphabetic label rendered as an overlay. Type the label characters to select the target -- progressive filtering narrows options as you type, vimium-style.</p>
-
-  <h2>Hint Rendering</h2>
-  <p>The terminal content dims while hints are active, and labels are drawn with high-contrast overlays so they stand out clearly against any background. Labels disappear as soon as you complete a selection or press <kbd>{keys.closeSearch}</kbd> to cancel.</p>
+  <p>When hints are activated, each detected item will get a short alphabetic label rendered as an overlay. Type the label characters to select the target — progressive filtering narrows options as you type, vimium-style.</p>
 
   <h2>Configurable Actions</h2>
-  <p>Each pattern type supports a configurable default action:</p>
-  <ul>
-    <li><strong>Copy</strong> -- Copy the matched text to the clipboard</li>
-    <li><strong>Open</strong> -- Open the target in the default application (browser for URLs, editor for file paths)</li>
-    <li><strong>Copy and paste</strong> -- Copy the text and paste it into the terminal input</li>
-    <li><strong>Select</strong> -- Highlight the matched text as a selection</li>
-  </ul>
+  <p>Each pattern type will support configurable default actions: copy to clipboard, open in default application, copy and paste into terminal input, or highlight as a selection.</p>
 
   <h2>Custom Patterns</h2>
-  <p>Define your own regex patterns in your config file for project-specific identifiers. Each custom pattern supports an optional URL template for direct linking:</p>
-  <ul>
-    <li>JIRA ticket IDs -- open directly in your issue tracker</li>
-    <li>GitHub issue references -- link to the issue on github.com</li>
-    <li>Any custom identifier -- map to a URL template with capture group substitution</li>
-  </ul>
-
-  <h2>Keybindings</h2>
-  <p>Activate hints with <kbd>{keys.activateHints}</kbd> to label all detected patterns at once. Individual pattern types can also have their own dedicated keybindings for targeted hint activation.</p>
+  <p>Custom regex patterns will be definable in the config file for project-specific identifiers, with optional URL templates for direct linking.</p>
 </Feature>
 
 <style>
-  .screenshot-placeholder {
-    border: var(--border-weight) solid var(--border);
-    background: var(--bg-raised);
-    padding: 120px 24px;
-    text-align: center;
-    color: var(--text-muted);
-    font-size: 0.75rem;
-    letter-spacing: 0.2em;
-    margin-bottom: 24px;
+  .roadmap-banner {
+    border: var(--border-weight) solid var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    padding: 20px 24px;
+    margin-bottom: 32px;
+  }
+
+  .roadmap-banner strong {
+    color: var(--accent);
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .roadmap-banner p {
+    margin: 0;
+    font-size: 0.85rem;
   }
 </style>

@@ -5,9 +5,17 @@
 
   type Platform = 'macos' | 'windows' | 'linux';
 
+  interface Props {
+    version?: string;
+  }
+
+  let { version = '' }: Props = $props();
+
+  const versionOutput = version ? `ori-term ${version}` : 'ori-term 0.2.0-alpha';
+
   const lines = [
     { prompt: '~/projects', cmd: 'ori-term --version', delay: 0 },
-    { prompt: '', cmd: 'ori-term 0.2.0-alpha.20260403.4', delay: 800, isOutput: true },
+    { prompt: '', cmd: versionOutput, delay: 800, isOutput: true },
     { prompt: '~/projects', cmd: 'ori-term', delay: 1400 },
   ];
 

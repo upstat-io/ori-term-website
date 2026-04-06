@@ -1,29 +1,34 @@
 /**
  * Central source of truth for all keyboard shortcuts.
  * Update here and every page reflects the change.
+ *
+ * Only shortcuts that are actually implemented in the codebase belong here.
+ * Roadmap features must not appear — they mislead users into expecting
+ * functionality that does not exist yet.
  */
 export const keys = {
   // General
   reloadConfig: 'Ctrl+Shift+R',
+  openSettings: 'Ctrl+,',
   fontLarger: 'Ctrl+=',
   fontSmaller: 'Ctrl+-',
   fontReset: 'Ctrl+0',
+  toggleFullscreen: 'Alt+Enter',
+  selectAll: 'Ctrl+A',
 
   // Panes
-  splitRight: 'Ctrl+Shift+D',
+  splitRight: 'Ctrl+Shift+O',
   splitDown: 'Ctrl+Shift+E',
-  closePane: 'Ctrl+W',
-  focusLeft: 'Alt+Left',
-  focusRight: 'Alt+Right',
-  focusUp: 'Alt+Up',
-  focusDown: 'Alt+Down',
-  focusPaneDir: 'Alt+Arrow',
-  cyclePanesForward: 'Alt+]',
-  cyclePanesBack: 'Alt+[',
-  resizePane: 'Alt+Shift+Arrow',
+  closePane: 'Ctrl+Shift+W',
+  focusLeft: 'Ctrl+Alt+Left',
+  focusRight: 'Ctrl+Alt+Right',
+  focusUp: 'Ctrl+Alt+Up',
+  focusDown: 'Ctrl+Alt+Down',
+  focusPaneDir: 'Ctrl+Alt+Arrow',
+  resizePane: 'Ctrl+Alt+Shift+Arrow',
   equalizePanes: 'Ctrl+Shift+=',
   zoomPane: 'Ctrl+Shift+Z',
-  toggleFloating: 'Ctrl+Shift+F',
+  toggleFloating: 'Ctrl+Shift+P',
   floatTileToggle: 'Ctrl+Shift+G',
   undoSplit: 'Ctrl+Shift+U',
   redoSplit: 'Ctrl+Shift+Y',
@@ -33,41 +38,35 @@ export const keys = {
   closeTab: 'Ctrl+W',
   nextTab: 'Ctrl+Tab',
   prevTab: 'Ctrl+Shift+Tab',
-  undoCloseTab: 'Ctrl+Shift+T',
 
   // Clipboard
   copy: 'Ctrl+Shift+C',
   paste: 'Ctrl+Shift+V',
+  smartCopy: 'Ctrl+C',
+  smartPaste: 'Ctrl+V',
 
   // Search
-  openSearch: 'Ctrl+F',
+  openSearch: 'Ctrl+Shift+F',
   nextMatch: 'Enter',
   prevMatch: 'Shift+Enter',
   closeSearch: 'Esc',
 
-  // Mark / Vi Mode
+  // Mark Mode
   enterMarkMode: 'Ctrl+Shift+M',
-  toggleViMode: 'Ctrl+Shift+Space',
-  halfPageUp: 'Ctrl+U',
-  halfPageDown: 'Ctrl+D',
-  fullPageUp: 'Ctrl+B',
-  fullPageDown: 'Ctrl+F',
-  blockSelection: 'Ctrl+V',
 
-  // Hints
-  activateHints: 'Ctrl+Shift+H',
+  // Scrollback
+  scrollPageUp: 'Shift+PageUp',
+  scrollPageDown: 'Shift+PageDown',
+  scrollToTop: 'Shift+Home',
+  scrollToBottom: 'Shift+End',
 
-  // Power Features
-  commandPalette: 'Ctrl+Shift+P',
-  quickTerminal: 'F12',
-  terminalInspector: 'Ctrl+Shift+I',
+  // Prompt Navigation
+  previousPrompt: 'Ctrl+Shift+Up',
+  nextPrompt: 'Ctrl+Shift+Down',
 
   // URLs
   urlModifier: 'Ctrl',
   openUrl: 'Ctrl+Click',
-
-  // TUI
-  tuiPrefix: 'Ctrl+B',
 } as const;
 
 export type KeyAction = keyof typeof keys;

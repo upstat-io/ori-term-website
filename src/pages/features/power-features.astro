@@ -5,44 +5,50 @@ import { keys } from '../../lib/keybindings';
 
 <Feature
   title="POWER FEATURES"
-  subtitle="Command palette, quick terminal, smart paste, and more productivity tools."
+  subtitle="Smart paste protection and additional productivity tools."
 >
-  <h2>Command Palette</h2>
-  <p>Press <kbd>{keys.commandPalette}</kbd> to open a fuzzy-search action picker. Every action in ori-term is accessible from the palette -- switch tabs, change themes, run scripts, toggle settings. Type to filter, arrow keys to select, enter to execute.</p>
-
-  <h2>Quick Terminal</h2>
-  <p>A global hotkey dropdown terminal in the style of Quake consoles. Press <kbd>{keys.quickTerminal}</kbd> from anywhere on your desktop to slide a terminal down from the top of the screen. Press again to dismiss. Always one keystroke away, no window switching required.</p>
-
   <h2>Smart Paste</h2>
   <p>ori-term protects you from accidental pastes that could cause damage:</p>
   <ul>
-    <li><strong>Multi-line paste warning</strong> -- asks for confirmation before pasting content that spans multiple lines</li>
-    <li><strong>ESC sanitization</strong> -- strips escape characters from pasted text to prevent injection of terminal control sequences</li>
-    <li><strong>Large paste confirmation</strong> -- warns before pasting unusually large content</li>
+    <li><strong>Multi-line paste warning</strong> — asks for confirmation before pasting content that spans multiple lines</li>
+    <li><strong>Large paste confirmation</strong> — warns before pasting unusually large content</li>
+    <li><strong>Configurable</strong> — set to Always, Auto (respects bracketed paste mode), or Never</li>
   </ul>
 
-  <h2>Undo Close Tab</h2>
-  <p>Press <kbd>{keys.undoCloseTab}</kbd> to restore a recently closed tab. The tab reopens with its original working directory intact. No more losing context because of an accidental close.</p>
+  <h2>Smart Copy / Paste</h2>
+  <p><kbd>{keys.smartCopy}</kbd> copies if there is an active selection, otherwise sends the normal Ctrl+C (SIGINT) to the shell. <kbd>{keys.smartPaste}</kbd> pastes from clipboard. Explicit <kbd>{keys.copy}</kbd> / <kbd>{keys.paste}</kbd> are always available.</p>
 
-  <h2>Desktop Notifications</h2>
-  <p>ori-term supports native desktop notifications through standard escape sequences:</p>
-  <ul>
-    <li><strong>OSC 9</strong> -- basic notification with message text</li>
-    <li><strong>OSC 777</strong> -- notification with title and body</li>
-    <li><strong>OSC 99</strong> -- extended notification protocol</li>
-  </ul>
-  <p>Notifications use your platform's native toast system. Useful for long-running builds, test suites, or any background task that needs your attention.</p>
+  <h2>Select All</h2>
+  <p><kbd>{keys.selectAll}</kbd> selects intelligently: if shell integration detects you are at a prompt, it selects the command input line. Otherwise it selects the entire buffer.</p>
 
-  <h2>Progress Indicators</h2>
-  <p>Applications can report progress to ori-term via <code>OSC 9;4</code>, which displays as a taskbar progress bar on your OS. On Windows this uses the ITaskbarList3 API for native integration with the taskbar. See at a glance whether a build or download is still running.</p>
+  <h2>Prompt Navigation</h2>
+  <p>Jump between shell prompts with <kbd>{keys.previousPrompt}</kbd> and <kbd>{keys.nextPrompt}</kbd>. Requires shell integration (OSC 133) to mark prompt boundaries.</p>
 
-  <h2>Terminal Inspector</h2>
-  <p>Press <kbd>{keys.terminalInspector}</kbd> to open a debug overlay that shows the escape sequence log. Inspect exactly what your shell and applications are sending to the terminal in real time. Invaluable for debugging shell prompts, TUI applications, and escape sequence issues.</p>
+  <h2>Settings UI</h2>
+  <p>Press <kbd>{keys.openSettings}</kbd> to open the settings overlay. Change color schemes, adjust opacity, toggle blur, and configure rendering options — all without editing config files.</p>
 
-  <h2>Session Serialization</h2>
-  <p>Save and restore full workspace layouts:</p>
-  <ul>
-    <li><strong>Workspace presets</strong> -- define named layouts with specific tab and pane arrangements, working directories, and startup commands</li>
-    <li><strong>Broadcast input</strong> -- send keystrokes to all panes simultaneously for parallel operations across multiple sessions</li>
-  </ul>
+  <div class="roadmap-banner">
+    <strong>Additional power features are planned:</strong>
+    <p>Command palette, Quake-style quick terminal, terminal inspector, desktop notifications, and taskbar progress indicators are on the <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/roadmap`}>roadmap</a>.</p>
+  </div>
 </Feature>
+
+<style>
+  .roadmap-banner {
+    border: var(--border-weight) solid var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    padding: 20px 24px;
+    margin-top: 48px;
+  }
+
+  .roadmap-banner strong {
+    color: var(--accent);
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .roadmap-banner p {
+    margin: 0;
+    font-size: 0.85rem;
+  }
+</style>

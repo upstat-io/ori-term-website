@@ -8,6 +8,7 @@ const toc = [
   { id: 'tabs', text: 'Tabs', level: 2 },
   { id: 'clipboard', text: 'Clipboard', level: 2 },
   { id: 'search', text: 'Search', level: 2 },
+  { id: 'scrollback', text: 'Scrollback', level: 2 },
   { id: 'mark-mode', text: 'Mark Mode', level: 2 },
   { id: 'customizing', text: 'Customizing', level: 2 },
 ];
@@ -19,9 +20,12 @@ const toc = [
     <thead><tr><th>Action</th><th>Shortcut</th></tr></thead>
     <tbody>
       <tr><td>Reload config</td><td><kbd>{keys.reloadConfig}</kbd></td></tr>
+      <tr><td>Open settings</td><td><kbd>{keys.openSettings}</kbd></td></tr>
       <tr><td>Font larger</td><td><kbd>{keys.fontLarger}</kbd></td></tr>
       <tr><td>Font smaller</td><td><kbd>{keys.fontSmaller}</kbd></td></tr>
       <tr><td>Font reset</td><td><kbd>{keys.fontReset}</kbd></td></tr>
+      <tr><td>Toggle fullscreen</td><td><kbd>{keys.toggleFullscreen}</kbd></td></tr>
+      <tr><td>Select all</td><td><kbd>{keys.selectAll}</kbd></td></tr>
     </tbody>
   </table>
 
@@ -36,12 +40,11 @@ const toc = [
       <tr><td>Focus right</td><td><kbd>{keys.focusRight}</kbd></td></tr>
       <tr><td>Focus up</td><td><kbd>{keys.focusUp}</kbd></td></tr>
       <tr><td>Focus down</td><td><kbd>{keys.focusDown}</kbd></td></tr>
-      <tr><td>Cycle panes</td><td><kbd>{keys.cyclePanesForward}</kbd> / <kbd>{keys.cyclePanesBack}</kbd></td></tr>
       <tr><td>Resize pane</td><td><kbd>{keys.resizePane}</kbd></td></tr>
       <tr><td>Equalize panes</td><td><kbd>{keys.equalizePanes}</kbd></td></tr>
       <tr><td>Zoom pane</td><td><kbd>{keys.zoomPane}</kbd></td></tr>
       <tr><td>Toggle floating</td><td><kbd>{keys.toggleFloating}</kbd></td></tr>
-      <tr><td>Float ↔ tile</td><td><kbd>{keys.floatTileToggle}</kbd></td></tr>
+      <tr><td>Float / tile</td><td><kbd>{keys.floatTileToggle}</kbd></td></tr>
       <tr><td>Undo split</td><td><kbd>{keys.undoSplit}</kbd></td></tr>
       <tr><td>Redo split</td><td><kbd>{keys.redoSplit}</kbd></td></tr>
     </tbody>
@@ -55,7 +58,6 @@ const toc = [
       <tr><td>Close tab</td><td><kbd>{keys.closeTab}</kbd></td></tr>
       <tr><td>Next tab</td><td><kbd>{keys.nextTab}</kbd></td></tr>
       <tr><td>Previous tab</td><td><kbd>{keys.prevTab}</kbd></td></tr>
-      <tr><td>Undo close tab</td><td><kbd>{keys.undoCloseTab}</kbd></td></tr>
     </tbody>
   </table>
 
@@ -65,6 +67,8 @@ const toc = [
     <tbody>
       <tr><td>Copy</td><td><kbd>{keys.copy}</kbd></td></tr>
       <tr><td>Paste</td><td><kbd>{keys.paste}</kbd></td></tr>
+      <tr><td>Smart copy (copy or SIGINT)</td><td><kbd>{keys.smartCopy}</kbd></td></tr>
+      <tr><td>Smart paste</td><td><kbd>{keys.smartPaste}</kbd></td></tr>
     </tbody>
   </table>
 
@@ -79,38 +83,46 @@ const toc = [
     </tbody>
   </table>
 
+  <h2 id="scrollback">Scrollback</h2>
+  <table>
+    <thead><tr><th>Action</th><th>Shortcut</th></tr></thead>
+    <tbody>
+      <tr><td>Page up</td><td><kbd>{keys.scrollPageUp}</kbd></td></tr>
+      <tr><td>Page down</td><td><kbd>{keys.scrollPageDown}</kbd></td></tr>
+      <tr><td>Scroll to top</td><td><kbd>{keys.scrollToTop}</kbd></td></tr>
+      <tr><td>Scroll to bottom</td><td><kbd>{keys.scrollToBottom}</kbd></td></tr>
+      <tr><td>Previous prompt</td><td><kbd>{keys.previousPrompt}</kbd></td></tr>
+      <tr><td>Next prompt</td><td><kbd>{keys.nextPrompt}</kbd></td></tr>
+    </tbody>
+  </table>
+
   <h2 id="mark-mode">Mark Mode</h2>
   <table>
     <thead><tr><th>Action</th><th>Key</th></tr></thead>
     <tbody>
-      <tr><td>Enter mark mode</td><td><kbd>{keys.enterMarkMode}</kbd></td></tr>
-      <tr><td>Word forward</td><td><kbd>w</kbd></td></tr>
-      <tr><td>Word back</td><td><kbd>b</kbd></td></tr>
-      <tr><td>Word end</td><td><kbd>e</kbd></td></tr>
-      <tr><td>Line start</td><td><kbd>0</kbd></td></tr>
-      <tr><td>First non-blank</td><td><kbd>^</kbd></td></tr>
-      <tr><td>Line end</td><td><kbd>$</kbd></td></tr>
-      <tr><td>Top of scrollback</td><td><kbd>gg</kbd></td></tr>
-      <tr><td>Bottom</td><td><kbd>G</kbd></td></tr>
-      <tr><td>Half-page up</td><td><kbd>{keys.halfPageUp}</kbd></td></tr>
-      <tr><td>Half-page down</td><td><kbd>{keys.halfPageDown}</kbd></td></tr>
-      <tr><td>Find char</td><td><kbd>f</kbd> / <kbd>F</kbd></td></tr>
-      <tr><td>Find before char</td><td><kbd>t</kbd> / <kbd>T</kbd></td></tr>
-      <tr><td>Bracket match</td><td><kbd>%</kbd></td></tr>
-      <tr><td>Char selection</td><td><kbd>v</kbd></td></tr>
-      <tr><td>Line selection</td><td><kbd>V</kbd></td></tr>
-      <tr><td>Block selection</td><td><kbd>{keys.blockSelection}</kbd></td></tr>
-      <tr><td>Yank</td><td><kbd>y</kbd></td></tr>
-      <tr><td>Search forward</td><td><kbd>/</kbd></td></tr>
-      <tr><td>Search backward</td><td><kbd>?</kbd></td></tr>
+      <tr><td>Enter / exit mark mode</td><td><kbd>{keys.enterMarkMode}</kbd></td></tr>
+      <tr><td>Move cursor</td><td><kbd>Arrow keys</kbd></td></tr>
+      <tr><td>Word left / right</td><td><kbd>Ctrl+Left</kbd> / <kbd>Ctrl+Right</kbd></td></tr>
+      <tr><td>Line start / end</td><td><kbd>Home</kbd> / <kbd>End</kbd></td></tr>
+      <tr><td>Buffer start / end</td><td><kbd>Ctrl+Home</kbd> / <kbd>Ctrl+End</kbd></td></tr>
+      <tr><td>Page up / down</td><td><kbd>PageUp</kbd> / <kbd>PageDown</kbd></td></tr>
+      <tr><td>Extend selection</td><td><kbd>Shift</kbd> + any movement</td></tr>
+      <tr><td>Select all</td><td><kbd>Ctrl+A</kbd></td></tr>
+      <tr><td>Copy and exit</td><td><kbd>Enter</kbd></td></tr>
+      <tr><td>Cancel and exit</td><td><kbd>Escape</kbd></td></tr>
     </tbody>
   </table>
 
   <h2 id="customizing">Customizing</h2>
-  <p>All keybindings can be overridden in your <code>config.toml</code>. Define bindings in the <code>[keybindings]</code> section:</p>
-  <pre><code>[keybindings]
-"ctrl+shift+n" = "NewWindow"
-"ctrl+shift+d" = "SplitRight"
-"ctrl+shift+e" = "SplitDown"</code></pre>
+  <p>All keybindings can be overridden in your <code>config.toml</code>. Define bindings in a <code>[[keybind]]</code> entry:</p>
+  <pre><code>[[keybind]]
+key = "o"
+mods = "Ctrl|Shift"
+action = "SplitRight"
+
+[[keybind]]
+key = "e"
+mods = "Ctrl|Shift"
+action = "SplitDown"</code></pre>
   <p>See <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/docs/configuration`}>Configuration</a> for the full config format. On macOS, <kbd>Cmd</kbd> is used in place of <kbd>Ctrl</kbd> by default.</p>
 </Docs>

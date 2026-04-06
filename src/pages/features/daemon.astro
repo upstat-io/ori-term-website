@@ -4,31 +4,48 @@ import Feature from '../../layouts/Feature.astro';
 
 <Feature
   title="DAEMON MODE"
-  subtitle="Persistent sessions, crash recovery, reconnect anytime."
+  subtitle="Planned — persistent sessions, crash recovery, reconnect anytime."
 >
+  <div class="roadmap-banner">
+    <strong>This feature is on the roadmap and not yet implemented.</strong>
+    <p>The design is outlined below. See the <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/roadmap`}>roadmap</a> for current status.</p>
+  </div>
+
   <h2>Sessions Persist</h2>
-  <p>ori-term separates your shell sessions from the window. A background process keeps your shells running even when you close the window. Reopen ori-term and pick up exactly where you left off -- scrollback, working directories, and all.</p>
-  <p>A single-process mode is available as a fallback for sandboxed environments.</p>
+  <p>ori-term will separate shell sessions from the window. A background process will keep shells running even when you close the window. Reopen ori-term and pick up exactly where you left off — scrollback, working directories, and all.</p>
+  <p>A single-process mode will be available as a fallback for sandboxed environments.</p>
 
   <h2>Auto-Save</h2>
   <ul>
-    <li><strong>Layout saved automatically</strong> -- Window positions, tabs, pane layout, and working directories are saved every 30 seconds</li>
-    <li><strong>Crash recovery</strong> -- If anything goes wrong, ori-term detects it on next launch and offers to restore your session</li>
-    <li><strong>Safe writes</strong> -- Session files are written safely to prevent corruption from unexpected shutdowns</li>
-  </ul>
-
-  <h2>Smart Output Handling</h2>
-  <p>ori-term prioritizes responsiveness where it matters:</p>
-  <ul>
-    <li>The pane you are working in updates instantly</li>
-    <li>Visible but unfocused panes update at display refresh rate</li>
-    <li>Background panes update less frequently to save resources</li>
+    <li><strong>Layout saved automatically</strong> — Window positions, tabs, pane layout, and working directories saved periodically</li>
+    <li><strong>Crash recovery</strong> — Detect unexpected exits on next launch and offer to restore the session</li>
+    <li><strong>Safe writes</strong> — Session files written safely to prevent corruption from unexpected shutdowns</li>
   </ul>
 
   <h2>Remote Shells</h2>
   <ul>
-    <li><strong>SSH</strong> -- Open remote shells via SSH with agent forwarding and keepalive</li>
-    <li><strong>WSL</strong> -- Windows Subsystem for Linux integration with auto-detection</li>
+    <li><strong>SSH</strong> — Open remote shells via SSH with agent forwarding and keepalive</li>
+    <li><strong>WSL</strong> — Windows Subsystem for Linux integration with auto-detection</li>
     <li>Run local and remote shells side by side in the same window</li>
   </ul>
 </Feature>
+
+<style>
+  .roadmap-banner {
+    border: var(--border-weight) solid var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    padding: 20px 24px;
+    margin-bottom: 32px;
+  }
+
+  .roadmap-banner strong {
+    color: var(--accent);
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .roadmap-banner p {
+    margin: 0;
+    font-size: 0.85rem;
+  }
+</style>

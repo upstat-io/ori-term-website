@@ -3,41 +3,49 @@ import Docs from '../../layouts/Docs.astro';
 
 const toc = [
   { id: 'overview', text: 'Overview', level: 2 },
-  { id: 'auto-start', text: 'Auto-Start', level: 2 },
-  { id: 'persistence', text: 'Session Persistence', level: 2 },
-  { id: 'crash-recovery', text: 'Crash Recovery', level: 2 },
-  { id: 'multi-client', text: 'Multi-Client', level: 2 },
-  { id: 'managing', text: 'Managing the Daemon', level: 2 },
+  { id: 'current-state', text: 'Current State', level: 2 },
+  { id: 'planned', text: 'Planned Features', level: 2 },
 ];
 ---
 
 <Docs title="Daemon & Sessions" toc={toc}>
+  <div class="roadmap-banner">
+    <strong>Daemon mode and session persistence are on the roadmap and not yet implemented.</strong>
+    <p>ori-term currently runs in single-process mode. See the <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/roadmap`}>roadmap</a> for status.</p>
+  </div>
+
   <h2 id="overview">Overview</h2>
-  <p>ori-term keeps your shell sessions running in a background process, separate from the window. Close the window -- your sessions keep running. Reopen ori-term -- pick up where you left off. This is similar to tmux's client-server model, but built right into the terminal.</p>
+  <p>ori-term will eventually keep shell sessions running in a background process, separate from the window. Close the window and sessions keep running. Reopen and pick up where you left off. Similar to tmux's client-server model, but built into the terminal.</p>
 
-  <h2 id="auto-start">Auto-Start</h2>
-  <p>The background process starts automatically when you launch ori-term. If one is already running, the window connects to it instead of starting a new one. No manual management needed for normal use.</p>
-  <p>For sandboxed environments where a background process is not possible, ori-term falls back to single-process mode automatically.</p>
+  <h2 id="current-state">Current State</h2>
+  <p>ori-term currently runs as a single process. Closing the window ends all shell sessions. Split tree undo/redo history is maintained during the session but is not persisted across restarts.</p>
 
-  <h2 id="persistence">Session Persistence</h2>
-  <p>Your workspace is auto-saved every 30 seconds:</p>
+  <h2 id="planned">Planned Features</h2>
   <ul>
-    <li>Window positions and sizes</li>
-    <li>Tab order and names</li>
-    <li>Pane layout and split arrangement</li>
-    <li>Working directories</li>
+    <li><strong>Background daemon</strong> — sessions survive after GUI closes</li>
+    <li><strong>Auto-save</strong> — periodic saves of window positions, tabs, pane layout, and working directories</li>
+    <li><strong>Crash recovery</strong> — detect unexpected exits and offer to restore the session</li>
+    <li><strong>Multi-client</strong> — multiple windows connecting to the same daemon</li>
+    <li><strong>Scrollback archive</strong> — disk-backed scrollback that survives restarts</li>
   </ul>
-  <p>Session data is written safely to prevent corruption from unexpected shutdowns.</p>
-
-  <h2 id="crash-recovery">Crash Recovery</h2>
-  <p>If the window or background process terminates unexpectedly, ori-term detects it on next launch and offers to restore your session. Your shell processes continue running -- only the window connection was lost.</p>
-
-  <h2 id="multi-client">Multi-Client</h2>
-  <p>Multiple windows can connect to the same background process simultaneously. All windows see the same session state. Changes made in one window are reflected in all others.</p>
-
-  <h2 id="managing">Managing the Daemon</h2>
-  <p>For advanced use cases, the background process supports command-line flags:</p>
-  <pre><code>ori-term --daemon       # Start background process manually
-ori-term --stop         # Stop the running background process
-ori-term --persist      # Keep sessions alive after last window closes</code></pre>
 </Docs>
+
+<style>
+  .roadmap-banner {
+    border: 1px solid var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    padding: 20px 24px;
+    margin-bottom: 32px;
+  }
+
+  .roadmap-banner strong {
+    color: var(--accent);
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .roadmap-banner p {
+    margin: 0;
+    font-size: 0.85rem;
+  }
+</style>

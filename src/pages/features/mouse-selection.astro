@@ -10,47 +10,41 @@ import { keys } from '../../lib/keybindings';
   <h2>Selection</h2>
   <p>Select text naturally with the mouse. ori-term gives you precise, smooth text selection with several modes:</p>
   <ul>
-    <li><strong>Click + drag</strong> -- Character selection</li>
-    <li><strong>Double-click</strong> -- Select word (understands delimiters, spans wrapped lines)</li>
-    <li><strong>Triple-click</strong> -- Select line</li>
-    <li><strong>Alt + click</strong> -- Block (rectangular) selection</li>
+    <li><strong>Click + drag</strong> — Character selection</li>
+    <li><strong>Double-click</strong> — Select word (understands delimiters, spans wrapped lines)</li>
+    <li><strong>Triple-click</strong> — Select line</li>
+    <li><strong>Alt + click</strong> — Block (rectangular) selection</li>
   </ul>
 
   <h2>Clipboard</h2>
   <ul>
-    <li><strong>Copy on select</strong> -- Optionally auto-copy text as soon as you select it</li>
-    <li><strong>Formatted copy</strong> -- Copy text with colors and styles preserved (HTML/RTF)</li>
-    <li><strong>Application clipboard access</strong> -- CLI tools can read and write your clipboard</li>
-    <li><strong>Smart paste</strong> -- Paste-aware applications can handle pasted text safely</li>
-    <li><strong>File drag-and-drop</strong> -- Drop a file into the terminal to insert its path</li>
+    <li><strong>Copy on select</strong> — Optionally auto-copy text as soon as you select it</li>
+    <li><strong>Formatted copy</strong> — Copy text with colors and styles preserved (HTML)</li>
+    <li><strong>OSC 52 clipboard</strong> — CLI tools can read and write your clipboard</li>
+    <li><strong>Smart paste</strong> — Multi-line paste confirmation to prevent accidental damage</li>
+    <li><strong>File drag-and-drop</strong> — Drop a file into the terminal to insert its path</li>
   </ul>
 
   <h2>Mouse in Applications</h2>
   <p>Full mouse support for TUI applications. Click, drag, and scroll events are forwarded to apps like Neovim, htop, and lazygit. Scroll wheel works as expected in applications that request it.</p>
 
   <h2>Mark Mode</h2>
-  <p>Vi-style keyboard-driven navigation and selection. Toggle with <kbd>{keys.enterMarkMode}</kbd>. Navigate your scrollback, select text, and copy -- all without touching the mouse.</p>
+  <p>Keyboard-driven cursor navigation and selection. Toggle with <kbd>{keys.enterMarkMode}</kbd>. Navigate scrollback, select text, and copy — all without touching the mouse.</p>
 
-  <h3>Motions</h3>
+  <h3>Movement</h3>
   <ul>
-    <li><kbd>w</kbd> <kbd>b</kbd> <kbd>e</kbd> -- Word forward, back, end</li>
-    <li><kbd>W</kbd> <kbd>B</kbd> <kbd>E</kbd> -- WORD variants (whitespace-delimited)</li>
-    <li><kbd>0</kbd> <kbd>^</kbd> <kbd>$</kbd> -- Line start, first non-blank, line end</li>
-    <li><kbd>gg</kbd> <kbd>G</kbd> -- Top, bottom of scrollback</li>
-    <li><kbd>H</kbd> <kbd>M</kbd> <kbd>L</kbd> -- Viewport top, middle, bottom</li>
-    <li><kbd>{keys.halfPageUp}</kbd> <kbd>{keys.halfPageDown}</kbd> -- Half-page up/down</li>
-    <li><kbd>{keys.fullPageUp}</kbd> <kbd>{keys.fullPageDown}</kbd> -- Full-page up/down</li>
+    <li><kbd>Arrow keys</kbd> — Move cursor left, right, up, down</li>
+    <li><kbd>Ctrl+Left</kbd> / <kbd>Ctrl+Right</kbd> — Move by word</li>
+    <li><kbd>Home</kbd> / <kbd>End</kbd> — Line start / end</li>
+    <li><kbd>Ctrl+Home</kbd> / <kbd>Ctrl+End</kbd> — Buffer start / end</li>
+    <li><kbd>PageUp</kbd> / <kbd>PageDown</kbd> — Page scrolling</li>
   </ul>
 
-  <h3>Search & Select</h3>
+  <h3>Selection</h3>
   <ul>
-    <li><kbd>f</kbd> <kbd>F</kbd> -- Find char forward/backward</li>
-    <li><kbd>t</kbd> <kbd>T</kbd> -- Find char, stop before</li>
-    <li><kbd>%</kbd> -- Jump to matching bracket</li>
-    <li><kbd>v</kbd> -- Character selection</li>
-    <li><kbd>V</kbd> -- Line selection</li>
-    <li><kbd>{keys.blockSelection}</kbd> -- Block selection</li>
-    <li><kbd>y</kbd> -- Yank (copy) selected text</li>
-    <li><kbd>/</kbd> <kbd>?</kbd> -- Search forward/backward</li>
+    <li><kbd>Shift</kbd> + any movement — Extend selection</li>
+    <li><kbd>Ctrl+A</kbd> — Select entire buffer</li>
+    <li><kbd>Enter</kbd> — Copy selected text to clipboard and exit</li>
+    <li><kbd>Escape</kbd> — Exit mark mode without copying</li>
   </ul>
 </Feature>

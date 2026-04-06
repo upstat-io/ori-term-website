@@ -4,53 +4,45 @@ import Feature from '../../layouts/Feature.astro';
 
 <Feature
   title="REMOTE"
-  subtitle="SSH domains, WSL integration, and encrypted remote attach with predictive echo."
+  subtitle="Planned — SSH domains, WSL integration, and encrypted remote attach."
 >
+  <div class="roadmap-banner">
+    <strong>This feature is on the roadmap and not yet implemented.</strong>
+    <p>The design is outlined below. See the <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/roadmap`}>roadmap</a> for current status.</p>
+  </div>
+
   <h2>SSH Domain</h2>
-  <p>Spawn remote shells via SSH with agent forwarding and keepalive. Remote panes behave identically to local ones -- same splits, same scrollback, same keybindings.</p>
+  <p>Spawn remote shells via SSH with agent forwarding and keepalive. Remote panes will behave identically to local ones — same splits, same scrollback, same keybindings.</p>
 
   <h2>WSL Domain</h2>
   <p>Windows Subsystem for Linux integration with automatic distro detection and transparent path mapping between Windows and Linux filesystems.</p>
 
   <h2>Mixed Local + Remote</h2>
-  <p>Run local and remote panes side by side in the same window. No context switching between terminal windows -- your local build output sits next to your remote server logs.</p>
+  <p>Run local and remote panes side by side in the same window.</p>
 
   <h2>Encrypted Transport</h2>
-  <p>Remote attach uses TCP with TLS encryption. Certificate pinning follows a trust-on-first-use (TOFU) model. An SSH tunnel mode is available for automatic tunnel detection and setup.</p>
-
-  <h2>Authentication</h2>
-  <p>Multiple authentication methods are supported:</p>
-  <ul>
-    <li>SSH key authentication</li>
-    <li>Token-based authentication</li>
-    <li>Challenge-response with rate limiting</li>
-  </ul>
-
-  <h2>Reconnection</h2>
-  <p>Dropped connections are handled with exponential backoff and automatic reconnect. A reconnecting overlay is displayed while the connection is re-established.</p>
-
-  <h2>Bandwidth-Aware Rendering</h2>
-  <p>Connection quality is monitored using RTT and EWMA measurements. Rendering adapts with adaptive coalescing to stay responsive on slow links.</p>
-
-  <h2>Viewport-First Sync</h2>
-  <p>When attaching to a remote session, visible content is sent first. Scrollback is synced on demand, keeping the initial attach fast regardless of history size.</p>
+  <p>Remote attach will use TCP with TLS encryption. Certificate pinning following a trust-on-first-use (TOFU) model.</p>
 
   <h2>Predictive Local Echo</h2>
-  <p>Mosh-style speculative local echo displays keystrokes immediately without waiting for the server round-trip. Input is reconciled with the server response when it arrives, eliminating perceived latency.</p>
-
-  <h2>Connection Quality Indicator</h2>
-  <p>A latency indicator shows connection health at a glance:</p>
-  <ul>
-    <li><strong>Green</strong> -- low latency, healthy connection</li>
-    <li><strong>Yellow</strong> -- elevated latency</li>
-    <li><strong>Red</strong> -- high latency or degraded connection</li>
-  </ul>
-
-  <h2>CLI</h2>
-  <p>Manage remote connections from the command line with <code>oriterm connect</code>:</p>
-  <ul>
-    <li><code>oriterm connect --ssh user@host</code> -- connect via SSH tunnel</li>
-    <li><code>oriterm connect --list</code> -- list active remote connections</li>
-    <li><code>oriterm connect --status</code> -- show connection status and latency</li>
-  </ul>
+  <p>Mosh-style speculative local echo will display keystrokes immediately without waiting for the server round-trip, eliminating perceived latency.</p>
 </Feature>
+
+<style>
+  .roadmap-banner {
+    border: var(--border-weight) solid var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    padding: 20px 24px;
+    margin-bottom: 32px;
+  }
+
+  .roadmap-banner strong {
+    color: var(--accent);
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .roadmap-banner p {
+    margin: 0;
+    font-size: 0.85rem;
+  }
+</style>

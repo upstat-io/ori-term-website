@@ -4,10 +4,15 @@ import Feature from '../../layouts/Feature.astro';
 
 <Feature
   title="SESSIONS"
-  subtitle="Your terminal state is preserved automatically. Close and reopen without losing anything."
+  subtitle="Planned — terminal state preserved automatically across restarts."
 >
+  <div class="roadmap-banner">
+    <strong>This feature is on the roadmap and not yet implemented.</strong>
+    <p>The design is outlined below. See the <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/roadmap`}>roadmap</a> for current status.</p>
+  </div>
+
   <h2>Auto-Save</h2>
-  <p>Session state is saved every 30 seconds, capturing everything needed to restore your workspace:</p>
+  <p>Session state will be saved periodically, capturing everything needed to restore your workspace:</p>
   <ul>
     <li>Window positions and dimensions</li>
     <li>Tab order and titles</li>
@@ -16,18 +21,31 @@ import Feature from '../../layouts/Feature.astro';
   </ul>
 
   <h2>Crash Recovery</h2>
-  <p>If ori-term exits unexpectedly, stale PIDs are detected on next launch. You are prompted to restore your previous session, bringing back your full layout and scrollback history.</p>
+  <p>If ori-term exits unexpectedly, stale PIDs will be detected on next launch. You will be prompted to restore your previous session, bringing back your full layout and scrollback history.</p>
 
   <h2>Scrollback Archive</h2>
-  <p>Terminal output is written to disk in an append-only compressed format. This means your scrollback survives restarts and is available even after a crash.</p>
-
-  <h2>Unlimited Scrollback</h2>
-  <p>Scrollback is not limited to a fixed line count. A configurable memory limit controls how much is kept in RAM, with disk-backed overflow handling the rest. Scroll back as far as you need -- the archive is always there.</p>
+  <p>Terminal output will be written to disk in an append-only compressed format, so scrollback survives restarts and is available even after a crash.</p>
 
   <h2>Archive Cleanup</h2>
-  <p>A retention policy keeps disk usage under control:</p>
-  <ul>
-    <li><strong>Time limit</strong> -- archives older than 7 days are removed</li>
-    <li><strong>Size limit</strong> -- total archive size capped at 1 GB</li>
-  </ul>
+  <p>A retention policy will keep disk usage under control with configurable time and size limits.</p>
 </Feature>
+
+<style>
+  .roadmap-banner {
+    border: var(--border-weight) solid var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    padding: 20px 24px;
+    margin-bottom: 32px;
+  }
+
+  .roadmap-banner strong {
+    color: var(--accent);
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .roadmap-banner p {
+    margin: 0;
+    font-size: 0.85rem;
+  }
+</style>

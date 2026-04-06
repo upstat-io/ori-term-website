@@ -6,8 +6,6 @@ const toc = [
   { id: 'basics', text: 'Basics', level: 2 },
   { id: 'navigation', text: 'Navigation', level: 2 },
   { id: 'drag-drop', text: 'Drag & Drop', level: 2 },
-  { id: 'previews', text: 'Tab Previews', level: 2 },
-  { id: 'undo-close', text: 'Undo Close', level: 2 },
   { id: 'multi-window', text: 'Multi-Window', level: 2 },
 ];
 ---
@@ -16,32 +14,26 @@ const toc = [
   <h2 id="basics">Basics</h2>
   <p>Each tab contains its own independent set of panes. Create and close tabs:</p>
   <ul>
-    <li><kbd>{keys.newTab}</kbd> -- New tab (inherits working directory)</li>
-    <li><kbd>{keys.closeTab}</kbd> -- Close the focused pane; closes the tab when it's the last pane</li>
+    <li><kbd>{keys.newTab}</kbd> — New tab (inherits working directory)</li>
+    <li><kbd>{keys.closeTab}</kbd> — Close the current tab</li>
   </ul>
 
   <h2 id="navigation">Navigation</h2>
   <ul>
-    <li><kbd>{keys.nextTab}</kbd> -- Next tab</li>
-    <li><kbd>{keys.prevTab}</kbd> -- Previous tab</li>
-    <li><strong>Click</strong> -- Click any tab in the tab bar to switch to it</li>
+    <li><kbd>{keys.nextTab}</kbd> — Next tab</li>
+    <li><kbd>{keys.prevTab}</kbd> — Previous tab</li>
+    <li><strong>Click</strong> — Click any tab in the tab bar to switch to it</li>
   </ul>
 
   <h2 id="drag-drop">Drag & Drop</h2>
   <p>Tabs support Chrome-style drag and drop:</p>
   <ul>
-    <li><strong>Reorder</strong> -- Drag a tab left or right to change its position</li>
-    <li><strong>Tear off</strong> -- Drag a tab outside the window to open it in a new window</li>
-    <li><strong>Merge</strong> -- Drag a tab from one window into another window's tab bar</li>
+    <li><strong>Reorder</strong> — Drag a tab left or right to change its position</li>
+    <li><strong>Tear off</strong> — Drag a tab outside the window to open it in a new window</li>
+    <li><strong>Merge</strong> — Drag a tab from one window into another window's tab bar</li>
   </ul>
 
-  <h2 id="previews">Tab Previews</h2>
-  <p>Hover over a tab to see a live thumbnail preview of its content. The preview updates in real time -- it shows what is actually in the tab right now, not a static screenshot.</p>
-
-  <h2 id="undo-close">Undo Close</h2>
-  <p><kbd>{keys.undoCloseTab}</kbd> restores the most recently closed tab. The tab reopens with its working directory preserved. Multiple undo levels are supported -- keep pressing to restore older tabs.</p>
-
   <h2 id="multi-window">Multi-Window</h2>
-  <p>ori-term supports multiple windows. All windows share the same session, so you can drag tabs between them and your work stays connected.</p>
+  <p>ori-term supports multiple windows. Drag tabs between them freely.</p>
   <p>Each window gets proper per-monitor DPI handling. Moving a window between monitors with different scale factors triggers a seamless rescale of fonts and UI elements.</p>
 </Docs>

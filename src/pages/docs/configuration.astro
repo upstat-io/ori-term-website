@@ -84,10 +84,7 @@ blink_rate = 500     # milliseconds</code></pre>
 
   <h2 id="scrollback">Scrollback</h2>
   <pre><code>[scrollback]
-limit = 10000        # lines, 0 for unlimited
-archive = true       # overflow to disk
-archive_max = "1GB"
-archive_retention = "7d"</code></pre>
+limit = 10000        # lines</code></pre>
 
   <h2 id="shell">Shell</h2>
   <pre><code>[shell]
@@ -102,11 +99,15 @@ copy_on_select = false
 word_delimiters = " \t{}()[]\"'`,;:@"</code></pre>
 
   <h2 id="keybindings">Keybindings</h2>
-  <pre><code>[keybindings]
-"ctrl+shift+d" = "SplitRight"
-"ctrl+shift+e" = "SplitDown"
-"ctrl+shift+f" = "ToggleFloat"
-"ctrl+shift+z" = "ZoomPane"</code></pre>
+  <pre><code>[[keybind]]
+key = "o"
+mods = "Ctrl|Shift"
+action = "SplitRight"
+
+[[keybind]]
+key = "e"
+mods = "Ctrl|Shift"
+action = "SplitDown"</code></pre>
   <p>See <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/docs/keybindings`}>Keybindings</a> for all available actions and the full default binding list.</p>
 
   <h2 id="url-patterns">URL Patterns</h2>

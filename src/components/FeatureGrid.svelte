@@ -24,50 +24,26 @@
     {
       label: 'MULTIPLEXER',
       value: 'Built-in',
-      detail: 'Splits, tabs, floating panes, sessions — no tmux required',
+      detail: 'Splits, tabs, floating panes — no tmux required',
       href: `${base}/features/multiplexer`,
     },
     {
       label: 'TABS',
       value: 'Chrome-style',
-      detail: 'Tear off into windows, drag back in, hover previews, reorder',
-      href: `${base}/features`,
-    },
-    {
-      label: 'DAEMON',
-      value: 'Persistent',
-      detail: 'Sessions survive crashes. Crash recovery. Multiple clients',
-      href: `${base}/features/daemon`,
-    },
-    {
-      label: 'REMOTE',
-      value: 'SSH + WSL',
-      detail: 'Remote domains, predictive echo, reconnection, TUI client',
-      href: `${base}/features`,
+      detail: 'Tear off into windows, drag back in, reorder with smooth animation',
+      href: `${base}/features/tabs`,
     },
     {
       label: 'THEMES',
-      value: '100+',
+      value: '50+',
       detail: 'Built-in color schemes, TOML files, hot-reload, auto light/dark',
       href: `${base}/features/themes`,
     },
     {
-      label: 'VI MODE',
-      value: 'Native',
-      detail: 'hjkl navigation, word motions, visual selection, hints, search',
-      href: `${base}/features`,
-    },
-    {
       label: 'IMAGES',
       value: 'GPU',
-      detail: 'Kitty graphics, Sixel, iTerm2 inline images, animated GIF',
+      detail: 'Kitty graphics, Sixel, iTerm2 inline images, GPU compositing',
       href: `${base}/features/images`,
-    },
-    {
-      label: 'SCRIPTING',
-      value: 'Lua',
-      detail: 'Event hooks, custom commands, WGSL post-processing shaders',
-      href: `${base}/features`,
     },
     {
       label: 'FONTS',
@@ -82,10 +58,16 @@
       href: `${base}/features/platform`,
     },
     {
-      label: 'PALETTE',
-      value: keys.commandPalette,
-      detail: 'Fuzzy-search command palette, quick terminal, smart paste',
-      href: `${base}/features`,
+      label: 'EMULATION',
+      value: 'Full VTE',
+      detail: 'SGR, cursor, scroll regions, mouse reporting, Kitty keyboard protocol',
+      href: `${base}/features/terminal-emulation`,
+    },
+    {
+      label: 'SEARCH',
+      value: keys.openSearch,
+      detail: 'Plain text and regex search with match highlighting across scrollback',
+      href: `${base}/features/search`,
     },
   ];
 

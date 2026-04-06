@@ -1,4 +1,5 @@
 [
+  {"date": "2026-04-03", "type": "refactor", "scope": "redraw", "message": "extract shared chrome rendering pipeline and helpers", "hash": "cab8c42"},
   {"date": "2026-04-03", "type": "fix", "scope": "gpu", "message": "blink opacity change must invalidate content cache texture", "hash": "0933033"},
   {"date": "2026-04-03", "type": "fix", "scope": "app", "message": "schedule blink wakeup unconditionally, not just during fades", "hash": "b5f40d7"},
   {"date": "2026-04-03", "type": "fix", "scope": "app", "message": "blink animation bypasses frame budget gate", "hash": "eabc84a"},
@@ -147,6 +148,5 @@
   {"date": "2026-03-20", "type": "feat", "scope": "ui", "message": "complete Refinement Section 06 — verification & polish", "hash": "e7a857b"},
   {"date": "2026-03-20", "type": "feat", "scope": "ui", "message": "add architectural boundary enforcement (Refinement Section 09)", "hash": "05b7860"},
   {"date": "2026-03-19", "type": "feat", "scope": "ui", "message": "migrate pure logic to oriterm_ui (Refinement Section 08)", "hash": "248ebe1"},
-  {"date": "2026-03-19", "type": "feat", "scope": "ui", "message": "unify WidgetTestHarness to wrap WindowRoot (Refinement Section 07.4-07.5)", "hash": "0d3486f"},
-  {"date": "2026-03-19", "type": "feat", "scope": "ui", "message": "decompose WindowContext to wrap WindowRoot (Refinement Section 07.3)", "hash": "10d0bfa"}
+  {"date": "2026-03-19", "type": "feat", "scope": "ui", "message": "unify WidgetTestHarness to wrap WindowRoot (Refinement Section 07.4-07.5)", "hash": "0d3486f"}
 ]

@@ -6,6 +6,24 @@ import GlitchText from '../components/GlitchText.svelte';
 import FeatureGrid from '../components/FeatureGrid.svelte';
 import InstallBlock from '../components/InstallBlock.svelte';
 import Footer from '../components/Footer.svelte';
+
+// Fetch latest release tag at build time
+let latestVersion = '';
+try {
+  const res = await fetch(
+    'https://api.github.com/repos/upstat-io/ori-term/releases?per_page=1',
+    { headers: { 'Accept': 'application/vnd.github.v3+json' } }
+  );
+  if (res.ok) {
+    const releases = await res.json();
+    if (releases.length > 0) {
+      // Strip leading 'v' from tag (e.g. "v0.2.0-alpha.20260404" -> "0.2.0-alpha.20260404")
+      latestVersion = releases[0].tag_name.replace(/^v/, '');
+    }
+  }
+} catch {
+  // Build continues with fallback
+}
 ---
 
 <Base title="ori-term — GPU-Accelerated Terminal Emulator">
@@ -29,12 +47,12 @@ import Footer from '../components/Footer.svelte';
         />
         <p class="hero-desc">
           A terminal emulator built from scratch in Rust. GPU-rendered with wgpu.
-          Native multiplexing. Persistent sessions. Cross-platform.
+          Native multiplexing. Cross-platform.
         </p>
       </div>
     </section>
 
-    <TerminalHero client:load />
+    <TerminalHero client:load version={latestVersion} />
 
     <section class="pitch" aria-label="Value proposition">
       <div class="container">
@@ -45,11 +63,11 @@ import Footer from '../components/Footer.svelte';
           </div>
           <div class="pitch-item">
             <span class="pitch-number">02</span>
-            <p>Multiplexing is native, not bolted on. Splits, tabs, floating panes, and persistent sessions are first-class primitives. Drop tmux.</p>
+            <p>Multiplexing is native, not bolted on. Splits, tabs, and floating panes are first-class primitives. Drop tmux.</p>
           </div>
           <div class="pitch-item">
             <span class="pitch-number">03</span>
-            <p>A daemon keeps your sessions alive. GUI crashes, network drops — reconnect and pick up where you left off. Multiple clients, one process tree.</p>
+            <p>Cross-platform from day one. Windows, Linux, and macOS are all first-class — no platform is an afterthought. Same features, same quality.</p>
           </div>
         </div>
       </div>
@@ -82,12 +100,12 @@ import Footer from '../components/Footer.svelte';
           <div class="highlight-block">
             <h3>NO MULTIPLEXER NEEDED</h3>
             <p class="highlight-pain">Terminal multiplexers break truecolor, mangle escape sequences, fight your clipboard, and demand their own config language.</p>
-            <p>ori-term has splits, tabs, floating panes, and sessions built in. One config file, one process, zero compatibility layers. Your colors stay correct.</p>
+            <p>ori-term has splits, tabs, and floating panes built in. One config file, one process, zero compatibility layers. Your colors stay correct.</p>
           </div>
           <div class="highlight-block">
-            <h3>SESSIONS THAT SURVIVE</h3>
-            <p class="highlight-pain">SSH drops. GUI crashes. Power blips. Most terminals lose everything — scrollback, layout, working directories. Gone.</p>
-            <p>A background daemon keeps sessions alive independently. Crash recovery is automatic. Reconnect and pick up exactly where you left off.</p>
+            <h3>CROSS-PLATFORM, NO ASTERISKS</h3>
+            <p class="highlight-pain">Most GPU terminals launch on one platform first, then bolt on the others as an afterthought. Linux-only for years. macOS "experimental". Windows "coming soon".</p>
+            <p>ori-term builds and runs on Windows, Linux, and macOS from day one. ConPTY, fontconfig, CoreText, Vulkan, DX12, Metal — each platform gets its native stack. Same features everywhere.</p>
           </div>
           <div class="highlight-block">
             <h3>GPU SPEED, FULL FEATURES</h3>
