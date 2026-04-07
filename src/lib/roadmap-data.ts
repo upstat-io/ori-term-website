@@ -25,20 +25,45 @@ interface SectionFrontmatter {
   goal: string;
 }
 
-const TIER_META: Record<string, string> = {
-  '0': 'CORE LIBRARY + CROSS-PLATFORM',
-  '1': 'PROCESS LAYER',
-  '2': 'RENDERING FOUNDATION',
-  '3': 'INTERACTION',
-  '4': 'CHROME',
-  '4M': 'MULTIPLEXING FOUNDATION',
-  '5': 'HARDENING',
-  '6': 'POLISH',
-  '7': 'ADVANCED',
-  '7A': 'SERVER + PERSISTENCE + REMOTE',
-};
+/**
+ * Parse tier metadata from `00-overview.md`'s `### Tier <id> — <name>` headers.
+ *
+ * The roadmap overview is the canonical source of truth for tier ordering and
+ * naming. The order is the order of appearance in the file. Names are
+ * uppercased and any parenthetical notes (e.g., "(NEW)") are stripped.
+ *
+ * Adding a new tier means adding a new `### Tier N — Name` section to
+ * `plans/roadmap/00-overview.md` — no website changes required.
+ */
+function loadTierMeta(roadmapDir: string): { order: string[]; meta: Record<string, string> } {
+  const overviewPath = join(roadmapDir, '00-overview.md');
+  const content = readFileSync(overviewPath, 'utf-8');
 
-const TIER_ORDER = ['0', '1', '2', '3', '4', '4M', '5', '6', '7', '7A'];
+  const order: string[] = [];
+  const meta: Record<string, string> = {};
+  // Match `### Tier <id> — <name>` (em-dash). The id may be alphanumeric
+  // (e.g., 4M, 7A). The name runs to end of line.
+  const re = /^###\s+Tier\s+([0-9A-Za-z]+)\s+—\s+(.+)$/gm;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(content)) !== null) {
+    const id = m[1];
+    // Strip trailing parenthetical notes like "(NEW)" and uppercase.
+    const name = m[2].replace(/\s*\([^)]*\)\s*$/, '').trim().toUpperCase();
+    if (!(id in meta)) {
+      order.push(id);
+      meta[id] = name;
+    }
+  }
+
+  if (order.length === 0) {
+    throw new Error(
+      `No "### Tier <id> — <name>" headers found in ${overviewPath}. ` +
+      `The roadmap overview must declare all tiers as section headers.`
+    );
+  }
+
+  return { order, meta };
+}
 
 function normalizeStatus(raw: string): Status {
   const s = raw.toLowerCase().replace(/_/g, '-');
@@ -74,7 +99,10 @@ function formatSectionNum(section: number | string): string {
   return String(section);
 }
 
-function loadRoadmapSections(dir: string): (Section & { tier: string })[] {
+function loadRoadmapSections(
+  dir: string,
+  tierOrder: string[],
+): (Section & { tier: string })[] {
   const files = readdirSync(dir)
     .filter(f => f.startsWith('section-') && f.endsWith('.md'))
     .sort();
@@ -85,8 +113,12 @@ function loadRoadmapSections(dir: string): (Section & { tier: string })[] {
     const fm = parseFrontmatter(content, file);
     const tier = String(fm.tier);
 
-    if (!TIER_ORDER.includes(tier)) {
-      throw new Error(`Section "${fm.title}" in ${file} references unknown tier "${tier}". Add it to TIER_ORDER and TIER_META in roadmap-data.ts.`);
+    if (!tierOrder.includes(tier)) {
+      throw new Error(
+        `Section "${fm.title}" in ${file} references tier "${tier}", but no ` +
+        `"### Tier ${tier} — <name>" header exists in 00-overview.md. ` +
+        `Add the tier section to the roadmap overview.`
+      );
     }
 
     sections.push({
@@ -102,7 +134,8 @@ function loadRoadmapSections(dir: string): (Section & { tier: string })[] {
 
 export function loadRoadmapTiers(dir?: string): Tier[] {
   const roadmapDir = dir ?? resolve(process.cwd(), '..', 'ori_term', 'plans', 'roadmap');
-  const sections = loadRoadmapSections(roadmapDir);
+  const { order: tierOrder, meta: tierMeta } = loadTierMeta(roadmapDir);
+  const sections = loadRoadmapSections(roadmapDir, tierOrder);
 
   const tierMap = new Map<string, Section[]>();
   for (const s of sections) {
@@ -110,11 +143,11 @@ export function loadRoadmapTiers(dir?: string): Tier[] {
     tierMap.get(s.tier)!.push({ num: s.num, name: s.name, status: s.status, goal: s.goal });
   }
 
-  return TIER_ORDER
+  return tierOrder
     .filter(id => tierMap.has(id))
     .map(id => ({
       id,
-      name: TIER_META[id] ?? `TIER ${id}`,
+      name: tierMeta[id] ?? `TIER ${id}`,
       sections: tierMap.get(id)!,
     }));
 }
