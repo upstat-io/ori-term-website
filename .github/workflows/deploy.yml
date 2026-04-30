@@ -23,15 +23,25 @@ jobs:
       - name: Checkout website
         uses: actions/checkout@v4
 
-      - name: Checkout ori_term (roadmap + git history for changelog)
+      - name: Checkout ori_term (term_repo — git history for changelog)
         uses: actions/checkout@v4
         with:
-          repository: upstat-io/ori_term
+          repository: upstat-io/ori-term
           path: ori_term
           fetch-depth: 500
-          sparse-checkout: |
-            plans/roadmap
-          sparse-checkout-cone-mode: false
+
+      - name: Checkout wrapper for plans/ overlay
+        uses: actions/checkout@v4
+        with:
+          repository: upstat-io/ori_term_ai
+          path: ori_term_wrapper
+          token: ${{ secrets.ORI_TERM_PAT }}
+
+      - name: Overlay wrapper plans/ onto ori_term tree
+        run: |
+          rm -rf ori_term/plans
+          mv ori_term_wrapper/plans ori_term/plans
+          rm -rf ori_term_wrapper
 
       - name: Symlink ori_term for relative path resolution
         run: ln -s "$GITHUB_WORKSPACE/ori_term" "$GITHUB_WORKSPACE/../ori_term"
