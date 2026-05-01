@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync } from 'node:fs';
+import { readdirSync, readFileSync, existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { load as yamlLoad } from 'js-yaml';
 
@@ -132,10 +132,38 @@ function loadRoadmapSections(
   return sections;
 }
 
+/**
+ * Resolve the roadmap source directory across the two supported layouts.
+ *
+ * - CI (.github/workflows/*.yml): `website_repo` is checked out at workspace
+ *   root; `ori_term` is checked out as a sibling and the wrapper's `plans/`
+ *   is overlaid into `ori_term/plans/`. Path: `../ori_term/plans/roadmap`.
+ * - Local dev: `website_repo` lives inside the wrapper next to `plans/`.
+ *   Path: `../plans/roadmap`.
+ *
+ * Try each candidate in order; first hit wins. Failing both means the
+ * roadmap source isn't reachable — surface the candidate list so the
+ * misconfiguration is obvious.
+ */
+function resolveRoadmapDir(): string {
+  const cwd = process.cwd();
+  const candidates = [
+    resolve(cwd, '..', 'ori_term', 'plans', 'roadmap'),
+    resolve(cwd, '..', 'plans', 'roadmap'),
+  ];
+  for (const c of candidates) {
+    if (existsSync(join(c, '00-overview.md'))) {
+      return c;
+    }
+  }
+  throw new Error(
+    `Roadmap directory not found. Tried: ${candidates.join(', ')}. ` +
+    `Expected '00-overview.md' inside one of these.`
+  );
+}
+
 export function loadRoadmapTiers(dir?: string): Tier[] {
-  // The website lives at `<wrapper>/website_repo/`; the roadmap lives at
-  // `<wrapper>/plans/roadmap/`. Resolve relative to the cwd (website_repo).
-  const roadmapDir = dir ?? resolve(process.cwd(), '..', 'plans', 'roadmap');
+  const roadmapDir = dir ?? resolveRoadmapDir();
   const { order: tierOrder, meta: tierMeta } = loadTierMeta(roadmapDir);
   const sections = loadRoadmapSections(roadmapDir, tierOrder);
 
