@@ -22,14 +22,14 @@ import { keys } from '../../lib/keybindings';
 
   <h2>What You Can Configure</h2>
   <ul>
-    <li><strong>Font</strong> -- Family, size, OpenType feature tags, <code>[[font.fallback]]</code> chain with per-fallback features and cap-height offset</li>
-    <li><strong>Colors</strong> -- Built-in scheme name, light/dark auto-switch via <code>theme = "auto"</code>, individual color overrides, indexed ANSI overrides</li>
+    <li><strong>Font</strong> -- Family, size, OpenType feature tags, fallback fonts with per-font feature overrides</li>
+    <li><strong>Colors</strong> -- Built-in scheme name, automatic light/dark switching, individual color overrides, ANSI palette overrides</li>
     <li><strong>Keybindings</strong> -- Override or add any key-to-action binding</li>
-    <li><strong>Window</strong> -- Initial <code>columns</code>/<code>rows</code>, opacity, blur, decorations, tab bar position and density, grid padding, resize increments</li>
-    <li><strong>Terminal</strong> -- Cursor shape and blink, scrollback budget, image protocol toggle and memory limits</li>
+    <li><strong>Window</strong> -- Initial size, opacity, transparency, decorations, tab bar position and density, grid padding</li>
+    <li><strong>Terminal</strong> -- Cursor shape and blink, scrollback size, image support and memory caps</li>
     <li><strong>Bell</strong> -- Visual (tab pulse) or audio</li>
     <li><strong>Shell</strong> -- Override default shell</li>
-    <li><strong>Process model</strong> -- <code>"daemon"</code> (default, mux daemon) or <code>"embedded"</code> (single process)</li>
+    <li><strong>Process model</strong> -- Run as a background daemon (default) or as a single self-contained process for sandboxes and tests</li>
   </ul>
-  <p>User-defined <code>[[url_patterns]]</code> with regex matchers and actions are on the roadmap; built-in URL detection ships today and covers <code>http://</code>, <code>https://</code>, <code>ftp://</code>, <code>file://</code>.</p>
+  <p>User-defined URL pattern matching with regex and custom actions is on the roadmap. Built-in URL detection already handles <code>http://</code>, <code>https://</code>, <code>ftp://</code>, and <code>file://</code> links.</p>
 </Feature>

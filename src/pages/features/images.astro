@@ -22,7 +22,7 @@ import Feature from '../../layouts/Feature.astro';
   <p>The Kitty Graphics frame-loop and Sixel decoders advance multi-frame images according to their declared per-frame delays. Animation memory accounting is part of the in-progress hardening work — watch the <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/roadmap`}>roadmap</a> for the exact eviction semantics.</p>
 
   <h2>Memory Limits</h2>
-  <p>Cache budgets are configurable via <code>image_memory_limit</code> (CPU side, default 320 MB) and <code>image_gpu_memory_limit</code> (GPU side, default 512 MB) under <code>[terminal]</code>. The cache evicts older images via LRU as new ones decode.</p>
+  <p>Image caches have configurable budgets — 320 MB on the CPU side and 512 MB on the GPU side by default, both adjustable in your config. Older images are evicted as new ones come in, so a long session full of images doesn't grow without bound.</p>
 </Feature>
 
 <style>

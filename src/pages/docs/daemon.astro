@@ -12,34 +12,34 @@ const toc = [
 <Docs title="Daemon & Sessions" toc={toc}>
   <div class="roadmap-banner">
     <strong>Daemon mode runs today; session persistence and remote domains are planned.</strong>
-    <p>The mux server binary, IPC wire protocol, auto-start with retry, and embedded fallback are shipped. Multi-client connect, persistence across restarts, and SSH/WSL remote domains are still landing. See the <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/roadmap`}>roadmap</a> for per-section status.</p>
+    <p>The background process and its connection to the window ship today, with auto-start and a graceful single-process fallback. Multiple windows sharing one set of running sessions, persistence across restarts, and SSH/WSL remote shells are still landing. See the <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/roadmap`}>roadmap</a> for status.</p>
   </div>
 
   <h2 id="overview">Overview</h2>
-  <p>ori-term separates pane lifecycle and PTY I/O from the GUI. The pane server lives in <code>oriterm_mux</code> and runs either embedded in the GUI process or as a standalone daemon connected over a Unix domain socket (Linux/macOS) or named pipe (Windows). The eventual goal is a tmux-style client-server model where shell sessions outlive the window — without a separate multiplexer process.</p>
+  <p>ori-term keeps shell sessions in a small background process, and the window connects to it over a local socket. The eventual goal is a model where shells survive after you close the window and resume seamlessly when you open it again — without needing a separate multiplexer like tmux running on top.</p>
 
   <h2 id="process-model">Process Model</h2>
-  <p>The <code>process_model</code> config field selects the runtime topology:</p>
-  <pre><code>process_model = "daemon"    # default — auto-start mux daemon when available
-process_model = "embedded"  # single process, no IPC</code></pre>
-  <p>Daemon mode falls back to embedded when the daemon cannot be reached. Embedded mode is used in tests, sandboxes, and environments where IPC is unavailable.</p>
+  <p>The <code>process_model</code> config field selects how the terminal runs:</p>
+  <pre><code>process_model = "daemon"    # default — connect to (or auto-start) the background process
+process_model = "embedded"  # single process, no IPC — useful in sandboxes</code></pre>
+  <p>Daemon mode falls back to embedded automatically when the background process cannot be reached.</p>
 
   <h2 id="shipped">What Works Today</h2>
   <ul>
-    <li><strong>Mux server binary</strong> — <code>oriterm_mux</code> ships as a standalone process</li>
-    <li><strong>IPC transport</strong> — Unix domain sockets and Windows named pipes</li>
-    <li><strong>Auto-start with retry</strong> — first GUI launch spawns the daemon (sibling-binary discovery, 3-attempt retry)</li>
-    <li><strong>Pane lifecycle over IPC</strong> — create, resize, write, snapshot read</li>
-    <li><strong>Embedded fallback</strong> — single-process mode when the daemon is unreachable</li>
+    <li><strong>Background process for shell sessions</strong> — installs alongside the terminal as a separate executable</li>
+    <li><strong>Local connection</strong> — Unix domain sockets on Linux/macOS, named pipes on Windows</li>
+    <li><strong>Auto-start with retry</strong> — first launch spawns the background process automatically (3-attempt retry)</li>
+    <li><strong>Shell session lifecycle</strong> — create, resize, write, read snapshots</li>
+    <li><strong>Embedded fallback</strong> — single-process mode when the background process is unreachable</li>
   </ul>
 
   <h2 id="planned">Planned</h2>
   <ul>
-    <li><strong>Multi-client</strong> — multiple GUI windows connecting to the same daemon, with IPC protocol hardening (compression, versioning, coalescing) on top of the multi-process window topology</li>
-    <li><strong>Auto-save</strong> — periodic saves of window positions, tabs, pane layout, working directories</li>
+    <li><strong>Multi-window</strong> — multiple windows connecting to the same set of running sessions, with the connection protocol hardened for stability across long-running setups</li>
+    <li><strong>Auto-save</strong> — periodic saves of window positions, tabs, pane layout, and working directories</li>
     <li><strong>Crash recovery</strong> — detect unexpected exits and offer to restore the session</li>
     <li><strong>Scrollback archive</strong> — disk-backed scrollback that survives restarts</li>
-    <li><strong>Remote domains</strong> — SSH and WSL pane spawning through the same daemon</li>
+    <li><strong>Remote shells</strong> — SSH and WSL panes spawned through the same background process</li>
   </ul>
 </Docs>
 

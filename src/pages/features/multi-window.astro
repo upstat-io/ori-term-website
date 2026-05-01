@@ -6,12 +6,8 @@ import Feature from '../../layouts/Feature.astro';
   title="MULTI-WINDOW"
   subtitle="Multiple windows, per-window DPI, cross-window tab movement."
 >
-  <div class="roadmap-note">
-    <strong>Window architecture is in transition.</strong> Today, all windows live in one process and share a single GPU device. The next milestone moves to a process-per-window model with the mux daemon coordinating shared state. Cross-window tab movement is preserved across the transition.
-  </div>
-
   <h2>Cross-Window Tab Movement</h2>
-  <p>Drag tabs between windows or use a keyboard shortcut to move a tab to a new window. The shell session, scrollback, and layout travel with the tab through the mux layer.</p>
+  <p>Drag tabs between windows or move a focused tab to a new window with a keyboard shortcut. The shell session, scrollback, and layout travel with the tab — nothing has to be re-opened in the destination window.</p>
 
   <div class="screenshot-placeholder" role="img" aria-label="Screenshot of multiple ori-term windows with tabs being dragged between them">
     <span>[ SCREENSHOT COMING SOON ]</span>
@@ -23,8 +19,8 @@ import Feature from '../../layouts/Feature.astro';
   <h2>Aero Snap</h2>
   <p>Full Windows Aero Snap support across all windows. Drag to screen edges to snap left, right, or maximize. Each window snaps independently.</p>
 
-  <h2>ConPTY-Safe Shutdown</h2>
-  <p>On Windows, ori-term performs clean process cleanup when closing windows. ConPTY handles are released so child processes terminate gracefully and no orphaned shells leak.</p>
+  <h2>Clean Shutdown</h2>
+  <p>Closing a window cleans up the shells running inside it. Child processes terminate gracefully on every platform — no orphaned shells, no leaked handles, no zombies in your task manager.</p>
 </Feature>
 
 <style>

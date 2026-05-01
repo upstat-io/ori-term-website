@@ -46,8 +46,8 @@ try {
           speed={25}
         />
         <p class="hero-desc">
-          A terminal emulator built from scratch in Rust. GPU-rendered with wgpu.
-          Native multiplexing. Cross-platform.
+          A terminal emulator built from scratch. GPU-accelerated.
+          Splits and tabs built in. Same on Windows, Linux, and macOS.
         </p>
       </div>
     </section>
@@ -59,15 +59,15 @@ try {
         <div class="pitch-grid">
           <div class="pitch-item">
             <span class="pitch-number">01</span>
-            <p>Rust + wgpu. Vulkan on Linux, DX12 + Vulkan on Windows, Metal on macOS. Per-row damage tracking, instance buffer caching, skip-present when idle.</p>
+            <p>GPU-accelerated rendering. Smooth scrolling under heavy output, and idle CPU drops to nearly nothing — your fan stays quiet and your battery lasts.</p>
           </div>
           <div class="pitch-item">
             <span class="pitch-number">02</span>
-            <p>Splits, tabs, and floating panes are built into the terminal. The pane server (<code>oriterm_mux</code>) lives in the same workspace and runs as the default daemon today; an embedded fallback covers sandboxed environments.</p>
+            <p>Splits, tabs, and floating panes live inside the terminal. No tmux to install, no compatibility layer to fight, no second config language to learn.</p>
           </div>
           <div class="pitch-item">
             <span class="pitch-number">03</span>
-            <p>Windows, Linux, and macOS share the same crates. ConPTY, fontconfig, CoreText. Cross-compile from WSL or build natively — same source tree.</p>
+            <p>Windows, Linux, and macOS get the same terminal — same features, same keybindings, same look. No platform was an afterthought.</p>
           </div>
         </div>
       </div>
@@ -93,20 +93,20 @@ try {
         <h2 class="section-label">// CAPABILITIES</h2>
         <div class="highlight-grid">
           <div class="highlight-block">
-            <h3>FONT PIPELINE</h3>
-            <p>rustybuzz (HarfBuzz) shaping with two-phase ligatures, multi-face fallback chains, cap-height normalization, color emoji via VS15/VS16, subpixel rendering, subpixel positioning, synthetic bold and italic, DPI-aware hinting, and a guillotine-packed multi-page glyph atlas with LRU eviction.</p>
+            <h3>BEAUTIFUL TYPOGRAPHY</h3>
+            <p>Ligatures and contextual alternates render the way your font designer intended. Color emoji, complex scripts, multi-font fallback for missing glyphs, OpenType features, and crisp text at any size on any display.</p>
           </div>
           <div class="highlight-block">
             <h3>BUILT-IN MULTIPLEXING</h3>
-            <p>Splits (<code>Ctrl+Shift+O</code> / <code>Ctrl+Shift+E</code>), floating panes (<code>Ctrl+Shift+P</code>), spatial navigation, drag-to-resize, equalize, zoom, and undo/redo split history. Pane lifecycle lives in <code>oriterm_mux</code> with per-pane IO threads and lock-free snapshot transfer.</p>
+            <p>Splits (<code>Ctrl+Shift+O</code> / <code>Ctrl+Shift+E</code>), floating panes (<code>Ctrl+Shift+P</code>), keyboard navigation between panes, drag-to-resize dividers, zoom, equalize, and undo/redo for layout changes. No tmux required.</p>
           </div>
           <div class="highlight-block">
             <h3>IMAGES &amp; PROTOCOLS</h3>
-            <p>Kitty Graphics (chunked, placement, z-index, animation), Sixel via DCS, iTerm2 OSC 1337. Synchronized output (Mode 2026), bracketed paste, focus events, kitty keyboard protocol, OSC 8 hyperlinks with implicit URL detection, OSC 7 / 133 shell integration.</p>
+            <p>Kitty graphics, Sixel, and iTerm2 inline images render directly in the terminal. OSC 8 explicit hyperlinks, automatic URL detection, shell integration for prompt-aware navigation, mouse reporting, bracketed paste, and the Kitty keyboard protocol.</p>
           </div>
           <div class="highlight-block">
-            <h3>RENDER PIPELINE</h3>
-            <p>Staged Extract → Prepare → Render. Snapshot taken under FairMutex in microseconds, GPU work runs without the lock. Per-row damage tracking, instance buffer caching, partial updates for changed rows, and skip-present when idle keep idle CPU at the cursor blink rate (~1.89 Hz).</p>
+            <h3>FAST AND QUIET</h3>
+            <p>The terminal stays smooth under heavy output and drops to almost no CPU when nothing is happening. Battery and fans stay quiet; long-running sessions don't bog down your machine.</p>
           </div>
         </div>
       </div>

@@ -4,23 +4,23 @@ import Feature from '../../layouts/Feature.astro';
 
 <Feature
   title="DAEMON MODE"
-  subtitle="Pane server lives in its own process. Persistence and remote shells are landing on top."
+  subtitle="Shell sessions can live independently of the window. Persistence and remote shells are coming."
 >
   <div class="roadmap-banner">
-    <strong>Daemon process and IPC ship today; persistence and remote domains are still landing.</strong>
-    <p>Auto-start, retry, and embedded fallback work now. Crash recovery, multi-client connect, scrollback archive, and SSH / WSL domains are roadmap items. See the <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/roadmap`}>roadmap</a> for current status.</p>
+    <strong>Background mode runs today; persistent and remote sessions are still landing.</strong>
+    <p>The terminal already runs its shell sessions in a background process by default, falling back gracefully when that's not available. Crash recovery, multi-window sharing of running sessions, scrollback that survives restarts, and SSH / WSL remote shells are on the roadmap. See the <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/roadmap`}>roadmap</a> for status.</p>
   </div>
 
-  <h2>Process Model</h2>
-  <p>The pane server (<code>oriterm_mux</code>) runs as a standalone daemon by default and the GUI connects over a Unix domain socket (Linux/macOS) or named pipe (Windows). On first launch the GUI auto-spawns the daemon with a 3-attempt retry; if the daemon cannot be reached, it falls back to embedded mode (single process, no IPC).</p>
-  <p>Set <code>process_model = "embedded"</code> in <code>config.toml</code> to skip the daemon entirely — useful in sandboxes and tests.</p>
+  <h2>How It Works Today</h2>
+  <p>The terminal runs its shell sessions in a small background process by default and the window connects to it. On first launch the background process starts automatically; if it can't be started — sandboxed environments, locked-down systems — the terminal falls back to running everything inline, no extra setup needed.</p>
+  <p>To skip the background process entirely, set the process model to <code>"embedded"</code> in <code>config.toml</code>. Useful in sandboxes and CI.</p>
 
-  <h2>Planned: Sessions Persist</h2>
-  <p>The next milestone separates shell session state from window lifetime. Closing the window will leave shells running; reopening will restore scrollback, working directories, and pane layout. Auto-save and crash recovery come with this milestone.</p>
+  <h2>Planned: Sessions That Survive</h2>
+  <p>The next milestone separates shell sessions from window lifetime. Close the window and shells keep running; reopen and pick up exactly where you left off — scrollback, working directories, and pane layout intact. Auto-save and crash recovery come with this milestone.</p>
 
-  <h2>Planned: Remote Domains</h2>
+  <h2>Planned: Remote Shells</h2>
   <ul>
-    <li><strong>SSH</strong> — open remote shells via SSH with agent forwarding and keepalive, mixed with local panes</li>
+    <li><strong>SSH</strong> — open remote shells with agent forwarding and keepalive, mixed alongside local panes in the same window</li>
     <li><strong>WSL</strong> — Windows Subsystem for Linux integration with auto-detection</li>
   </ul>
 </Feature>

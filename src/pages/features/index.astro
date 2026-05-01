@@ -10,10 +10,10 @@ const categories = [
   {
     label: 'CORE',
     features: [
-      { title: 'GPU Rendering', href: `${base}/features/gpu-rendering`, desc: 'wgpu with Vulkan + DX12 on Windows, Vulkan on Linux, Metal on macOS. Damage tracking, frame pacing' },
-      { title: 'Terminal Emulation', href: `${base}/features/terminal-emulation`, desc: 'Full VTE escape sequences, truecolor, text reflow on resize, configurable scrollback, mouse reporting, Kitty keyboard protocol' },
-      { title: 'Fonts & Text', href: `${base}/features/fonts`, desc: 'HarfBuzz shaping, ligatures, complex scripts, multi-face fallback, color emoji, subpixel rendering, OpenType features, text decorations' },
-      { title: 'Images', href: `${base}/features/images`, desc: 'Kitty graphics protocol, Sixel, iTerm2 inline images, GPU compositing' },
+      { title: 'GPU Rendering', href: `${base}/features/gpu-rendering`, desc: 'Hardware-accelerated rendering. Smooth scrolling under heavy output, low idle CPU, crisp text' },
+      { title: 'Terminal Emulation', href: `${base}/features/terminal-emulation`, desc: 'Full escape-sequence support, truecolor, text reflow on resize, scrollback, mouse reporting, Kitty keyboard protocol' },
+      { title: 'Fonts & Text', href: `${base}/features/fonts`, desc: 'Ligatures, complex scripts, multi-font fallback, color emoji, subpixel rendering, OpenType features, text decorations' },
+      { title: 'Images', href: `${base}/features/images`, desc: 'Inline image display via Kitty graphics, Sixel, and iTerm2 protocols' },
     ],
   },
   {
@@ -22,7 +22,7 @@ const categories = [
       { title: 'Split Panes', href: `${base}/features/multiplexer`, desc: 'Split right and split down, spatial navigation, drag-to-resize dividers, zoom/unzoom, equalize, undo/redo splits' },
       { title: 'Floating Panes', href: `${base}/features/floating-panes`, desc: 'Overlay panes that float, drag, resize, and toggle between floating and tiled layouts with z-ordering' },
       { title: 'Tabs', href: `${base}/features/tabs`, desc: 'Chrome-style tear-off into new windows, drag back in, reorder with animation, bell indicators' },
-      { title: 'Multi-Window', href: `${base}/features/multi-window`, desc: 'Shared GPU across windows, cross-window tab drag and drop, per-window DPI scaling' },
+      { title: 'Multi-Window', href: `${base}/features/multi-window`, desc: 'Open multiple windows, drag tabs between them, each window tracks its own DPI' },
     ],
   },
   {
@@ -47,7 +47,7 @@ const categories = [
     features: [
       { title: 'Shell Integration', href: `${base}/features/shell-integration`, desc: 'Automatic shell detection (bash, zsh, fish, PowerShell), CWD tracking, semantic zones, prompt navigation' },
       { title: 'Configuration', href: `${base}/features/configuration`, desc: 'TOML config with hot-reload. Configurable keybindings, font size zoom, sensible defaults, per-platform paths' },
-      { title: 'Platform Support', href: `${base}/features/platform`, desc: 'Windows (ConPTY, DirectWrite, Aero Snap), Linux (X11 + Wayland, fontconfig), macOS (CoreText, Metal). All first-class' },
+      { title: 'Platform Support', href: `${base}/features/platform`, desc: 'Native on Windows (Aero Snap, transparent blur), Linux (X11 and Wayland), and macOS (frosted-glass vibrancy). All first-class' },
     ],
   },
   {

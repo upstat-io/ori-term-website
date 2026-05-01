@@ -17,8 +17,8 @@
   const defaultFeatures: Feature[] = [
     {
       label: 'RENDERER',
-      value: 'wgpu',
-      detail: 'GPU-accelerated via Vulkan, DX12, and Metal with damage tracking',
+      value: 'GPU',
+      detail: 'Hardware-accelerated rendering. Smooth scrolling, low idle CPU, crisp text.',
       href: `${base}/features/gpu-rendering`,
     },
     {
@@ -48,7 +48,7 @@
     {
       label: 'FONTS',
       value: 'Shaped',
-      detail: 'HarfBuzz shaping, ligatures, emoji, multi-face fallback chains',
+      detail: 'Ligatures, color emoji, complex scripts, multi-font fallback for missing glyphs',
       href: `${base}/features/fonts`,
     },
     {

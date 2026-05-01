@@ -4,18 +4,18 @@ import Feature from '../../layouts/Feature.astro';
 
 <Feature
   title="GPU RENDERING"
-  subtitle="wgpu (Vulkan / DX12 / Metal), staged Extract → Prepare → Render, per-row damage tracking."
+  subtitle="Hardware-accelerated. Smooth under heavy output. Almost no CPU when idle."
 >
-  <h2>Backend</h2>
-  <p>Rendering goes through wgpu — Vulkan and DX12 on Windows, Vulkan on Linux, Metal on macOS. Cells, glyphs, image-protocol textures, UI overlays, and the chrome layer all reach the swapchain through the same instance pipeline.</p>
+  <h2>Smooth Under Load</h2>
+  <p>The terminal renders on the GPU on every supported platform. Cells, glyphs, images, and window chrome share the same pipeline, so a screen full of compiler output, a streaming log, or a long <code>cat</code> over a 4K image all stay smooth without dropped frames.</p>
 
-  <h2>Staged Pipeline</h2>
-  <p>Each frame moves through three phases: <strong>Extract</strong> takes a <code>RenderableContent</code> snapshot under the per-pane <code>FairMutex</code> in microseconds and releases the lock; <strong>Prepare</strong> is pure CPU work (layout, palette resolution, instance buffer build) with no GPU calls; <strong>Render</strong> submits the prepared instance buffers. The lock is never held during GPU submission.</p>
+  <h2>Quiet When Idle</h2>
+  <p>When nothing is changing, the terminal stops drawing entirely — the cursor blink is the only thing that can wake it up. Idle CPU drops near zero, your laptop fan stops, and a long-lived terminal session doesn't drain battery in the background.</p>
 
-  <h2>Damage Tracking</h2>
-  <p>Per-row dirty tracking keeps idle work near zero. When output is streaming, only changed rows have their instance ranges rewritten; unchanged rows keep their cached instance data. When nothing is changing the renderer skips presentation entirely and the event loop sleeps via <code>ControlFlow::Wait</code>.</p>
+  <h2>Only Changed Cells Redraw</h2>
+  <p>Each frame only updates the cells that actually changed. A streaming build log or a busy <code>htop</code> still costs a fraction of what redrawing the full screen would. Resizing the window or moving it to a different monitor stays smooth.</p>
 
-  <h2>Glyph Atlas</h2>
-  <p>Glyphs rasterize through swash + skrifa hinting and pack into a guillotine-allocated 2048×2048 atlas (R8Unorm + Rgba8Unorm pages, LRU eviction). ASCII is pre-cached at startup so the first frame renders without atlas fills.</p>
+  <h2>Crisp Text at Every Size</h2>
+  <p>Glyphs are rasterized once and cached. Common ASCII characters are pre-warmed at startup, so the very first frame already has the text it needs. Bumping the font size or moving between monitors with different DPIs renders sharp without re-launching.</p>
 
 </Feature>

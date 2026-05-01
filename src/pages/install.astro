@@ -82,7 +82,7 @@ const fallback = `${releasesUrl}/latest`;
           <div class="platform-block" data-platform="windows">
 
             <h3>WINDOWS</h3>
-            <p>Extract the <code>.zip</code> and run <code>oriterm.exe</code>. Requires a GPU with Vulkan or DX12 support.</p>
+            <p>Extract the <code>.zip</code> and run <code>oriterm.exe</code>. Requires Windows 10 or later with a modern GPU.</p>
             <DownloadButton
               href={latest.windows?.url ?? fallback}
               label="Windows x86_64"
@@ -92,7 +92,7 @@ const fallback = `${releasesUrl}/latest`;
           <div class="platform-block" data-platform="linux">
 
             <h3>LINUX</h3>
-            <p>Extract the <code>.tar.gz</code> and place in your PATH. Requires Vulkan GPU support. Works on X11 and Wayland.</p>
+            <p>Extract the <code>.tar.gz</code> and place in your PATH. Requires a modern GPU. Works on X11 and Wayland.</p>
             <DownloadButton
               href={latest.linux?.url ?? fallback}
               label="Linux x86_64"
@@ -102,7 +102,7 @@ const fallback = `${releasesUrl}/latest`;
           <div class="platform-block" data-platform="macos">
 
             <h3>MACOS</h3>
-            <p>Extract the <code>.tar.gz</code> for Apple Silicon. Requires Metal support (any Mac from 2012+).</p>
+            <p>Extract the <code>.tar.gz</code> for Apple Silicon. Runs on any Mac from 2012 or later.</p>
             <DownloadButton
               href={latest.macos?.url ?? fallback}
               label="macOS aarch64"
