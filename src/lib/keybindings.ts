@@ -11,10 +11,13 @@ export const keys = {
   reloadConfig: 'Ctrl+Shift+R',
   openSettings: 'Ctrl+,',
   fontLarger: 'Ctrl+=',
+  fontLargerAlt: 'Ctrl++',
   fontSmaller: 'Ctrl+-',
   fontReset: 'Ctrl+0',
   toggleFullscreen: 'Alt+Enter',
+  toggleFullscreenMac: 'Cmd+Ctrl+F',
   selectAll: 'Ctrl+A',
+  toggleDebugOverlay: 'Ctrl+Shift+F12',
 
   // Panes
   splitRight: 'Ctrl+Shift+O',
@@ -41,7 +44,9 @@ export const keys = {
 
   // Clipboard
   copy: 'Ctrl+Shift+C',
+  copyAlt: 'Ctrl+Insert',
   paste: 'Ctrl+Shift+V',
+  pasteAlt: 'Shift+Insert',
   smartCopy: 'Ctrl+C',
   smartPaste: 'Ctrl+V',
 

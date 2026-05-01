@@ -3,30 +3,43 @@ import Docs from '../../layouts/Docs.astro';
 
 const toc = [
   { id: 'overview', text: 'Overview', level: 2 },
-  { id: 'current-state', text: 'Current State', level: 2 },
-  { id: 'planned', text: 'Planned Features', level: 2 },
+  { id: 'process-model', text: 'Process Model', level: 2 },
+  { id: 'shipped', text: 'What Works Today', level: 2 },
+  { id: 'planned', text: 'Planned', level: 2 },
 ];
 ---
 
 <Docs title="Daemon & Sessions" toc={toc}>
   <div class="roadmap-banner">
-    <strong>Daemon mode and session persistence are on the roadmap and not yet implemented.</strong>
-    <p>ori-term currently runs in single-process mode. See the <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/roadmap`}>roadmap</a> for status.</p>
+    <strong>Daemon mode runs today; session persistence and remote domains are planned.</strong>
+    <p>The mux server binary, IPC wire protocol, auto-start with retry, and embedded fallback are shipped. Multi-client connect, persistence across restarts, and SSH/WSL remote domains are still landing. See the <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/roadmap`}>roadmap</a> for per-section status.</p>
   </div>
 
   <h2 id="overview">Overview</h2>
-  <p>ori-term will eventually keep shell sessions running in a background process, separate from the window. Close the window and sessions keep running. Reopen and pick up where you left off. Similar to tmux's client-server model, but built into the terminal.</p>
+  <p>ori-term separates pane lifecycle and PTY I/O from the GUI. The pane server lives in <code>oriterm_mux</code> and runs either embedded in the GUI process or as a standalone daemon connected over a Unix domain socket (Linux/macOS) or named pipe (Windows). The eventual goal is a tmux-style client-server model where shell sessions outlive the window — without a separate multiplexer process.</p>
 
-  <h2 id="current-state">Current State</h2>
-  <p>ori-term currently runs as a single process. Closing the window ends all shell sessions. Split tree undo/redo history is maintained during the session but is not persisted across restarts.</p>
+  <h2 id="process-model">Process Model</h2>
+  <p>The <code>process_model</code> config field selects the runtime topology:</p>
+  <pre><code>process_model = "daemon"    # default — auto-start mux daemon when available
+process_model = "embedded"  # single process, no IPC</code></pre>
+  <p>Daemon mode falls back to embedded when the daemon cannot be reached. Embedded mode is used in tests, sandboxes, and environments where IPC is unavailable.</p>
 
-  <h2 id="planned">Planned Features</h2>
+  <h2 id="shipped">What Works Today</h2>
   <ul>
-    <li><strong>Background daemon</strong> — sessions survive after GUI closes</li>
-    <li><strong>Auto-save</strong> — periodic saves of window positions, tabs, pane layout, and working directories</li>
+    <li><strong>Mux server binary</strong> — <code>oriterm_mux</code> ships as a standalone process</li>
+    <li><strong>IPC transport</strong> — Unix domain sockets and Windows named pipes</li>
+    <li><strong>Auto-start with retry</strong> — first GUI launch spawns the daemon (sibling-binary discovery, 3-attempt retry)</li>
+    <li><strong>Pane lifecycle over IPC</strong> — create, resize, write, snapshot read</li>
+    <li><strong>Embedded fallback</strong> — single-process mode when the daemon is unreachable</li>
+  </ul>
+
+  <h2 id="planned">Planned</h2>
+  <ul>
+    <li><strong>Multi-client</strong> — multiple GUI windows connecting to the same daemon, with IPC protocol hardening (compression, versioning, coalescing) on top of the multi-process window topology</li>
+    <li><strong>Auto-save</strong> — periodic saves of window positions, tabs, pane layout, working directories</li>
     <li><strong>Crash recovery</strong> — detect unexpected exits and offer to restore the session</li>
-    <li><strong>Multi-client</strong> — multiple windows connecting to the same daemon</li>
     <li><strong>Scrollback archive</strong> — disk-backed scrollback that survives restarts</li>
+    <li><strong>Remote domains</strong> — SSH and WSL pane spawning through the same daemon</li>
   </ul>
 </Docs>
 

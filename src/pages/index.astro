@@ -54,20 +54,20 @@ try {
 
     <TerminalHero client:load version={latestVersion} />
 
-    <section class="pitch" aria-label="Value proposition">
+    <section class="pitch" aria-label="What it is">
       <div class="container">
         <div class="pitch-grid">
           <div class="pitch-item">
             <span class="pitch-number">01</span>
-            <p>Built in Rust. Rendered with wgpu. No Electron. No compromise. Every frame is GPU-composed with damage tracking — only changed cells hit the pipeline.</p>
+            <p>Rust + wgpu. Vulkan on Linux, DX12 + Vulkan on Windows, Metal on macOS. Per-row damage tracking, instance buffer caching, skip-present when idle.</p>
           </div>
           <div class="pitch-item">
             <span class="pitch-number">02</span>
-            <p>Multiplexing is native, not bolted on. Splits, tabs, and floating panes are first-class primitives. Drop tmux.</p>
+            <p>Splits, tabs, and floating panes are built into the terminal. The pane server (<code>oriterm_mux</code>) lives in the same workspace and runs as the default daemon today; an embedded fallback covers sandboxed environments.</p>
           </div>
           <div class="pitch-item">
             <span class="pitch-number">03</span>
-            <p>Cross-platform from day one. Windows, Linux, and macOS are all first-class — no platform is an afterthought. Same features, same quality.</p>
+            <p>Windows, Linux, and macOS share the same crates. ConPTY, fontconfig, CoreText. Cross-compile from WSL or build natively — same source tree.</p>
           </div>
         </div>
       </div>
@@ -88,29 +88,25 @@ try {
       </div>
     </section>
 
-    <section class="highlights" aria-label="Highlights">
+    <section class="highlights" aria-label="Capabilities">
       <div class="container">
-        <h2 class="section-label">// WHY SWITCH</h2>
+        <h2 class="section-label">// CAPABILITIES</h2>
         <div class="highlight-grid">
           <div class="highlight-block">
-            <h3>REAL FONT RENDERING</h3>
-            <p class="highlight-pain">Most GPU terminals skip ligature support entirely. Your carefully chosen coding font renders as plain text.</p>
-            <p>ori-term ships HarfBuzz shaping. Fira Code, JetBrains Mono, Iosevka — ligatures, complex scripts, multi-face fallback chains. Your font works the way it was designed.</p>
+            <h3>FONT PIPELINE</h3>
+            <p>rustybuzz (HarfBuzz) shaping with two-phase ligatures, multi-face fallback chains, cap-height normalization, color emoji via VS15/VS16, subpixel rendering, subpixel positioning, synthetic bold and italic, DPI-aware hinting, and a guillotine-packed multi-page glyph atlas with LRU eviction.</p>
           </div>
           <div class="highlight-block">
-            <h3>NO MULTIPLEXER NEEDED</h3>
-            <p class="highlight-pain">Terminal multiplexers break truecolor, mangle escape sequences, fight your clipboard, and demand their own config language.</p>
-            <p>ori-term has splits, tabs, and floating panes built in. One config file, one process, zero compatibility layers. Your colors stay correct.</p>
+            <h3>BUILT-IN MULTIPLEXING</h3>
+            <p>Splits (<code>Ctrl+Shift+O</code> / <code>Ctrl+Shift+E</code>), floating panes (<code>Ctrl+Shift+P</code>), spatial navigation, drag-to-resize, equalize, zoom, and undo/redo split history. Pane lifecycle lives in <code>oriterm_mux</code> with per-pane IO threads and lock-free snapshot transfer.</p>
           </div>
           <div class="highlight-block">
-            <h3>CROSS-PLATFORM, NO ASTERISKS</h3>
-            <p class="highlight-pain">Most GPU terminals launch on one platform first, then bolt on the others as an afterthought. Linux-only for years. macOS "experimental". Windows "coming soon".</p>
-            <p>ori-term builds and runs on Windows, Linux, and macOS from day one. ConPTY, fontconfig, CoreText, Vulkan, DX12, Metal — each platform gets its native stack. Same features everywhere.</p>
+            <h3>IMAGES &amp; PROTOCOLS</h3>
+            <p>Kitty Graphics (chunked, placement, z-index, animation), Sixel via DCS, iTerm2 OSC 1337. Synchronized output (Mode 2026), bracketed paste, focus events, kitty keyboard protocol, OSC 8 hyperlinks with implicit URL detection, OSC 7 / 133 shell integration.</p>
           </div>
           <div class="highlight-block">
-            <h3>GPU SPEED, FULL FEATURES</h3>
-            <p class="highlight-pain">Fast terminals strip features to stay fast. Feature-rich terminals lag on large output. The tradeoff feels inevitable.</p>
-            <p>ori-term renders every frame on the GPU with damage tracking — only changed cells hit the pipeline. Full features at full speed.</p>
+            <h3>RENDER PIPELINE</h3>
+            <p>Staged Extract → Prepare → Render. Snapshot taken under FairMutex in microseconds, GPU work runs without the lock. Per-row damage tracking, instance buffer caching, partial updates for changed rows, and skip-present when idle keep idle CPU at the cursor blink rate (~1.89 Hz).</p>
           </div>
         </div>
       </div>

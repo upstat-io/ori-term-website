@@ -5,65 +5,30 @@ import { keys } from '../../lib/keybindings';
 const toc = [
   { id: 'implicit', text: 'Implicit Detection', level: 2 },
   { id: 'osc8', text: 'OSC 8 Hyperlinks', level: 2 },
-  { id: 'custom', text: 'Custom Patterns', level: 2 },
-  { id: 'actions', text: 'Actions', level: 2 },
-  { id: 'examples', text: 'Examples', level: 2 },
+  { id: 'planned', text: 'Planned', level: 2 },
 ];
 ---
 
 <Docs title="URL Patterns" toc={toc}>
   <h2 id="implicit">Implicit Detection</h2>
-  <p>ori-term automatically detects common URL-like patterns in terminal output:</p>
+  <p>ori-term scans terminal output for URLs and turns them into clickable links. Detection covers the four schemes the parser ships today:</p>
   <ul>
-    <li>HTTP/HTTPS URLs</li>
-    <li>File paths</li>
-    <li>Git commit hashes</li>
-    <li>IP addresses</li>
-    <li>Email addresses</li>
+    <li><code>http://</code> and <code>https://</code></li>
+    <li><code>ftp://</code></li>
+    <li><code>file://</code></li>
   </ul>
-  <p>Hover over a detected URL with <kbd>{keys.urlModifier}</kbd> held to see it underlined. <kbd>{keys.openUrl}</kbd> to open it in your default browser.</p>
+  <p>Trailing punctuation (<code>.</code> <code>,</code> <code>;</code> <code>:</code> <code>!</code> <code>?</code> <code>)</code>) is trimmed from the match so a URL at the end of a sentence works without selecting the period.</p>
+  <p>Hold <kbd>{keys.urlModifier}</kbd> over a detected URL to underline it. <kbd>{keys.openUrl}</kbd> opens it in your default browser.</p>
 
   <h2 id="osc8">OSC 8 Hyperlinks</h2>
-  <p>Applications can emit explicit hyperlinks using the OSC 8 escape sequence. These render as clickable links without regex detection. Many modern CLI tools support this:</p>
+  <p>Applications can emit explicit hyperlinks using the OSC 8 escape sequence. These render as clickable links without regex detection. Examples of CLI tools that emit OSC 8:</p>
   <ul>
-    <li><code>ls --hyperlink</code> — File links</li>
-    <li><code>gcc</code> / <code>clang</code> — Error location links</li>
-    <li><code>ripgrep</code> — Match location links</li>
+    <li><code>ls --hyperlink</code> — file links (GNU coreutils)</li>
+    <li><code>gcc</code> / <code>clang</code> — diagnostic location links</li>
+    <li><code>ripgrep</code> with <code>--hyperlink-format</code></li>
   </ul>
+  <p>OSC 8 link targets follow the same modifier-click semantics as detected URLs.</p>
 
-  <h2 id="custom">Custom Patterns</h2>
-  <p>Define regex patterns in your <code>config.toml</code> to match project-specific identifiers:</p>
-  <pre><code>[[url_patterns]]
-regex = "PROJ-\\d+"
-url = "https://jira.example.com/browse/$0"
-action = "open"</code></pre>
-  <p>The <code>regex</code> field defines what to match. The <code>url</code> field defines the URL template with capture group substitution (<code>$0</code> for full match, <code>$1</code>, <code>$2</code>... for groups).</p>
-
-  <h2 id="actions">Actions</h2>
-  <p>Each pattern specifies what happens on <kbd>{keys.openUrl}</kbd>:</p>
-  <table>
-    <thead><tr><th>Action</th><th>Behavior</th></tr></thead>
-    <tbody>
-      <tr><td><code>open</code></td><td>Open the URL in default browser</td></tr>
-      <tr><td><code>copy</code></td><td>Copy the matched text to clipboard</td></tr>
-      <tr><td><code>select</code></td><td>Select the matched text</td></tr>
-    </tbody>
-  </table>
-
-  <h2 id="examples">Examples</h2>
-  <pre><code># GitHub issue references
-[[url_patterns]]
-regex = "(\\w+)/(\\w+)#(\\d+)"
-url = "https://github.com/$1/$2/issues/$3"
-action = "open"
-
-# Stack trace file paths
-[[url_patterns]]
-regex = "(/[\\w/.-]+):(\\d+)"
-action = "open"
-
-# SHA commit hashes
-[[url_patterns]]
-regex = "\\b[0-9a-f]{7,40}\\b"
-action = "copy"</code></pre>
+  <h2 id="planned">Planned</h2>
+  <p>Custom <code>[[url_patterns]]</code> blocks — user-defined regex matchers with capture-group URL templates and configurable actions (open / copy / select) — are on the roadmap and not yet wired through the config loader. Other planned scheme additions: file paths, IP addresses, git commit hashes, and email addresses. Track on the <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/roadmap`}>roadmap</a>.</p>
 </Docs>

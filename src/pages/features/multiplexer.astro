@@ -36,7 +36,7 @@ import { keys } from '../../lib/keybindings';
   <p>The full history of your layout changes is preserved for the session.</p>
 
   <h2>Tabs</h2>
-  <p>Chrome-style tab management. Tabs can be torn off into new windows, dragged back in, and reordered with smooth animation.</p>
+  <p>Chrome-style tab management with reorder, bell indicator on inactive tabs, and smooth animation. Tear-off and merge-back behaviors are landing as part of the multi-process window work — keyboard shortcuts and basic CRUD operate today.</p>
   <ul>
     <li><kbd>{keys.newTab}</kbd> — New tab</li>
     <li><kbd>{keys.closeTab}</kbd> — Close tab</li>
@@ -44,5 +44,5 @@ import { keys } from '../../lib/keybindings';
   </ul>
 
   <h2>Multi-Window</h2>
-  <p>Open multiple windows and drag tabs between them. Each window gets proper HiDPI handling.</p>
+  <p>Multiple windows share the GPU device today; the multi-process window topology (separate process per window, mux daemon as the coordinator) is in progress. Each window already tracks its own DPI and resizes independently.</p>
 </Feature>

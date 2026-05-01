@@ -87,7 +87,7 @@
       <li>
         <!-- svelte-ignore a11y_no_static_element_interactions -->
         <a
-          href="https://github.com/upstat-io/ori_term"
+          href="https://github.com/upstat-io/ori-term"
           class="nav-link icon-link"
           class:restoring={ghPhase === 'restoring'}
           class:restored={ghPhase === 'restored'}

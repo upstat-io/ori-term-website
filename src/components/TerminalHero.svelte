@@ -11,7 +11,7 @@
 
   let { version = '' }: Props = $props();
 
-  const versionOutput = version ? `ori-term ${version}` : 'ori-term 0.2.0-alpha';
+  const versionOutput = version ? `ori-term ${version}` : 'ori-term alpha';
 
   const lines = [
     { prompt: '~/projects', cmd: 'ori-term --version', delay: 0 },

@@ -133,7 +133,9 @@ function loadRoadmapSections(
 }
 
 export function loadRoadmapTiers(dir?: string): Tier[] {
-  const roadmapDir = dir ?? resolve(process.cwd(), '..', 'ori_term', 'plans', 'roadmap');
+  // The website lives at `<wrapper>/website_repo/`; the roadmap lives at
+  // `<wrapper>/plans/roadmap/`. Resolve relative to the cwd (website_repo).
+  const roadmapDir = dir ?? resolve(process.cwd(), '..', 'plans', 'roadmap');
   const { order: tierOrder, meta: tierMeta } = loadTierMeta(roadmapDir);
   const sections = loadRoadmapSections(roadmapDir, tierOrder);
 

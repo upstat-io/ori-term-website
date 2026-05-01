@@ -50,10 +50,13 @@ mv oriterm ~/.local/bin/</code></pre>
   <p>Apple Silicon (aarch64) build available. Requires Metal support (any Mac from 2012+).</p>
 
   <h2 id="from-source">Build from Source</h2>
-  <p>Requires Rust 1.80+:</p>
+  <p>The toolchain is pinned in <code>rust-toolchain.toml</code> — <code>rustup</code> picks it up automatically.</p>
   <pre><code>git clone https://github.com/{repo}.git
-cd ori-term
+cd ori-term/term_repo
 cargo build --release</code></pre>
+  <p>To cross-compile for Windows from Linux/WSL, add the target and use the cross-build target:</p>
+  <pre><code>rustup target add x86_64-pc-windows-gnu
+cargo build --release --target x86_64-pc-windows-gnu</code></pre>
   <p>The binary will be at <code>target/release/oriterm</code> (or <code>oriterm.exe</code> on Windows).</p>
 
   <h2 id="verify">Verify Installation</h2>

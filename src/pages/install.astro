@@ -127,10 +127,10 @@ const fallback = `${releasesUrl}/latest`;
     <section class="from-source">
       <div class="container">
         <h2 class="section-label">// BUILD FROM SOURCE</h2>
-        <p class="source-note">If you prefer to build from source, you need Rust 1.80+:</p>
-        <pre><code>{`git clone https://github.com/${repo}.git\ncd ori-term\ncargo build --release`}</code></pre>
+        <p class="source-note">The Cargo workspace lives in <code>term_repo/</code>. The toolchain version is pinned in <code>rust-toolchain.toml</code> — <code>rustup</code> picks it up automatically.</p>
+        <pre><code>{`git clone https://github.com/${repo}.git\ncd ori-term/term_repo\ncargo build --release`}</code></pre>
         <p class="source-note">The binary will be at <code>target/release/oriterm</code> (or <code>oriterm.exe</code> on Windows).</p>
-        <p class="source-note">See <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/docs/installation`}>installation docs</a> for platform-specific build dependencies.</p>
+        <p class="source-note">See <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/docs/installation`}>installation docs</a> for platform-specific build dependencies and the Windows cross-compile flow.</p>
       </div>
     </section>
   </main>

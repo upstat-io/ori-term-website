@@ -6,15 +6,12 @@ const toc = [
   { id: 'location', text: 'Config Location', level: 2 },
   { id: 'format', text: 'Format', level: 2 },
   { id: 'hot-reload', text: 'Hot Reload', level: 2 },
+  { id: 'process-model', text: 'Process Model', level: 2 },
   { id: 'font', text: 'Font', level: 2 },
   { id: 'theme', text: 'Theme', level: 2 },
   { id: 'window', text: 'Window', level: 2 },
-  { id: 'cursor', text: 'Cursor', level: 2 },
-  { id: 'scrollback', text: 'Scrollback', level: 2 },
-  { id: 'shell', text: 'Shell', level: 2 },
-  { id: 'mouse', text: 'Mouse', level: 2 },
+  { id: 'terminal', text: 'Terminal', level: 2 },
   { id: 'keybindings', text: 'Keybindings', level: 2 },
-  { id: 'url-patterns', text: 'URL Patterns', level: 2 },
 ];
 ---
 
@@ -32,71 +29,84 @@ const toc = [
   <p>If the file doesn't exist, ori-term uses built-in defaults. You only need to specify settings you want to change.</p>
 
   <h2 id="format">Format</h2>
-  <p>Configuration uses TOML. A minimal config might look like:</p>
-  <pre><code>[font]
+  <p>Configuration uses TOML. Every field is optional — missing keys fall back to built-in defaults. A minimal config might look like:</p>
+  <pre><code>process_model = "daemon"
+
+[font]
 family = "JetBrains Mono"
 size = 14
 
-[theme]
-name = "catppuccin-mocha"
+[colors]
+scheme = "catppuccin-mocha"
 
 [window]
+columns = 120
+rows = 30
 opacity = 0.95</code></pre>
 
   <h2 id="hot-reload">Hot Reload</h2>
   <p>ori-term watches your config file for changes. Save the file and settings apply immediately — no restart needed. You can also trigger a manual reload with <kbd>{keys.reloadConfig}</kbd>.</p>
-  <p>Hot reload applies to: theme, font size, keybindings, cursor style, window opacity, and most visual settings. Some settings (like shell or scrollback limits) only apply to new panes.</p>
+  <p>Hot reload applies to: theme, font size, keybindings, cursor style, window opacity, and most visual settings. The shell and scrollback budget only apply to newly spawned panes.</p>
+
+  <h2 id="process-model">Process Model</h2>
+  <pre><code>process_model = "daemon"    # default — connect to (or auto-start) the mux daemon
+process_model = "embedded"  # single process, no IPC</code></pre>
+  <p>See <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/docs/daemon`}>Daemon &amp; Sessions</a> for details.</p>
 
   <h2 id="font">Font</h2>
   <pre><code>[font]
 family = "JetBrains Mono"
 size = 14
-fallback = ["Noto Sans Mono", "Noto Color Emoji"]
+features = ["liga", "calt", "-kern"]   # OpenType feature tags; "-foo" disables
 
-[font.features]
-liga = true
-calt = true</code></pre>
-  <p>The <code>family</code> field sets the primary font. <code>fallback</code> defines additional fonts for missing glyphs. OpenType features can be enabled or disabled individually.</p>
+# Fallback fonts use array-of-tables. Each entry can override features and size offset.
+[[font.fallback]]
+family = "Noto Sans CJK"
+size_offset = -1.0
+
+[[font.fallback]]
+family = "Noto Color Emoji"
+features = ["liga"]</code></pre>
+  <p>The primary <code>family</code> sets the main font. Each <code>[[font.fallback]]</code> entry adds a face for missing glyphs, with optional per-fallback OpenType features and cap-height offset.</p>
 
   <h2 id="theme">Theme</h2>
-  <pre><code>[theme]
-name = "catppuccin-mocha"
+  <pre><code>[colors]
+scheme = "catppuccin-mocha"
+theme = "auto"             # "auto" follows system appearance; "dark" or "light" forces
 
-# Or use separate light and dark themes:
-[theme]
-light = "catppuccin-latte"
-dark = "catppuccin-mocha"</code></pre>
-  <p>When <code>light</code> and <code>dark</code> are set, ori-term follows your system appearance. See <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/docs/theming`}>Theming</a> for custom theme creation.</p>
+# Override individual colors (hex "#RRGGBB"):
+foreground = "#cdd6f4"
+background = "#1e1e2e"
+cursor = "#f5e0dc"</code></pre>
+  <p>See <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/docs/theming`}>Theming</a> for the full list of built-in schemes and TOML theme-file format.</p>
 
   <h2 id="window">Window</h2>
   <pre><code>[window]
-width = 120
-height = 40
-opacity = 1.0
-padding = 8
-fullscreen = false</code></pre>
+columns = 120              # initial terminal width in cells
+rows = 30                  # initial terminal height in cells
+opacity = 1.0              # 0.0 - 1.0
+unfocused_opacity = 1.0    # 0.3 - 1.0
+blur = true                # backdrop blur (Acrylic on Windows 11, vibrancy on macOS, compositor blur on Linux)
+decorations = "none"       # "full", "none", "transparent", "buttonless"
+resize_increments = true   # snap to cell boundaries
+tab_bar_position = "top"   # "top", "bottom", "hidden"
+tab_bar_style = "default"  # "default", "compact"
+grid_padding = 0.0         # logical pixels</code></pre>
 
-  <h2 id="cursor">Cursor</h2>
-  <pre><code>[cursor]
-shape = "block"      # block, bar, underline
-blink = true
-blink_rate = 500     # milliseconds</code></pre>
-
-  <h2 id="scrollback">Scrollback</h2>
-  <pre><code>[scrollback]
-limit = 10000        # lines</code></pre>
-
-  <h2 id="shell">Shell</h2>
-  <pre><code>[shell]
-program = "/bin/zsh"
-args = ["-l"]
-working_directory = "~"</code></pre>
-  <p>If not specified, ori-term detects your default shell automatically.</p>
-
-  <h2 id="mouse">Mouse</h2>
-  <pre><code>[mouse]
-copy_on_select = false
-word_delimiters = " \t{}()[]\"'`,;:@"</code></pre>
+  <h2 id="terminal">Terminal</h2>
+  <pre><code>[terminal]
+scrollback = 10000
+cursor_style = "block"          # "block", "bar", "underline"
+cursor_blink = true
+cursor_blink_fade = true        # smooth fade vs hard toggle
+cursor_blink_interval_ms = 530
+text_blink_rate_ms = 500
+text_blink_fade = true
+image_protocol = true           # Kitty / Sixel / iTerm2
+image_memory_limit = 320000000  # CPU cache, bytes
+image_gpu_memory_limit = 512000000
+image_animation = true
+image_max_single_size = 64000000</code></pre>
 
   <h2 id="keybindings">Keybindings</h2>
   <pre><code>[[keybind]]
@@ -108,17 +118,5 @@ action = "SplitRight"
 key = "e"
 mods = "Ctrl|Shift"
 action = "SplitDown"</code></pre>
-  <p>See <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/docs/keybindings`}>Keybindings</a> for all available actions and the full default binding list.</p>
-
-  <h2 id="url-patterns">URL Patterns</h2>
-  <pre><code>[[url_patterns]]
-regex = "PROJ-\\d+"
-url = "https://jira.example.com/browse/$0"
-action = "open"
-
-[[url_patterns]]
-regex = "#(\\d+)"
-url = "https://github.com/user/repo/issues/$1"
-action = "open"</code></pre>
-  <p>Each pattern defines a regex, an optional URL template with capture group substitution, and an action (<code>open</code>, <code>copy</code>, <code>select</code>). See <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/docs/url-patterns`}>URL Patterns</a> for details.</p>
+  <p>See <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/docs/keybindings`}>Keybindings</a> for all available actions and the full default binding list. URL detection is built-in for HTTP/HTTPS/FTP/file schemes; user-defined regex URL patterns are not yet supported.</p>
 </Docs>

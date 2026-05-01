@@ -21,24 +21,33 @@ size = 14</code></pre>
   <p>The font name must match what your system reports. ori-term loads Regular, Bold, Italic, and BoldItalic faces automatically from the same family.</p>
 
   <h2 id="fallback">Fallback Chains</h2>
-  <p>When a glyph is missing from the primary font, ori-term tries the next font in a fallback chain:</p>
+  <p>When a glyph is missing from the primary font, ori-term tries the next font in a fallback chain. Fallbacks are an array-of-tables — each entry can override OpenType features and cap-height offset:</p>
   <pre><code>[font]
 family = "JetBrains Mono"
-fallback = [
-  "Noto Sans Mono",       # Wide Unicode coverage
-  "Noto Color Emoji",     # Emoji
-  "Symbols Nerd Font",    # Nerd Font icons
-]</code></pre>
-  <p>Each face variant (Regular, Bold, Italic, BoldItalic) has its own fallback chain. Box drawing, block elements, braille, and Powerline symbols are always available via built-in glyph rendering, regardless of font selection.</p>
+
+[[font.fallback]]
+family = "Noto Sans CJK"      # Wide Unicode coverage
+size_offset = -1.0            # cap-height tweak (points)
+
+[[font.fallback]]
+family = "Noto Color Emoji"   # Emoji
+features = ["liga"]
+
+[[font.fallback]]
+family = "Symbols Nerd Font"  # Nerd Font icons</code></pre>
+  <p>Each face variant (Regular, Bold, Italic, BoldItalic) walks the same fallback chain. Box drawing, block elements, braille, and Powerline symbols are always available via built-in glyph rendering, regardless of font selection.</p>
 
   <h2 id="opentype">OpenType Features</h2>
-  <p>Enable or disable OpenType features per font:</p>
-  <pre><code>[font.features]
-liga = true     # Standard ligatures (== != =>)
-calt = true     # Contextual alternates
-kern = true     # Kerning
-ss01 = true     # Stylistic set 1 (font-specific)</code></pre>
-  <p>Feature tags follow the OpenType specification. Available features depend on your font -- check your font's documentation for supported tags.</p>
+  <p>OpenType feature tags are enabled or disabled with a string array. Prefix a tag with <code>-</code> to disable it:</p>
+  <pre><code>[font]
+family = "JetBrains Mono"
+features = [
+  "liga",       # Standard ligatures (== != =>)
+  "calt",       # Contextual alternates
+  "ss01",       # Stylistic set 1 (font-specific)
+  "-kern",      # Disable kerning
+]</code></pre>
+  <p>Per-fallback features are set in the matching <code>[[font.fallback]]</code> table. Feature tags follow the OpenType specification — available features depend on your font.</p>
 
   <h2 id="size">Size & Scaling</h2>
   <p>Font size is specified in points. Adjust at runtime with <kbd>{keys.fontLarger}</kbd> and <kbd>{keys.fontSmaller}</kbd>.</p>

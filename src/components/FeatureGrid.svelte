@@ -35,8 +35,8 @@
     },
     {
       label: 'THEMES',
-      value: '50+',
-      detail: 'Built-in color schemes, TOML files, hot-reload, auto light/dark',
+      value: '100+',
+      detail: 'Built-in color schemes, TOML overrides, hot-reload, auto light/dark',
       href: `${base}/features/themes`,
     },
     {

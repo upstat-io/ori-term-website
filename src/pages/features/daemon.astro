@@ -4,29 +4,24 @@ import Feature from '../../layouts/Feature.astro';
 
 <Feature
   title="DAEMON MODE"
-  subtitle="Planned — persistent sessions, crash recovery, reconnect anytime."
+  subtitle="Pane server lives in its own process. Persistence and remote shells are landing on top."
 >
   <div class="roadmap-banner">
-    <strong>This feature is on the roadmap and not yet implemented.</strong>
-    <p>The design is outlined below. See the <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/roadmap`}>roadmap</a> for current status.</p>
+    <strong>Daemon process and IPC ship today; persistence and remote domains are still landing.</strong>
+    <p>Auto-start, retry, and embedded fallback work now. Crash recovery, multi-client connect, scrollback archive, and SSH / WSL domains are roadmap items. See the <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/roadmap`}>roadmap</a> for current status.</p>
   </div>
 
-  <h2>Sessions Persist</h2>
-  <p>ori-term will separate shell sessions from the window. A background process will keep shells running even when you close the window. Reopen ori-term and pick up exactly where you left off — scrollback, working directories, and all.</p>
-  <p>A single-process mode will be available as a fallback for sandboxed environments.</p>
+  <h2>Process Model</h2>
+  <p>The pane server (<code>oriterm_mux</code>) runs as a standalone daemon by default and the GUI connects over a Unix domain socket (Linux/macOS) or named pipe (Windows). On first launch the GUI auto-spawns the daemon with a 3-attempt retry; if the daemon cannot be reached, it falls back to embedded mode (single process, no IPC).</p>
+  <p>Set <code>process_model = "embedded"</code> in <code>config.toml</code> to skip the daemon entirely — useful in sandboxes and tests.</p>
 
-  <h2>Auto-Save</h2>
-  <ul>
-    <li><strong>Layout saved automatically</strong> — Window positions, tabs, pane layout, and working directories saved periodically</li>
-    <li><strong>Crash recovery</strong> — Detect unexpected exits on next launch and offer to restore the session</li>
-    <li><strong>Safe writes</strong> — Session files written safely to prevent corruption from unexpected shutdowns</li>
-  </ul>
+  <h2>Planned: Sessions Persist</h2>
+  <p>The next milestone separates shell session state from window lifetime. Closing the window will leave shells running; reopening will restore scrollback, working directories, and pane layout. Auto-save and crash recovery come with this milestone.</p>
 
-  <h2>Remote Shells</h2>
+  <h2>Planned: Remote Domains</h2>
   <ul>
-    <li><strong>SSH</strong> — Open remote shells via SSH with agent forwarding and keepalive</li>
+    <li><strong>SSH</strong> — open remote shells via SSH with agent forwarding and keepalive, mixed with local panes</li>
     <li><strong>WSL</strong> — Windows Subsystem for Linux integration with auto-detection</li>
-    <li>Run local and remote shells side by side in the same window</li>
   </ul>
 </Feature>
 

@@ -4,18 +4,18 @@ import Feature from '../../layouts/Feature.astro';
 
 <Feature
   title="GPU RENDERING"
-  subtitle="Buttery smooth, high frame rate, low CPU usage. Every pixel is GPU-accelerated."
+  subtitle="wgpu (Vulkan / DX12 / Metal), staged Extract → Prepare → Render, per-row damage tracking."
 >
-  <h2>Fast and Smooth</h2>
-  <p>ori-term renders entirely on the GPU. Text, images, UI elements, and decorations are all drawn in a single GPU-accelerated pass. The result: smooth scrolling, zero flicker, and minimal CPU usage even with heavy terminal output.</p>
+  <h2>Backend</h2>
+  <p>Rendering goes through wgpu — Vulkan and DX12 on Windows, Vulkan on Linux, Metal on macOS. Cells, glyphs, image-protocol textures, UI overlays, and the chrome layer all reach the swapchain through the same instance pipeline.</p>
 
-  <h2>Smart Redrawing</h2>
-  <p>ori-term only redraws what has changed. When your terminal is sitting at a prompt, almost no work is done. When output is streaming, only the new lines are updated. This keeps power consumption low and your laptop fans quiet.</p>
+  <h2>Staged Pipeline</h2>
+  <p>Each frame moves through three phases: <strong>Extract</strong> takes a <code>RenderableContent</code> snapshot under the per-pane <code>FairMutex</code> in microseconds and releases the lock; <strong>Prepare</strong> is pure CPU work (layout, palette resolution, instance buffer build) with no GPU calls; <strong>Render</strong> submits the prepared instance buffers. The lock is never held during GPU submission.</p>
 
-  <h2>High Frame Rate</h2>
-  <p>The renderer targets up to 120 FPS with intelligent frame batching. Multiple updates within the same frame are combined into a single redraw. When the terminal is idle, no frames are rendered at all -- the GPU rests completely.</p>
+  <h2>Damage Tracking</h2>
+  <p>Per-row dirty tracking keeps idle work near zero. When output is streaming, only changed rows have their instance ranges rewritten; unchanged rows keep their cached instance data. When nothing is changing the renderer skips presentation entirely and the event loop sleeps via <code>ControlFlow::Wait</code>.</p>
 
-  <h2>Crisp Text</h2>
-  <p>Glyphs are rasterized once and cached for instant reuse. Common ASCII characters are pre-loaded at startup so the very first frame displays instantly. The result is sharp, consistent text at any font size.</p>
+  <h2>Glyph Atlas</h2>
+  <p>Glyphs rasterize through swash + skrifa hinting and pack into a guillotine-allocated 2048×2048 atlas (R8Unorm + Rgba8Unorm pages, LRU eviction). ASCII is pre-cached at startup so the first frame renders without atlas fills.</p>
 
 </Feature>

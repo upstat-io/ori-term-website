@@ -5,20 +5,41 @@ import { keys } from '../../lib/keybindings';
 
 <Feature
   title="URLS & HYPERLINKS"
-  subtitle="Clickable URLs, app-generated links, and configurable custom patterns."
+  subtitle="Built-in URL detection plus OSC 8 explicit hyperlinks."
 >
-  <h2>Clickable URLs</h2>
-  <p>ori-term automatically detects URLs, file paths, git hashes, IP addresses, and email addresses in terminal output. Hold <kbd>{keys.urlModifier}</kbd> and hover to see detected links underlined. <kbd>{keys.openUrl}</kbd> to open them in your default browser.</p>
-
-  <h2>App-Generated Hyperlinks</h2>
-  <p>Many modern CLI tools emit explicit hyperlinks that ori-term renders as clickable links with hover underline. Tools like <code>ls --hyperlink</code>, <code>gcc</code>, and <code>ripgrep</code> use this to link directly to files and locations.</p>
-
-  <h2>Custom Patterns</h2>
-  <p>Define your own patterns in your config for project-specific links:</p>
+  <h2>Implicit URL Detection</h2>
+  <p>ori-term scans terminal output and turns URLs into clickable links for these schemes:</p>
   <ul>
-    <li>JIRA ticket IDs -- link to your issue tracker</li>
-    <li>GitHub issue references -- open on github.com</li>
-    <li>Custom identifiers -- any URL template</li>
+    <li><code>http://</code> and <code>https://</code></li>
+    <li><code>ftp://</code></li>
+    <li><code>file://</code></li>
   </ul>
-  <p>Each pattern supports configurable actions: copy, open, or select.</p>
+  <p>Trailing punctuation (<code>.</code> <code>,</code> <code>;</code> <code>:</code> <code>!</code> <code>?</code> <code>)</code>) is trimmed from the match so a URL at the end of a sentence selects cleanly. Hold <kbd>{keys.urlModifier}</kbd> over a URL to underline it. <kbd>{keys.openUrl}</kbd> opens it in your default browser.</p>
+
+  <h2>OSC 8 Explicit Hyperlinks</h2>
+  <p>Applications can emit explicit hyperlinks using the OSC 8 escape sequence. ori-term renders the link target as a clickable region with hover underline. Examples:</p>
+  <ul>
+    <li><code>ls --hyperlink</code> — file links (GNU coreutils)</li>
+    <li><code>gcc</code> / <code>clang</code> — diagnostic location links</li>
+    <li><code>ripgrep</code> with <code>--hyperlink-format</code> — match location links</li>
+  </ul>
+
+  <div class="roadmap-note">
+    <strong>Custom patterns are planned.</strong> User-defined <code>[[url_patterns]]</code> blocks — regex matchers, capture-group URL templates, and configurable actions (open / copy / select) — are not yet wired through the config loader. Other planned scheme additions: file paths, IP addresses, git commit hashes, and email addresses. See the <a href="/docs/url-patterns">URL Patterns docs</a> for the current scope.
+  </div>
 </Feature>
+
+<style>
+  .roadmap-note {
+    border: 1px solid var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    padding: 16px 20px;
+    margin-top: 32px;
+    font-size: 0.85rem;
+  }
+  .roadmap-note strong {
+    color: var(--accent);
+    display: block;
+    margin-bottom: 6px;
+  }
+</style>

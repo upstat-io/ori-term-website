@@ -13,50 +13,33 @@ const toc = [
 <Docs title="Theming" toc={toc}>
   <h2 id="selecting">Selecting a Theme</h2>
   <p>Set the theme in your <code>config.toml</code>:</p>
-  <pre><code>[theme]
-name = "my-theme"</code></pre>
+  <pre><code>[colors]
+scheme = "catppuccin-mocha"</code></pre>
   <p>The change takes effect immediately via hot-reload.</p>
 
   <h2 id="light-dark">Light / Dark Auto-Switch</h2>
-  <p>Configure separate themes for light and dark system appearances:</p>
-  <pre><code>[theme]
-light = "my-light-theme"
-dark = "my-dark-theme"</code></pre>
-  <p>ori-term follows your system appearance setting and switches instantly. When you toggle light/dark mode on your OS, ori-term matches automatically.</p>
+  <p>The <code>theme</code> field selects how the scheme reacts to system appearance:</p>
+  <pre><code>[colors]
+scheme = "catppuccin-mocha"
+theme = "auto"   # "auto" follows system appearance; "dark" or "light" forces</code></pre>
+  <p>When set to <code>"auto"</code> ori-term follows your OS light/dark setting; toggling light/dark mode on your OS triggers a hot-reload.</p>
 
   <h2 id="custom">Custom Themes</h2>
-  <p>Create a TOML file in your config directory:</p>
-  <pre><code># ~/.config/ori-term/themes/my-theme.toml
+  <p>Override colors directly in <code>[colors]</code>, or override individual ANSI palette indices via <code>[colors.indexed]</code>:</p>
+  <pre><code>[colors]
+scheme = "catppuccin-mocha"   # base scheme
+foreground = "#cdd6f4"        # override foreground
+background = "#1e1e2e"
+cursor = "#f5e0dc"
+selection_foreground = "#1e1e2e"
+selection_background = "#f5e0dc"
 
-[colors]
-foreground = "#d4d4d4"
-background = "#0a0a0a"
-cursor = "#00ff41"
-selection_bg = "#264f78"
-selection_fg = "#ffffff"
-
-[colors.normal]
-black = "#0a0a0a"
-red = "#f44747"
-green = "#00ff41"
-yellow = "#e5e510"
-blue = "#2472c8"
-magenta = "#bc3fbc"
-cyan = "#11a8cd"
-white = "#e5e5e5"
-
-[colors.bright]
-black = "#666666"
-red = "#f14c4c"
-green = "#23d18b"
-yellow = "#f5f543"
-blue = "#3b8eea"
-magenta = "#d670d6"
-cyan = "#29b8db"
-white = "#f5f5f5"</code></pre>
-  <p>Then reference it in your config:</p>
-  <pre><code>[theme]
-name = "my-theme"</code></pre>
+# Override individual ANSI colors 0-7 by string-keyed index:
+[colors.indexed]
+"0" = "#1e1e2e"
+"1" = "#f38ba8"
+"2" = "#a6e3a1"</code></pre>
+  <p>Loading a custom scheme from a TOML file in <code>~/.config/ori-term/themes/</code> is on the roadmap; today, palette overrides live inline in the main <code>config.toml</code>.</p>
 
   <h3 id="color-slots">Color Slots</h3>
   <p>Every theme defines these color slots:</p>
@@ -70,11 +53,11 @@ name = "my-theme"</code></pre>
   </ul>
 
   <h2 id="importing">Importing Themes</h2>
-  <p>ori-term can import themes from other terminal emulators:</p>
+  <p>Converter tools in <code>term_repo/tools/</code> read scheme files from other terminals and emit ori-term TOML on stdout:</p>
   <ul>
-    <li><strong>iTerm2</strong> — .itermcolors XML files</li>
+    <li><strong>iTerm2</strong> — <code>.itermcolors</code> XML files</li>
     <li><strong>Ghostty</strong> — Ghostty theme format</li>
     <li><strong>base16</strong> — base16 YAML/JSON schemes</li>
   </ul>
-  <p>Bring your existing theme collection with you when you switch to ori-term.</p>
+  <p>Pipe the converter output into <code>config.toml</code> or save it as a separate scheme file. Direct in-app import is on the roadmap; today the conversion is a build-time step.</p>
 </Docs>

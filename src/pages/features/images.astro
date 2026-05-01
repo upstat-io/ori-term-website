@@ -4,23 +4,38 @@ import Feature from '../../layouts/Feature.astro';
 
 <Feature
   title="IMAGES"
-  subtitle="Display images directly in your terminal. Photos, diagrams, emoji, even animated GIFs."
+  subtitle="Three image protocols decode in-grid: Kitty Graphics, Sixel, and iTerm2."
 >
-  <h2>Display Images Inline</h2>
-  <p>ori-term can display images directly alongside your text. View photos, charts, diagrams, and screenshots without leaving the terminal. Images are GPU-accelerated, so they display smoothly without slowing down text rendering.</p>
+  <div class="roadmap-note">
+    <strong>Image protocols are in progress.</strong> Decoding for all three protocols ships today. Placement edge cases, animation pacing, z-index correctness, and memory-limit semantics for animated content are still being hardened.
+  </div>
 
-  <h2>How to Display Images</h2>
-  <p>Use any of these tools to display images in ori-term:</p>
+  <h2>Display Images Inline</h2>
+  <p>ori-term decodes Kitty Graphics, Sixel, and iTerm2 OSC 1337 sequences and renders the result as GPU textures alongside the cell grid. Three protocols cover most CLI image tools:</p>
   <ul>
-    <li><code>kitten icat image.png</code> -- Recommended, most capable</li>
-    <li><code>img2sixel image.png</code> -- Widely supported format</li>
-    <li><code>imgcat image.png</code> -- iTerm2-compatible</li>
+    <li><code>kitten icat image.png</code> -- Kitty Graphics protocol (chunked transmission, placement, z-index)</li>
+    <li><code>img2sixel image.png</code> -- Sixel via DCS</li>
+    <li><code>imgcat image.png</code> -- iTerm2 inline image protocol</li>
   </ul>
-  <p>ori-term supports the three major terminal image formats, so most image-display tools work out of the box.</p>
 
   <h2>Animated GIFs</h2>
-  <p>Animated GIFs play frame-by-frame at their intended timing. Watch animations right in your terminal.</p>
+  <p>The Kitty Graphics frame-loop and Sixel decoders advance multi-frame images according to their declared per-frame delays. Animation memory accounting is part of the in-progress hardening work — watch the <a href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/roadmap`}>roadmap</a> for the exact eviction semantics.</p>
 
   <h2>Memory Limits</h2>
-  <p>ori-term automatically manages image memory. A configurable limit (320 MB CPU-side, 512 MB GPU-side by default) ensures that long-running sessions with many images do not consume unbounded memory. Older images are evicted as needed to make room for new ones.</p>
+  <p>Cache budgets are configurable via <code>image_memory_limit</code> (CPU side, default 320 MB) and <code>image_gpu_memory_limit</code> (GPU side, default 512 MB) under <code>[terminal]</code>. The cache evicts older images via LRU as new ones decode.</p>
 </Feature>
+
+<style>
+  .roadmap-note {
+    border: 1px solid var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    padding: 16px 20px;
+    margin-bottom: 32px;
+    font-size: 0.85rem;
+  }
+  .roadmap-note strong {
+    color: var(--accent);
+    display: block;
+    margin-bottom: 6px;
+  }
+</style>
